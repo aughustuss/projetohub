@@ -12,9 +12,19 @@ export default {
         "tertiary": "#000",
       },
       fontFamily:{
-        
-      }
-    },
+        "title": ["Poppins","sans-serif"],
+        "body": ["Mulish","sans-serif"]
+      },
+      fontSize: {
+        "navTitle":"28px",
+        "title": "24px",
+        "subTitle": "",
+        "body":"",
+        "subBody":"",
+        "links":"16px",
+        "subLinks":""
+      },
+    }
   },
   plugins: [],
 }

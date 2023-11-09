@@ -5,11 +5,13 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Header/>
-        <Routes>
-          <Route path="/" Component={Home} />
-          {/* <Route path="/about" component={About} /> */}
-        </Routes>
+        <div className="font-body">
+          <Header />
+          <Routes>
+            <Route path="/" Component={Home} />
+            {/* <Route path="/about" component={About} /> */}
+          </Routes>
+        </div>
       </BrowserRouter>
     </>
   );
