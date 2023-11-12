@@ -10,9 +10,9 @@ interface HeaderProps {
 }
 const Header = ({ isOnTop }: HeaderProps) => {
   const [searchParam, setSearchParam] = React.useState<string>("");
-  const { handleToggle, setIsToggled} = React.useContext(SideBarContext);
+  const { handleToggle, setIsToggled } = React.useContext(SideBarContext);
   const isAboveLG = useMediaQuery("(min-width: 1024px)");
-  if(isAboveLG) setIsToggled(false);
+  if (isAboveLG) setIsToggled(false);
   return (
     <>
       <nav
@@ -34,20 +34,33 @@ const Header = ({ isOnTop }: HeaderProps) => {
               value={searchParam}
               onChange={(e) => setSearchParam(e.target.value)}
               type="text"
-              className="w-full h-full outline-none py-4 pl-10 pr-7 text-newBlack rounded-lg text-body bg-newWhite"
+              placeholder="Digite sua busca..."
+              className="w-full h-full outline-none py-4 pl-3 pr-7 text-newBlack rounded-lg text-body bg-newWhite"
             />
-            <span className="absolute left-1 text-black text-iconSize">
+            {/* <span className="absolute left-2 text-black text-smallIconSize font-black">
               <LiaSearchSolid />
-            </span>
-            <button
-              onClick={() => setSearchParam("")}
-              className="absolute right-1 text-iconSize transition-all duration-300 text-black"
-            >
-              <IoIosClose />
-            </button>
+            </span> */}
+            {searchParam.length > 0 && (
+              <button
+                onClick={() => setSearchParam("")}
+                className="absolute right-1 text-iconSize transition-all duration-300 text-black"
+              >
+                <IoIosClose />
+              </button>
+            )}
           </div>
           <div className="text-links font-bold flex flex-row items-center gap-x-6">
-            {isAboveLG ? <Linksmapped isAboveLG={isAboveLG} isOnTop={isOnTop} /> : ( <button className="text-iconSize hover:scale-90 transition duration-300" onClick={() => handleToggle()}> <IoMenu/> </button>)}
+            {isAboveLG ? (
+              <Linksmapped isAboveLG={isAboveLG} isOnTop={isOnTop} />
+            ) : (
+              <button
+                className="text-iconSize hover:scale-90 transition duration-300"
+                onClick={() => handleToggle()}
+              >
+                {" "}
+                <IoMenu />{" "}
+              </button>
+            )}
           </div>
         </div>
       </nav>

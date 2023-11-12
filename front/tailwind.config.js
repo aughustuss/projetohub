@@ -38,7 +38,8 @@ export default {
         "subBody":"12px",
         "links":"14px",
         "subLinks":"12px",
-        "iconSize": "24px"
+        "iconSize": "24px",
+        "smallIconSize": "20px"
       },
     }
   },
