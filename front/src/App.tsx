@@ -3,21 +3,39 @@ import Header from "components/Header";
 import Footer from "components/Footer";
 
 import React from "react";
+import Sidebar from "components/Sidebar";
 const HomePage = React.lazy(() => import("views/Home"));
 const LoadingPage = React.lazy(() => import("views/Loading"));
 function App() {
+  const [isOnTop, setIsOnTop] = React.useState<boolean>(false);
+  React.useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY === 0) {
+        setIsOnTop(true);
+      } else if (window.scrollY > 50) {
+        setIsOnTop(false);
+      }
+    }
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    }
+  }, []);
   return (
     <>
       <React.Suspense fallback={<LoadingPage />}>
         <BrowserRouter>
           <div className="font-body">
-            <Header />
-            <Routes>
-              <Route path="/" Component={HomePage} />
-              {/* <Route path="/about" component={About} /> */}
-            </Routes>
+            <Header isOnTop={isOnTop} />
+            <Sidebar/>
+            <div className="pt-[70px] text-newWhite">
+              <Routes>
+                <Route path="/home" Component={HomePage} />
+                {/* <Route path="/about" component={About} /> */}
+              </Routes>
+            </div>
+            <Footer />
           </div>
-          <Footer />
         </BrowserRouter>
       </React.Suspense>
     </>

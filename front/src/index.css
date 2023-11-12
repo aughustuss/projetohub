@@ -2,3 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #141A1F;
+    min-height: 100vh;
+    height: auto;
+}

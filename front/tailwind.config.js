@@ -1,4 +1,12 @@
 /** @type {import('tailwindcss').Config} */
+// const plugin = require("tailwindcss/plugin");
+
+// const customClass = plugin(function ({addUtilities}){
+//   addUtilities({
+//     ".titleFont": ""
+//   });
+// });
+
 export default {
   content: [
     "./index.html",
@@ -7,9 +15,15 @@ export default {
   theme: {
     extend: {
       colors:{
-        "primary":"#14ff00",
+        "primary":"#4fb547",
+        //"primary":"#9AA2E5",
         "secondary":"#f6f6f6",
         "tertiary": "#000",
+        "newWhite": "#f7f7f7",
+        "newBlack": "#1f1f1f",
+        "primaryBg": "#141A1F",
+        "primaryBgBorder": "#1f2a33",
+        "primaryOnHover": "#1a5415"
       },
       fontFamily:{
         "title": ["Poppins","sans-serif"],
@@ -18,11 +32,13 @@ export default {
       fontSize: {
         "navTitle":"28px",
         "title": "24px",
-        "subTitle": "",
-        "body":"",
-        "subBody":"",
-        "links":"16px",
-        "subLinks":""
+        "subTitle": "20px",
+        "smallDevicesTitle": "18px",
+        "body":"14px",
+        "subBody":"12px",
+        "links":"14px",
+        "subLinks":"12px",
+        "iconSize": "24px"
       },
     }
   },
