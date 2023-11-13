@@ -1,19 +1,60 @@
 import PopularMoviesContext from "contexts/PopularMoviesContext";
 import { MovieModel } from "models/entities/Movie";
 import React from "react";
-
+import Slide from "shared/Slide";
+import { SwiperSlide } from "swiper/react";
+import { BsPlayFill, BsPlus } from "react-icons/bs";
 const Home = () => {
   const { movies } = React.useContext(PopularMoviesContext);
   console.log(movies);
   return (
     <>
-      <main>
-        {movies.map((movie: MovieModel) => (
-          <img
-            src={`${import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH}${movie.poster_path}`}
-            className="object-cover w-[350px] h-[350px] rounded-md shadow-md"
-          />
-        ))}
+      <main className="flex flex-col lg:flex-row gap-x-10">
+        <Slide>
+          {movies.map((movie: MovieModel) => (
+            <SwiperSlide>
+              <div className="relative w-full h-[550px] z-0 bg-none">
+                <div className="relative h-[85%] w-full">
+                  <img
+                    src={`${import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH}${
+                      movie.backdrop_path
+                    }`}
+                    className="object-cover w-full h-full rounded-lg bg-none"
+                  />
+                  <div className="bg-black absolute inset-0 h-full w-full z-10 opacity-50 rounded-lg" />
+                </div>
+                {/* Segundo poster */}
+                <div className="absolute h-2/3 w-2/3 lg:w-1/3 z-30 left-6 bottom-0 ">
+                  <div className="relative h-full w-full">
+                    <img
+                      src={`${import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH}${
+                        movie.poster_path
+                      }`}
+                      className="rounded-lg object-cover h-full w-full"
+                    />
+                    <div className="bg-black absolute inset-0 h-full z-10 w-full opacity-25 rounded-lg" />
+                    <button className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-full bg-primaryNeon text-iconSize font-black z-40 hover:bg-primary transition duration-300">
+                      <BsPlus />
+                    </button>
+                  </div>
+                </div>
+                {/* Titulo e assista ao trailer */}
+                <div className="absolute right-1/2 lg:right-1/4 top-16 lg:top-auto lg:bottom-1/3 translate-x-1/2 lg:translate-y-1/2 w-full max-w-[260px] lg:max-w-[200px] xl:max-w-[300px] text-center z-20 flex flex-row items-center h-[60px] gap-x-2">
+                  <a className="border-2 border-primaryNeon p-3 rounded-full flex flex-col items-center justify-center text-iconSize hover:bg-primaryNeon cursor-pointer transition duration-300">
+                    <BsPlayFill />
+                  </a>
+                  <div className="flex flex-col gap-y-0 justify-center h-full w-full text-start">
+                    <span className="text-primaryNeon font-black text-subTitle xl:text-navTitle font-title p-0 leading-8 ">
+                      {movie.original_title}
+                    </span>
+                    <span className="text-body">Assista o trailer</span>
+                  </div>
+                </div>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Slide>
+        <div className="w-full">iu</div>
       </main>
     </>
   );

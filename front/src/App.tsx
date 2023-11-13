@@ -28,7 +28,7 @@ function App() {
           <div className="font-body">
             <Header isOnTop={isOnTop} />
             <Sidebar/>
-            <div className="pt-[70px] text-newWhite w-full px-10 md:w-[90%] px-0 mx-auto">
+            <div className="pt-[100px] text-newWhite w-full px-4 md:w-[90%] md:px-0 mx-auto">
               <Routes>
                 <Route path="/home" Component={HomePage} />
                 {/* <Route path="/about" component={About} /> */}

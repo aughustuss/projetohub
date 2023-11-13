@@ -16,6 +16,7 @@ export default {
     extend: {
       colors:{
         "primary":"#4fb547",
+        "primaryNeon": "#00fa43",
         //"primary":"#9AA2E5",
         "secondary":"#f6f6f6",
         "tertiary": "#000",
@@ -30,6 +31,7 @@ export default {
         "body": ["Mulish","sans-serif"]
       },
       fontSize: {
+        "movieSlideTitle": "36px",
         "navTitle":"28px",
         "title": "24px",
         "subTitle": "20px",
