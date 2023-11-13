@@ -1,10 +1,9 @@
-import { LiaSearchSolid } from "react-icons/lia";
 import { IoIosClose } from "react-icons/io";
 import { IoMenu } from "react-icons/io5";
 import React from "react";
 import SideBarContext from "contexts/SidebarContext";
 import useMediaQuery from "hooks/MediaScreen";
-import Linksmapped from "./Linksmapped";
+import Linksmapped from "../Linksmapped";
 interface HeaderProps {
   isOnTop: boolean;
 }
@@ -18,7 +17,7 @@ const Header = ({ isOnTop }: HeaderProps) => {
       <nav
         className={`${
           isOnTop ? "bg-transparent" : "bg-primary "
-        } h-[70px] w-full fixed top-0 transition-all duration-300 text-newWhite shadow-sm z-10`}
+        } h-[60px] w-full fixed top-0 transition-all duration-300 text-newWhite shadow-md z-10`}
       >
         <div className="flex justify-between items-center h-full flex-row w-[95%] md:w-[90%] mx-auto">
           <a
@@ -49,7 +48,7 @@ const Header = ({ isOnTop }: HeaderProps) => {
               </button>
             )}
           </div>
-          <div className="text-links font-bold flex flex-row items-center gap-x-6">
+          <div className="text-links font-bold flex flex-row items-center gap-x-8">
             {isAboveLG ? (
               <Linksmapped isAboveLG={isAboveLG} isOnTop={isOnTop} />
             ) : (

@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Header from "components/Header";
-import Footer from "components/Footer";
+import Header from "components/fixeds/Header";
+import Footer from "components/fixeds/Footer";
 
 import React from "react";
-import Sidebar from "components/Sidebar";
+import Sidebar from "components/fixeds/Sidebar";
 const HomePage = React.lazy(() => import("views/Home"));
 const LoadingPage = React.lazy(() => import("views/Loading"));
 function App() {
@@ -28,7 +28,7 @@ function App() {
           <div className="font-body">
             <Header isOnTop={isOnTop} />
             <Sidebar/>
-            <div className="pt-[70px] text-newWhite">
+            <div className="pt-[70px] text-newWhite w-full px-10 md:w-[90%] px-0 mx-auto">
               <Routes>
                 <Route path="/home" Component={HomePage} />
                 {/* <Route path="/about" component={About} /> */}

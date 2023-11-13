@@ -1,6 +1,6 @@
 import SideBarContext from "contexts/SidebarContext";
 import React from 'react'
-import Linksmapped from "./Linksmapped";
+import Linksmapped from "../Linksmapped";
 
 const Sidebar = () => {
     const {isToggled} = React.useContext(SideBarContext);

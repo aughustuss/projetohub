@@ -1,4 +1,4 @@
-import { NavbarLinks } from "models/NavLinks";
+import { NavbarLinks } from "models/entities/NavLink";
 import {BiSolidHeart, BiSolidChat} from 'react-icons/bi'
 export const NavLinks: Array<NavbarLinks> = [
     {

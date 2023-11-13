@@ -1,6 +1,6 @@
 
 import { NavLinks } from 'data/NavLinks';
-import { NavbarLinks } from 'models/NavLinks';
+import { NavbarLinks } from 'models/entities/NavLink';
 
 interface LinksMappedProps {
   isOnTop?: boolean;
