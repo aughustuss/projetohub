@@ -32,7 +32,7 @@ function App() {
             <Sidebar/>
             <div className="text-newWhite">
               <Routes>
-                <Route index path="/home" Component={HomePage} />
+                <Route index path="/" Component={HomePage} />
                 <Route path="/movie/:movieId" Component={MoviePage} />
                 {/* <Route path="/about" component={About} /> */}
               </Routes>

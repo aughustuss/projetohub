@@ -92,7 +92,7 @@ const Home = () => {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 lg:flex lg:flex-col w-full lg:max-w-[70%]">
               {upMovies.slice(0, 4).map((movie: MovieModel) => (
-                <div className="flex flex-row gap-x-4 h-[110px] p-2 border border-primaryBgBorder rounded-lg hover:bg-primaryBgBorder transition duration-300 cursor-pointer">
+                <a href={`/movie/${movie.id}`} className="flex flex-row gap-x-4 h-[110px] p-2 border border-primaryBgBorder rounded-lg hover:bg-primaryBgBorder transition duration-300 cursor-pointer">
                   <img
                     src={`${import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH}${
                       movie.poster_path
@@ -100,7 +100,7 @@ const Home = () => {
                     className="w-1/4 h-full object-cover rounded-lg"
                   />
                   <div className="flex flex-col gap-y-4 text-body text-bodyColor">
-                    <p className="font-title font-black">
+                    <p className="font-title text-smallDevicesTitle font-black line-clamp-1">
                       {movie.original_title}
                     </p>
                     <p className="line-clamp-1">{movie.overview}...</p>
@@ -113,7 +113,7 @@ const Home = () => {
                       </span>
                     </div>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
           )}

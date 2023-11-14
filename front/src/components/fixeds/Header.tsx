@@ -9,22 +9,23 @@ interface HeaderProps {
 }
 const Header = ({ isOnTop }: HeaderProps) => {
   const [searchParam, setSearchParam] = React.useState<string>("");
-  const { handleToggle, setIsToggled } = React.useContext(SideBarContext);
+  const { isToggled, handleToggle, setIsToggled } =
+    React.useContext(SideBarContext);
   const isAboveLG = useMediaQuery("(min-width: 1024px)");
   if (isAboveLG) setIsToggled(false);
   return (
     <>
       <nav
         className={`${
-          isOnTop ? "bg-transparent" : "bg-primary "
+          isOnTop ? !isToggled ? "bg-transparent" : "bg-primaryBg" : "bg-primary"
         } h-[60px] w-full fixed top-0 transition-all duration-300 text-newWhite z-50`}
       >
         <div className="flex justify-between items-center h-full flex-row w-[95%] md:w-[90%] mx-auto">
           <a
-            href="/home"
+            href="/"
             className={`${
               isOnTop ? "text-primary" : "text-newWhite"
-            } text-smallDevicesTitle font-black md:text-subTitle lg:text-title cursor-pointer`}
+            } text-smallDevicesTitle font-title font-black md:text-subTitle lg:text-title cursor-pointer`}
           >
             HubFilmes
           </a>

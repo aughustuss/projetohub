@@ -61,7 +61,7 @@ const Movie = () => {
             src={`${tmdbImagePath}${movieById?.backdrop_path}`}
             className="h-full w-full object-cover"
           />
-          <div className="bg-black absolute inset-0 h-full w-full z-10 opacity-30" />
+          <div className="bg-black absolute inset-0 h-full w-full opacity-30" />
         </div>
         {/*         
         <div className="w-full px-4 md:w-[90%] md:px-0 mx-auto absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 flex flex-row gap-x-4">
@@ -73,7 +73,7 @@ const Movie = () => {
 
       {/* Sinopse do banner */}
       <div className="h-[600px] text-body">
-        <div className="h-auto min-h-[700px] bg-primaryBgBorder w-full px-4 md:w-[90%] md:px-0 mx-auto -mt-[30%] md:-mt-[10%] shadow-md rounded-lg absolute z-20 left-1/2 -translate-x-1/2">
+        <div className="h-auto min-h-[700px] bg-primaryBgBorder w-full px-4 md:w-[90%] md:px-0 mx-auto -mt-[30%] md:-mt-[10%] shadow-md rounded-lg absolute left-1/2 -translate-x-1/2">
           {/* Início da sinopse  */}
           <div className="p-4 md:p-8 flex flex-col gap-y-4">
             {/* Imagem e informações adicionais*/}
@@ -236,8 +236,6 @@ const Movie = () => {
         </div>
       </div>
 
-      <p>Id: {movieId}</p>
-      <p>{movieById?.original_title}</p>
       {/* Corpo */}
       <div className="w-full px-4 md:w-[90%] md:px-0 mx-auto"></div>
     </main>
