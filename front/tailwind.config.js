@@ -24,7 +24,8 @@ export default {
         "newBlack": "#1f1f1f",
         "primaryBg": "#141A1F",
         "primaryBgBorder": "#1f2a33",
-        "primaryOnHover": "#1a5415"
+        "primaryOnHover": "#1a5415",
+        "bodyColor": "#b5b5b5"
       },
       fontFamily:{
         "title": ["Poppins","sans-serif"],

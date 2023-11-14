@@ -16,8 +16,8 @@ const Header = ({ isOnTop }: HeaderProps) => {
     <>
       <nav
         className={`${
-          isOnTop ? "bg-transparent" : "bg-primary "
-        } h-[60px] w-full fixed top-0 transition-all duration-300 text-newWhite shadow-md z-10`}
+          isOnTop ? "bg-primaryBg" : "bg-primary "
+        } h-[60px] w-full fixed top-0 transition-all duration-300 text-newWhite z-50`}
       >
         <div className="flex justify-between items-center h-full flex-row w-[95%] md:w-[90%] mx-auto">
           <a
@@ -28,7 +28,7 @@ const Header = ({ isOnTop }: HeaderProps) => {
           >
             HubFilmes
           </a>
-          <div className="w-1/2 md:w-1/3 h-1/2 relative flex flex-row items-center">
+          <div className="w-2/3 px-4 md:px-0 md:w-1/3 h-1/2 relative flex flex-row items-center">
             <input
               value={searchParam}
               onChange={(e) => setSearchParam(e.target.value)}

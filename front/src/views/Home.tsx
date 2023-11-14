@@ -4,12 +4,16 @@ import React from "react";
 import Slide from "shared/Slide";
 import { SwiperSlide } from "swiper/react";
 import { BsPlayFill, BsPlus } from "react-icons/bs";
+import { AiFillStar } from "react-icons/ai";
+import UpcomingMoviesContext from "contexts/UpcomingMoviesContext";
+import useMediaQuery from "hooks/MediaScreen";
 const Home = () => {
   const { movies } = React.useContext(PopularMoviesContext);
-  console.log(movies);
+  const { upMovies } = React.useContext(UpcomingMoviesContext);
+  const isAboveSM = useMediaQuery("(min-width: 400px)");
   return (
     <>
-      <main className="flex flex-col lg:flex-row gap-x-10">
+      <main className="flex flex-col lg:flex-row gap-10 min-h-[550px] h-auto">
         <Slide>
           {movies.map((movie: MovieModel) => (
             <SwiperSlide>
@@ -54,7 +58,66 @@ const Home = () => {
             </SwiperSlide>
           ))}
         </Slide>
-        <div className="w-full">iu</div>
+        <div className="w-full h-full flex flex-col justify-between gap-y-4">
+          <h1 className="text-title font-title font-black text-primaryNeon">
+            Novidades
+          </h1>
+          {!isAboveSM ? (
+            <Slide>
+                {upMovies.slice(0, 4).map((movie: MovieModel) => (
+                  <SwiperSlide className="flex flex-row gap-x-4 h-[110px] p-2 border border-primaryBgBorder rounded-lg hover:bg-primaryBgBorder transition duration-300 cursor-pointer">
+                    <img
+                      src={`${import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH}${
+                        movie.backdrop_path
+                      }`}
+                      className="w-full h-[100px] object-cover rounded-lg"
+                    />
+                    <div className="flex flex-col gap-y-4 text-body text-bodyColor">
+                      <p className="font-title text-subTitle font-black">
+                        {movie.original_title}
+                      </p>
+                      <p className="line-clamp-2 text-body">{movie.overview}...</p>
+                      <div className="flex flex-row items-center text-xs gap-x-2">
+                        <span className="text-yellow-600">
+                          <AiFillStar />
+                        </span>
+                        <span>
+                          {movie.vote_average}/{movie.vote_count}
+                        </span>
+                      </div>
+                    </div>
+                  </SwiperSlide>
+                ))}
+            </Slide>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 lg:flex lg:flex-col w-full lg:max-w-[70%]">
+              {upMovies.slice(0, 4).map((movie: MovieModel) => (
+                <div className="flex flex-row gap-x-4 h-[110px] p-2 border border-primaryBgBorder rounded-lg hover:bg-primaryBgBorder transition duration-300 cursor-pointer">
+                  <img
+                    src={`${import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH}${
+                      movie.poster_path
+                    }`}
+                    className="w-1/4 h-full object-cover rounded-lg"
+                  />
+                  <div className="flex flex-col gap-y-4 text-body text-bodyColor">
+                    <p className="font-title font-black">
+                      {movie.original_title}
+                    </p>
+                    <p className="line-clamp-1">{movie.overview}...</p>
+                    <div className="flex flex-row items-center text-xs gap-x-2">
+                      <span className="text-yellow-600">
+                        <AiFillStar />
+                      </span>
+                      <span>
+                        {movie.vote_average}/{movie.vote_count}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </main>
     </>
   );

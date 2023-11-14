@@ -30,7 +30,7 @@ function App() {
             <Sidebar/>
             <div className="pt-[100px] text-newWhite w-full px-4 md:w-[90%] md:px-0 mx-auto">
               <Routes>
-                <Route path="/home" Component={HomePage} />
+                <Route index path="/home" Component={HomePage} />
                 {/* <Route path="/about" component={About} /> */}
               </Routes>
             </div>
