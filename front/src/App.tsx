@@ -5,9 +5,11 @@ import Footer from "components/fixeds/Footer";
 import React from "react";
 import Sidebar from "components/fixeds/Sidebar";
 const HomePage = React.lazy(() => import("views/Home"));
+const MoviePage = React.lazy(() => import("views/Movie"));
 const LoadingPage = React.lazy(() => import("views/Loading"));
+
 function App() {
-  const [isOnTop, setIsOnTop] = React.useState<boolean>(false);
+  const [isOnTop, setIsOnTop] = React.useState<boolean>(true);
   React.useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY === 0) {
@@ -28,9 +30,10 @@ function App() {
           <div className="font-body">
             <Header isOnTop={isOnTop} />
             <Sidebar/>
-            <div className="pt-[100px] text-newWhite w-full px-4 md:w-[90%] md:px-0 mx-auto">
+            <div className="text-newWhite">
               <Routes>
                 <Route index path="/home" Component={HomePage} />
+                <Route path="/movie/:movieId" Component={MoviePage} />
                 {/* <Route path="/about" component={About} /> */}
               </Routes>
             </div>

@@ -13,10 +13,10 @@ const Home = () => {
   const isAboveSM = useMediaQuery("(min-width: 400px)");
   return (
     <>
-      <main className="flex flex-col lg:flex-row gap-10 min-h-[550px] h-auto">
+      <main className="pt-[100px] w-full px-4 md:w-[90%] md:px-0 mx-auto flex flex-col lg:flex-row gap-10 min-h-[550px] h-auto">
         <Slide>
           {movies.map((movie: MovieModel) => (
-            <SwiperSlide>
+            <SwiperSlide key={movie.id}>
               <div className="relative w-full h-[550px] z-0 bg-none">
                 <div className="relative h-[85%] w-full">
                   <img
@@ -48,9 +48,9 @@ const Home = () => {
                     <BsPlayFill />
                   </a>
                   <div className="flex flex-col gap-y-0 justify-center h-full w-full text-start">
-                    <span className="text-primaryNeon font-black text-subTitle xl:text-navTitle font-title p-0 leading-8 ">
+                    <a href={`/movie/${movie.id}`} className="text-primaryNeon font-black text-subTitle xl:text-navTitle font-title p-0 leading-8 ">
                       {movie.original_title}
-                    </span>
+                    </a>
                     <span className="text-body">Assista o trailer</span>
                   </div>
                 </div>

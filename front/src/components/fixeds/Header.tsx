@@ -16,7 +16,7 @@ const Header = ({ isOnTop }: HeaderProps) => {
     <>
       <nav
         className={`${
-          isOnTop ? "bg-primaryBg" : "bg-primary "
+          isOnTop ? "bg-transparent" : "bg-primary "
         } h-[60px] w-full fixed top-0 transition-all duration-300 text-newWhite z-50`}
       >
         <div className="flex justify-between items-center h-full flex-row w-[95%] md:w-[90%] mx-auto">
