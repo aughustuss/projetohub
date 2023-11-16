@@ -37,3 +37,13 @@ export const getMoviesCategoriesService = async () => {
         }
     })
 }
+
+export const getMoviesBasedOnItsGenreService = async (page: number, genre: string) => {
+    return await
+        axios.get(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc&with_genres=${genre}`, {
+            headers: {
+                Authorization: bearerToken,
+                Accept: "application/json"
+            }
+        })
+}

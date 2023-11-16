@@ -12,7 +12,7 @@ import { EffectCoverflow, Navigation, Pagination } from "swiper/modules";
 const Banner = () => {
   const { movies } = React.useContext(PopularMoviesContext);
   const { upMovies } = React.useContext(UpcomingMoviesContext);
-  const isAboveSM = useMediaQuery("(min-width: 320px)");
+  const isAboveSM = useMediaQuery("(min-width: 400px)");
   return (
     <>
       <main className="pt-[100px] flex flex-col lg:flex-row gap-10 min-h-[550px] h-auto">

@@ -16,8 +16,8 @@ const Categories = () => {
         </h1>
         <Slide modules={[Navigation]} >
           {genres.map((genre: MovieGenreModel) => (
-            <SwiperSlide >
-              <a href={`/genreMovies/${genre.name}`} className="border border-primaryBgBorder cursor-pointer h-[100px] w-full rounded-lg flex flex-col justify-center items-center hover:bg-primaryBgBorder transition duration-300 font-title text-smallDevicesTitle font-black">{genre.name}</a>
+            <SwiperSlide key={genre.id} >
+              <a href={`/genreMovies/${genre.id}`} className="border border-primaryBgBorder cursor-pointer h-[100px] w-full rounded-lg flex flex-col justify-center items-center hover:bg-primaryBgBorder transition duration-300 font-title text-smallDevicesTitle font-black">{genre.name}</a>
             </SwiperSlide>
           ))}
         </Slide>

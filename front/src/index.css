@@ -10,3 +10,13 @@ html, body{
     min-height: 100vh;
     height: auto;
 }
+::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  /* handle on the scrollbar */
+  ::-webkit-scrollbar-thumb {
+    background-color: #686868;
+    border-radius: 2px;
+  }
+  

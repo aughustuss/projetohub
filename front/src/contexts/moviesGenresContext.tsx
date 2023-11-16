@@ -23,7 +23,6 @@ const MovieGenreContextProvider: React.FC<ChildrenPropsModel> = ({children}) => 
     React.useEffect(() => {
         getMovieGenres();
     }, [])
-    console.log(genres)
 
     return (
         <MovieGenreContext.Provider value={{genres}}>
