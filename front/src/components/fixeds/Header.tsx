@@ -1,9 +1,9 @@
 import { IoIosClose } from "react-icons/io";
 import { IoMenu } from "react-icons/io5";
 import React from "react";
-import SideBarContext from "contexts/SidebarContext";
-import useMediaQuery from "hooks/MediaScreen";
-import Linksmapped from "../Linksmapped";
+import SideBarContext from "contexts/sidebarContext";
+import useMediaQuery from "hooks/mediaScreen";
+import Linksmapped from "components/linksMapped";
 interface HeaderProps {
   isOnTop: boolean;
 }

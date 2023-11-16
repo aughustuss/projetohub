@@ -2,27 +2,51 @@ import { Swiper } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { Navigation, Pagination, EffectCoverflow } from "swiper/modules";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import React from "react";
+import { SwiperModule } from "swiper/types";
+import { EffectCoverflow } from "swiper/modules";
 interface SlideProps {
   children: React.ReactNode;
   slideWidth?: string;
+  slidesPerView?: number;
+  modules: SwiperModule[]
 }
-const Slide = ({ children }: SlideProps) => {
+const Slide = ({ children, modules }: SlideProps) => {
   const prevRef = React.useRef(null);
   const nextRef = React.useRef(null);
   return (
     <>
       <Swiper
-        slidesPerView={1}
+        
         autoplay
         freeMode
-        modules={[Navigation, Pagination, EffectCoverflow]}
-        className={`w-full bg-transparent rounded-lg bg-none`}
+        modules={modules}
+        className={`w-full rounded-lg bg-transparent`}
         grabCursor
-        centeredSlides
         effect={"coverflow"}
+        breakpoints={!modules.includes(EffectCoverflow) ? {
+            0: {
+                slidesPerView: 2,
+                spaceBetween: 10,
+            },
+            512: {
+                slidesPerView: 2,
+                spaceBetween: 20,
+            },
+            648: {
+                slidesPerView: 3,
+                spaceBetween: 20,
+            },
+            768: {
+                slidesPerView: 4,
+                spaceBetween: 20,
+            },
+            1024: {
+                slidesPerView: 5,
+                spaceBetween: 30,
+            }
+        } : {}}
         navigation={{
           nextEl: nextRef.current,
           prevEl: prevRef.current,

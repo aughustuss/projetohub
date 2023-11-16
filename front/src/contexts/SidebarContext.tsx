@@ -1,5 +1,5 @@
-import { ChildrenPropsModel } from 'models/contexts/ChildrenProps';
-import { SideBarContextModel } from 'models/contexts/SideBarContext';
+import { ChildrenPropsModel } from 'models/contexts/contextModels';
+import { SideBarContextModel } from 'models/contexts/contextModels';
 import React, { createContext } from 'react'
 
 export const SideBarContext = createContext<SideBarContextModel>({

@@ -1,4 +1,4 @@
-export interface MovieById {
+export interface MovieByIdModel {
     adult: boolean;
     backdrop_path: string;
     belongs_to_collection: {
@@ -31,24 +31,24 @@ export interface MovieById {
     vote_count: number;
 }
 
-export interface MovieByIdGenres {
+export interface MovieByIdGenresModel {
     id: number;
     name: string;
 }
 
-export interface MovieByIdCompanies {
+export interface MovieByIdCompaniesModel {
     id: number;
     logo_path: string;
     name: string;
     original_country: string;
 }
 
-export interface MovieByIdCountries {
+export interface MovieByIdCountriesModel {
     iso_3166_1: string;
     name: string;
 }
 
-export interface MovieByIdSpokenLanguages {
+export interface MovieByIdSpokenLanguagesModel {
     english_name: string;
     iso_639_1: string;
     name: string;

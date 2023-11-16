@@ -1,8 +1,8 @@
-import { ChildrenPropsModel } from "models/contexts/ChildrenProps";
-import { PopularMoviesContextModel } from "models/contexts/PopularMoviesContext";
-import { MovieModel } from "models/entities/Movie";
+import { ChildrenPropsModel } from "models/contexts/contextModels";
+import { PopularMoviesContextModel } from "models/contexts/contextModels";
+import { MovieModel } from "models/entities/movie";
 import React from "react";
-import { getPopularMoviesService } from "services/GetPopularMovies";
+import { getPopularMoviesService } from "services/getMoviesService";
 
 export const PopularMoviesContext =
   React.createContext<PopularMoviesContextModel>({

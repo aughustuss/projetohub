@@ -1,5 +1,5 @@
 import { IconType } from 'react-icons'
-export interface NavbarLinks {
+export interface NavbarLink {
     linkTo: string;
     linkText?: string;
     linkIcon?: IconType

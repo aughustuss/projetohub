@@ -1,12 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Header from "components/fixeds/Header";
-import Footer from "components/fixeds/Footer";
+import Header from "components/fixeds/header";
+import Footer from "components/fixeds/footer";
+import Sidebar from "components/fixeds/sidebar";
 
 import React from "react";
-import Sidebar from "components/fixeds/Sidebar";
-const HomePage = React.lazy(() => import("views/Home"));
-const MoviePage = React.lazy(() => import("views/Movie"));
-const LoadingPage = React.lazy(() => import("views/Loading"));
+import GenreMovies from "views/genreMovies";
+const HomePage = React.lazy(() => import("views/home"));
+const MoviePage = React.lazy(() => import("views/movie"));
+const LoadingPage = React.lazy(() => import("views/loading"));
 
 function App() {
   const [isOnTop, setIsOnTop] = React.useState<boolean>(true);
@@ -34,7 +35,7 @@ function App() {
               <Routes>
                 <Route index path="/" Component={HomePage} />
                 <Route path="/movie/:movieId" Component={MoviePage} />
-                {/* <Route path="/about" component={About} /> */}
+                <Route path="/genreMovies/:movieGenre" Component={GenreMovies} />
               </Routes>
             </div>
             <Footer />

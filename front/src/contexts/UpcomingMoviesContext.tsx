@@ -1,10 +1,10 @@
-import { ChildrenPropsModel } from "models/contexts/ChildrenProps";
-import { UpcomingMoviesModel } from "models/contexts/UpcomingMoviesContext";
-import { MovieModel } from "models/entities/Movie";
+import { ChildrenPropsModel } from "models/contexts/contextModels";
+import { UpcomingMoviesContextModel } from "models/contexts/contextModels";
+import { MovieModel } from "models/entities/movie";
 import React from "react";
-import { getUpcomingMoviesService } from "services/GetUpcomingMovies";
+import { getUpcomingMoviesService } from "services/getMoviesService";
 
-export const UpcomingMoviesContext = React.createContext<UpcomingMoviesModel>({
+export const UpcomingMoviesContext = React.createContext<UpcomingMoviesContextModel>({
   upMovies: [],
   loading: true,
 });
