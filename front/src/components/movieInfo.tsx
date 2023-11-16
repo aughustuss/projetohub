@@ -74,7 +74,7 @@ const MovieInfo = ({movieId}: MovieInfoProps) => {
         </div>
   
         {/* Sinopse do banner */}
-        <div className="h-[600px] text-body">
+        <div className="h-[600px] text-body ">
           <div className="h-auto min-h-[700px] bg-primaryBgBorder w-full px-4 md:w-[90%] md:px-0 mx-auto -mt-[30%] md:-mt-[10%] shadow-md rounded-lg absolute left-1/2 -translate-x-1/2">
             {/* Início da sinopse  */}
             <div className="p-4 md:p-8 flex flex-col gap-y-4">
@@ -233,7 +233,7 @@ const MovieInfo = ({movieId}: MovieInfoProps) => {
                 </div>
               </div>
             </div>
-            <button className="absolute -right-0 -top-10 bg-black rounded-full p-6 font-black text-title text-primaryNeon hover:scale-105 transition duration-300">
+            <button className="absolute -right-0 -top-10 bg-black rounded-full p-6 font-black text-title text-primaryNeon hover:scale-105 transition duration-300 mr-2">
               <BsPlus />
             </button>
           </div>

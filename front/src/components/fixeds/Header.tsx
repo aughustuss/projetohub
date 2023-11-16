@@ -18,7 +18,7 @@ const Header = ({ isOnTop }: HeaderProps) => {
       <nav
         className={`${
           isOnTop ? !isToggled ? "bg-transparent" : "bg-primaryBg" : "bg-primary"
-        } h-[60px] w-full fixed top-0 transition-all duration-300 text-newWhite z-50`}
+        } h-[60px] w-full fixed top-0 transition-all duration-300 text-newWhite z-30`}
       >
         <div className="flex justify-between items-center h-full flex-row w-[95%] md:w-[90%] mx-auto">
           <a
@@ -35,7 +35,7 @@ const Header = ({ isOnTop }: HeaderProps) => {
               onChange={(e) => setSearchParam(e.target.value)}
               type="text"
               placeholder="Digite sua busca..."
-              className="w-full h-full outline-none py-4 pl-3 pr-7 text-newBlack rounded-lg text-body bg-newWhite"
+              className="w-full h-full py-4 pl-3 pr-7 text-newBlack rounded-lg text-body bg-newWhite"
             />
             {/* <span className="absolute left-2 text-black text-smallIconSize font-black">
               <LiaSearchSolid />

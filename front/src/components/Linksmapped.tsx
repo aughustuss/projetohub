@@ -7,7 +7,7 @@ interface LinksMappedProps {
   isAboveLG?: boolean;
 }
 
-const Linksmapped = ({ isOnTop, isAboveLG }: LinksMappedProps) => {
+const LinksMapped = ({ isOnTop, isAboveLG }: LinksMappedProps) => {
   return (
     <>
       {NavLinks.map((i: NavbarLink, index) => (
@@ -43,4 +43,4 @@ const Linksmapped = ({ isOnTop, isAboveLG }: LinksMappedProps) => {
   );
 };
 
-export default Linksmapped;
+export default LinksMapped;
