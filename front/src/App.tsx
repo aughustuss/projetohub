@@ -1,13 +1,16 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Header from "components/Header";
-import Footer from "components/Footer";
+import Header from "components/fixeds/header";
+import Footer from "components/fixeds/footer";
+import Sidebar from "components/fixeds/sidebar";
 
 import React from "react";
-import Sidebar from "components/Sidebar";
-const HomePage = React.lazy(() => import("views/Home"));
-const LoadingPage = React.lazy(() => import("views/Loading"));
+import GenreMovies from "views/genreMovies";
+const HomePage = React.lazy(() => import("views/home"));
+const MoviePage = React.lazy(() => import("views/movie"));
+const LoadingPage = React.lazy(() => import("views/loading"));
+
 function App() {
-  const [isOnTop, setIsOnTop] = React.useState<boolean>(false);
+  const [isOnTop, setIsOnTop] = React.useState<boolean>(true);
   React.useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY === 0) {
@@ -28,10 +31,11 @@ function App() {
           <div className="font-body">
             <Header isOnTop={isOnTop} />
             <Sidebar/>
-            <div className="pt-[70px] text-newWhite">
+            <div className="text-newWhite">
               <Routes>
-                <Route path="/home" Component={HomePage} />
-                {/* <Route path="/about" component={About} /> */}
+                <Route index path="/" Component={HomePage} />
+                <Route path="/movie/:movieId" Component={MoviePage} />
+                <Route path="/genreMovies/:movieGenre" Component={GenreMovies} />
               </Routes>
             </div>
             <Footer />

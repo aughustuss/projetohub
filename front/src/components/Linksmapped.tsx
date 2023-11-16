@@ -1,6 +1,6 @@
 
-import { NavLinks } from 'data/NavLinks';
-import { NavbarLinks } from 'models/NavLinks';
+import { NavLinks } from 'data/navLinks';
+import { NavbarLink } from 'models/entities/navLink';
 
 interface LinksMappedProps {
   isOnTop?: boolean;
@@ -10,7 +10,7 @@ interface LinksMappedProps {
 const Linksmapped = ({ isOnTop, isAboveLG }: LinksMappedProps) => {
   return (
     <>
-      {NavLinks.map((i: NavbarLinks, index) => (
+      {NavLinks.map((i: NavbarLink, index) => (
         <a
           key={index}
           href=""
