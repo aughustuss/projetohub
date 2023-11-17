@@ -68,7 +68,7 @@ const Movie = ({
                 <p className="flex flex-row items-center gap-x-2 text-subBody text-bodyColor">
                   <AiFillStar className="text-yellow-600" />
                   <span>
-                    {movie?.vote_average} / {movie?.vote_count} Avaliações
+                    {movie?.vote_average} / 10 - {movie?.vote_count} Avaliações
                   </span>
                 </p>
                 <p className="line-clamp-1">{movie?.overview}</p>
