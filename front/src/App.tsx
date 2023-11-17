@@ -15,7 +15,7 @@ function App() {
     const handleScroll = () => {
       if (window.scrollY === 0) {
         setIsOnTop(true);
-      } else if (window.scrollY > 50) {
+      } else if (window.scrollY > 25) {
         setIsOnTop(false);
       }
     }
