@@ -13,7 +13,7 @@ const LinksMapped = ({ isOnTop, isAboveLG }: LinksMappedProps) => {
       {NavLinks.map((i: NavbarLink, index) => (
         <a
           key={index}
-          href=""
+          href={i.linkTo}
           className="hover:text-primaryOnHover transition-all duration-300 flex flex-col justify-center items-center "
         >
           {isAboveLG ? (
