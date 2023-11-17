@@ -55,15 +55,22 @@ const GenreMovies = () => {
   };
   React.useEffect(() => {
     getMovieBasedOnItsGenre();
-  }, [page]);
-
+  }, [page, searchParam]);
   const getMoviesBasedOnItsTitle = async () => {
     try {
       if (searchParam.length > 0) {
         await getMoviesBasedOnItsTitleService(searchParam)
           .then((movies) => {
-            setSearchedMovies(movies.data.results);
-            setPageCount(movies.data.total_pages);
+            const moviesData: MovieModel[] = movies.data.results;
+            setSearchedMovies(
+              moviesData.filter((genre) => {
+                return genre.genre_ids.some(
+                  (genreId) => Number(genreId) == Number(movieGenre)
+                );
+              })
+            );
+            console.log(searchedMovies);
+            setPageCount(searchedMovies.length / 20);
           })
           .catch((err: Error) => {
             console.log(err);
@@ -79,7 +86,12 @@ const GenreMovies = () => {
   }, [searchParam]);
 
   const sortMoviesByTitle = (order: "asc" | "desc") => {
-    const sortedMovies = [...movies];
+    let sortedMovies: MovieModel[] = [];
+    if (searchParam.length == 0) {
+      sortedMovies = [...movies];
+    } else {
+      sortedMovies = [...searchedMovies];
+    }
     sortedMovies.sort((a, b) => {
       const titleA = a.original_title.toLowerCase();
       const titleB = b.original_title.toLowerCase();
@@ -90,12 +102,20 @@ const GenreMovies = () => {
         return titleB.localeCompare(titleA);
       }
     });
-
-    setMovies(sortedMovies);
+    if (searchParam.length == 0) {
+      setMovies(sortedMovies);
+    } else {
+      setSearchedMovies(sortedMovies);
+    }
   };
 
   const sortMoviesByReleaseDate = () => {
-    const sortedMovies = [...movies];
+    let sortedMovies: MovieModel[] = [];
+    if (searchParam.length == 0) {
+      sortedMovies = [...movies];
+    } else {
+      sortedMovies = [...searchedMovies];
+    }
     sortedMovies.sort((a, b) => {
       const dateA = new Date(a.release_date);
       const dateB = new Date(b.release_date);
@@ -103,7 +123,11 @@ const GenreMovies = () => {
       return dateB.getTime() - dateA.getTime();
     });
 
-    setMovies(sortedMovies);
+    if (searchParam.length == 0) {
+      setMovies(sortedMovies);
+    } else {
+      setSearchedMovies(sortedMovies);
+    }
   };
 
   const openMovieInfo = (movieId: number) => {
@@ -137,7 +161,12 @@ const GenreMovies = () => {
         )}
         <div className="w-full px-4 md:w-[90%] md:px-0 mx-auto flex flex-col items-center gap-y-10">
           <div className="flex flex-col gap-y-4 w-full">
-            <label htmlFor="searchFilter" className="font-title text-subTitle font-black">Buscar por um filme </label>
+            <label
+              htmlFor="searchFilter"
+              className="font-title text-subTitle font-black"
+            >
+              Buscar por um filme{" "}
+            </label>
             <input
               value={searchParam}
               onChange={(e) => setSearchParam(e.target.value)}
@@ -147,7 +176,7 @@ const GenreMovies = () => {
               id="searchFilter"
             />
           </div>
-          <div className="self-end ">
+          <div className="self-end cursor-pointer">
             <div
               onClick={openSelectOptions}
               className="border border-primaryBgBorder rounded-md px-6 py-2 text-body relative w-[200px]"
@@ -163,7 +192,7 @@ const GenreMovies = () => {
               </p>
               <div>
                 {selectOptionsMenu && (
-                  <div className="absolute z-20 w-full top-full left-0 text-start mt-2 bg-primaryBgBorder rounded-md py-2">
+                  <div className="absolute cursor-pointer z-20 w-full top-full left-0 text-start mt-2 bg-primaryBgBorder rounded-md py-2">
                     {options
                       .slice(1, options.length)
                       .map((option: SelectOptions) => (
@@ -211,6 +240,7 @@ const GenreMovies = () => {
             renderOnZeroPageCount={null}
             nextLabel="Próximo"
             previousLabel="Anterior"
+            initialPage={0}
           />
         </div>
       </main>
