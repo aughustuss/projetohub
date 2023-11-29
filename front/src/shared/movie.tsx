@@ -2,6 +2,8 @@ import { MovieModel } from "models/entities/movie";
 import { FaInfo } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { AiFillStar } from "react-icons/ai";
+import FavoritesMoviesContext from "contexts/favoritesMoviesContext";
+import React from 'react'
 interface MovieProps {
   movie: MovieModel;
   openMovieInfo: (movieId: number) => void;
@@ -16,11 +18,10 @@ const Movie = ({
   closeMovieInfo,
 }: MovieProps) => {
   const tmdbImagePath = import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH;
-
+  const {addMovie} = React.useContext(FavoritesMoviesContext)
   const openModalWithInfo = () => {
     openMovieInfo(movie.id);
   };
-
   const closeModalWithInfo = () => {
     closeMovieInfo();
   };
@@ -77,7 +78,7 @@ const Movie = ({
             </div>
             <div className="flex flex-row gap-x-2 w-full px-2 text-body">
                 <a href={`/movie/${movie.id}`} className="w-full bg-primaryBgBorder px-4 py-2 rounded-lg font-black text-center hover:bg-primaryBgBorder/70 transition duration-300 flex flex-col items-center justify-center">Ver mais</a>
-                <button className="w-full border-primaryBgBorder border px-4 py-2 rounded-lg font-black hover:bg-primaryBgBorder transition duration-300">Adicionar à favoritos</button>
+                <button onClick={() => addMovie(movie)} className="w-full border-primaryBgBorder border px-4 py-2 rounded-lg font-black hover:bg-primaryBgBorder transition duration-300">Adicionar à favoritos</button>
             </div>
           </div>
         )}

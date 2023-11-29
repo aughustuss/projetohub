@@ -1,9 +1,10 @@
-import { IoIosClose } from "react-icons/io";
 import { IoMenu } from "react-icons/io5";
 import React from "react";
 import SideBarContext from "contexts/sidebarContext";
 import useMediaQuery from "hooks/mediaScreen";
 import Linksmapped from "components/linksMapped";
+import Input from "components/input";
+
 interface HeaderProps {
   isOnTop: boolean;
 }
@@ -30,24 +31,15 @@ const Header = ({ isOnTop }: HeaderProps) => {
             HubFilmes
           </a>
           <div className="w-2/3 px-4 md:px-0 md:w-1/3 h-1/2 relative flex flex-row items-center">
-            <input
-              value={searchParam}
+            
+            <Input 
+              hasText={searchParam.length > 0}
               onChange={(e) => setSearchParam(e.target.value)}
+              onClick={() => setSearchParam("")}
               type="text"
-              placeholder="Digite sua busca..."
-              className="w-full h-full py-4 pl-3 pr-7 text-newBlack rounded-lg text-body bg-newWhite"
+              placeholder="Pesquisa por um filme"
+              value={searchParam}
             />
-            {/* <span className="absolute left-2 text-black text-smallIconSize font-black">
-              <LiaSearchSolid />
-            </span> */}
-            {searchParam.length > 0 && (
-              <button
-                onClick={() => setSearchParam("")}
-                className="absolute right-1 text-iconSize transition-all duration-300 text-black"
-              >
-                <IoIosClose />
-              </button>
-            )}
           </div>
           <div className="text-links font-bold flex flex-row items-center gap-x-8">
             {isAboveLG ? (

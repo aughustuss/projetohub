@@ -1,23 +1,48 @@
 import React from "react";
-import PopularMoviesContext from "contexts/popularMoviesContext";
 import { MovieModel } from "models/entities/movie";
 import Slide from "shared/slide";
 import { SwiperSlide } from "swiper/react";
 import { BsPlayFill, BsPlus } from "react-icons/bs";
 import { AiFillStar } from "react-icons/ai";
-import UpcomingMoviesContext from "contexts/upcomingMoviesContext";
 import useMediaQuery from "hooks/mediaScreen";
 import { EffectCoverflow, Navigation, Pagination } from "swiper/modules";
+import {
+  getPopularMoviesService,
+  getUpcomingMoviesService,
+} from "services/getMoviesService";
+import { AxiosResponse } from "axios";
+import Loading from "views/loading";
+import FavoritesMoviesContext from "contexts/favoritesMoviesContext";
 
 const Banner = () => {
-  const { movies } = React.useContext(PopularMoviesContext);
-  const { upMovies } = React.useContext(UpcomingMoviesContext);
+  const {addMovie} = React.useContext(FavoritesMoviesContext)
+  const [popularMovies, setPopularMovies] = React.useState<MovieModel[]>([]);
+  const [upComingMovies, setUpComingMovies] = React.useState<MovieModel[]>([]);
+  
+  const [loadingMovies, setLoadingMovies] = React.useState<boolean>(false);
+  
+  React.useEffect(() => {
+    Promise.all([
+      getPopularMoviesService(),
+      getUpcomingMoviesService()
+    ]).then((response: [AxiosResponse<MovieModel[], unknown>, AxiosResponse<MovieModel[], unknown>]) => {
+      setPopularMovies(response[0].data.results);
+      setUpComingMovies(response[1].data.results);
+      setLoadingMovies(false);
+    }).catch((err: unknown) => {
+      console.log(err);
+    })
+  },[])
+
   const isAboveSM = useMediaQuery("(min-width: 400px)");
+  if(loadingMovies){
+    return <Loading/>
+  }
   return (
     <>
       <main className="pt-[100px] flex flex-col lg:flex-row gap-10 min-h-[550px] h-auto">
         <Slide modules={[Navigation, Pagination, EffectCoverflow]}>
-          {movies.map((movie: MovieModel) => (
+          {popularMovies && popularMovies.map((movie: MovieModel) => (
             <SwiperSlide key={movie.id}>
               <div className="relative w-full h-[550px] z-0 bg-none">
                 <div className="relative h-[85%] w-full">
@@ -39,7 +64,7 @@ const Banner = () => {
                       className="rounded-lg object-cover h-full w-full"
                     />
                     <div className="bg-black absolute inset-0 h-full z-10 w-full opacity-25 rounded-lg" />
-                    <button className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-full bg-primaryNeon text-iconSize font-black z-40 hover:bg-primary transition duration-300">
+                    <button onClick={() => addMovie(movie)} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-full bg-primaryNeon text-iconSize font-black z-40 hover:bg-primaryOnHover transition duration-300 active:scale-95 ">
                       <BsPlus />
                     </button>
                   </div>
@@ -69,7 +94,7 @@ const Banner = () => {
           </h1>
           {!isAboveSM ? (
             <Slide modules={[Navigation, Pagination, EffectCoverflow]}>
-              {upMovies.slice(0, 4).map((movie: MovieModel) => (
+              {upComingMovies && upComingMovies.slice(0, 4).map((movie: MovieModel) => (
                 <SwiperSlide className="flex flex-row gap-x-4 h-[110px] p-2 border border-primaryBgBorder rounded-lg hover:bg-primaryBgBorder transition duration-300 cursor-pointer">
                   <img
                     src={`${import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH}${
@@ -98,8 +123,9 @@ const Banner = () => {
             </Slide>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 lg:flex lg:flex-col w-full lg:max-w-[70%]">
-              {upMovies.slice(0, 4).map((movie: MovieModel) => (
+              {upComingMovies && upComingMovies.slice(0, 4).map((movie: MovieModel) => (
                 <a
+                  key={movie.id}
                   href={`/movie/${movie.id}`}
                   className="flex flex-row gap-x-4 h-[110px] p-2 border border-primaryBgBorder rounded-lg hover:bg-primaryBgBorder transition duration-300 cursor-pointer"
                 >

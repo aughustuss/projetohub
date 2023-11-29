@@ -8,6 +8,7 @@ import GenreMovies from "views/genreMovies";
 const HomePage = React.lazy(() => import("views/home"));
 const MoviePage = React.lazy(() => import("views/movie"));
 const LoadingPage = React.lazy(() => import("views/loading"));
+const ChatPage = React.lazy(() => import("views/chat"));
 
 function App() {
   const [isOnTop, setIsOnTop] = React.useState<boolean>(true);
@@ -36,6 +37,7 @@ function App() {
                 <Route index path="/" Component={HomePage} />
                 <Route path="/movie/:movieId" Component={MoviePage} />
                 <Route path="/genreMovies/:movieGenre" Component={GenreMovies} />
+                <Route path="/chat" Component={ChatPage}/>
               </Routes>
             </div>
             <Footer />

@@ -13,18 +13,40 @@ import { FaCheck } from "react-icons/fa6";
 import { BsPlus } from "react-icons/bs";
 import { AxiosResponse } from "axios";
 import Loading from "views/loading";
+import { MovieModel } from "models/entities/movie";
+import FavoritesMoviesContext from "contexts/favoritesMoviesContext";
+import AlreadyAddedMovieNotification from "shared/alreadyAddedMovieNotification";
 interface MovieInfoProps {
   movieId?: string;
 }
 const MovieInfo = ({ movieId }: MovieInfoProps) => {
   const [movieById, setMovieById] = React.useState<MovieByIdModel>();
+  const {addMovie, movieExists} = React.useContext(FavoritesMoviesContext);
   const tmdbImagePath = import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH;
   const [isLoading, setIsLoading] = React.useState(false);
   const movieHours = movieById?.runtime && Math.floor(movieById?.runtime / 60);
   const movieMinutes = movieById?.runtime && movieById?.runtime % 60;
   const moviePercentageLiked = movieById?.vote_average && (movieById.vote_average / 10) * 100;
   const moviePercentageDisliked = moviePercentageLiked && 100 - moviePercentageLiked;
-
+  let movieInfosToAddInFavoriteList: MovieModel;
+  if(movieById){
+    movieInfosToAddInFavoriteList = {
+      adult: movieById?.adult,
+      backdrop_path: movieById?.backdrop_path,
+      genre_ids: movieById?.genres,
+      id: movieById?.id,
+      original_language: movieById?.original_language,
+      original_title: movieById?.original_title,
+      overview: movieById?.overview,
+      popularity: movieById?.popularity,
+      poster_path: movieById?.poster_path,
+      release_date: movieById?.release_date,
+      title: movieById?.title,
+      video: movieById?.video,
+      vote_average: movieById?.vote_average,
+      vote_count: movieById?.vote_count
+    }
+  }
 
   const data = {
     labels: ["Gostaram", "Não gostaram"],
@@ -63,7 +85,6 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
     };
     fetchMovieById();
   }, [movieId]);
-
   if (isLoading) return <Loading />;
 
   return (
@@ -109,7 +130,7 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
                       </p>
                     </div>
                     {/* Marcar como assistido */}
-                    <button className="bg-primary hover:bg-primaryOnHover transition duration-300 py-3 px-8 rounded-lg relative flex flex-row items-center font-black">
+                    <button className="bg-primary hover:bg-primaryOnHover transition duration-300 py-3 px-8 rounded-lg relative flex flex-row items-center font-black shadow-md active:scale-95">
                       Marcar como assistido{" "}
                       <FaCheck className="absolute right-2" />
                     </button>
@@ -232,9 +253,10 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
               </div>
             </div>
           </div>
-          <button className="absolute -right-0 -top-10 bg-black rounded-full p-6 font-black text-title text-primaryNeon hover:scale-105 transition duration-300 mr-2">
+          <button onClick={() => addMovie(movieInfosToAddInFavoriteList)} className="absolute -right-0 -top-10 bg-newBlack rounded-full p-6 font-black text-title text-primaryNeon hover:scale-105 transition duration-300 mr-2 shadow-md">
             <BsPlus />
           </button>
+          {movieExists && <AlreadyAddedMovieNotification message="Filme já está na sua lista."/>}
         </div>
       </div>
 

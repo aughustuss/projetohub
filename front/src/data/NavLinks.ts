@@ -24,7 +24,7 @@ export const NavLinks: Array<NavbarLink> = [
         linkIcon: BiSolidHeart,
     },
     {
-        linkTo: "#",
+        linkTo: "/chat",
         linkText: "Conversas",
         linkIcon: BiSolidChat,
     }
