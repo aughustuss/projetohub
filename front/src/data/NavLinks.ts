@@ -1,29 +1,30 @@
-import { NavbarLink } from "models/entities/navLink";
+
+import { NavbarLink } from 'models/entities/navLink';
 import {BiSolidHeart, BiSolidChat} from 'react-icons/bi'
 export const NavLinks: Array<NavbarLink> = [
     {
         linkText: "Início",
-        linkTo: "",   
+        linkTo: "/",   
     },
     {
         linkText: "Perfil",
-        linkTo: "",
+        linkTo: "#",
     },
     {
         linkText: "Filmes",
-        linkTo: "",
+        linkTo: "#",
     },
     {
         linkText: "Cinéfilos",
-        linkTo: "",
+        linkTo: "#",
     },
     {
-        linkTo: "",
+        linkTo: "#",
         linkText: "Favoritos",
         linkIcon: BiSolidHeart,
     },
     {
-        linkTo: "",
+        linkTo: "/chat",
         linkText: "Conversas",
         linkIcon: BiSolidChat,
     }

@@ -1,9 +1,10 @@
-import { IoIosClose } from "react-icons/io";
 import { IoMenu } from "react-icons/io5";
 import React from "react";
 import SideBarContext from "contexts/sidebarContext";
 import useMediaQuery from "hooks/mediaScreen";
 import Linksmapped from "components/linksMapped";
+import Input from "components/input";
+
 interface HeaderProps {
   isOnTop: boolean;
 }
@@ -18,7 +19,7 @@ const Header = ({ isOnTop }: HeaderProps) => {
       <nav
         className={`${
           isOnTop ? !isToggled ? "bg-transparent" : "bg-primaryBg" : "bg-primary"
-        } h-[60px] w-full fixed top-0 transition-all duration-300 text-newWhite z-50`}
+        } h-[60px] w-full fixed top-0 transition-all duration-300 text-newWhite z-30`}
       >
         <div className="flex justify-between items-center h-full flex-row w-[95%] md:w-[90%] mx-auto">
           <a
@@ -30,24 +31,15 @@ const Header = ({ isOnTop }: HeaderProps) => {
             HubFilmes
           </a>
           <div className="w-2/3 px-4 md:px-0 md:w-1/3 h-1/2 relative flex flex-row items-center">
-            <input
-              value={searchParam}
+            
+            <Input 
+              hasText={searchParam.length > 0}
               onChange={(e) => setSearchParam(e.target.value)}
+              onClick={() => setSearchParam("")}
               type="text"
-              placeholder="Digite sua busca..."
-              className="w-full h-full outline-none py-4 pl-3 pr-7 text-newBlack rounded-lg text-body bg-newWhite"
+              placeholder="Pesquisa por um filme"
+              value={searchParam}
             />
-            {/* <span className="absolute left-2 text-black text-smallIconSize font-black">
-              <LiaSearchSolid />
-            </span> */}
-            {searchParam.length > 0 && (
-              <button
-                onClick={() => setSearchParam("")}
-                className="absolute right-1 text-iconSize transition-all duration-300 text-black"
-              >
-                <IoIosClose />
-              </button>
-            )}
           </div>
           <div className="text-links font-bold flex flex-row items-center gap-x-8">
             {isAboveLG ? (

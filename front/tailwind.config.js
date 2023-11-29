@@ -37,6 +37,7 @@ export default {
         "title": "24px",
         "subTitle": "20px",
         "smallDevicesTitle": "18px",
+        "extraSmallTitle": "16",
         "body":"14px",
         "subBody":"12px",
         "links":"14px",
