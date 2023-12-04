@@ -1,16 +1,15 @@
-import { AxiosResponse } from "axios";
-import { MovieModel } from "models/entities/movie";
+import { MovieModel } from "models/entities/Movie";
 import React from "react";
 import { useParams } from "react-router-dom";
 import {
   getMoviesBasedOnItsGenreService,
   getMoviesBasedOnItsTitleService,
-} from "services/getMoviesService";
+} from "services/GetMoviesService";
 import ReactPaginate from "react-paginate";
-import Movie from "shared/movie";
+import Movie from "shared/Movie";
 import { IoMdArrowDropup } from "react-icons/io";
-import Loading from "./loading";
-import Input from "components/input";
+import Loading from "./Loading";
+import Input from "components/Input";
 
 type SelectOptions = {
   value: string;
@@ -48,7 +47,7 @@ const GenreMovies = () => {
       setIsLoadingGenreMovies(true);
       Promise.resolve(
         getMoviesBasedOnItsGenreService(page, movieGenre).then(
-          (response: AxiosResponse<MovieModel[]>) => {
+          (response) => {
             setMovies(response.data.results);
             setPageCount(response.data.total_pages);
             setIsLoadingGenreMovies(false);
@@ -62,7 +61,7 @@ const GenreMovies = () => {
       setIsLoadingSearchedMovies(false);
       Promise.resolve(
         getMoviesBasedOnItsTitleService(searchParam).then(
-          (response: AxiosResponse<MovieModel[], unknown>) => {
+          (response) => {
             const responseData: MovieModel[] = response.data.results;
             setSearchedMovies(
               responseData.filter((genre) => {
@@ -214,6 +213,7 @@ const GenreMovies = () => {
                     closeMovieInfo={closeMovieinfo}
                     openMovieInfo={openMovieInfo}
                     movie={movie}
+                    onGrid
                   />
                 ))
               ) : (
@@ -224,6 +224,7 @@ const GenreMovies = () => {
                     selectedMovieId={selectedMovie}
                     closeMovieInfo={closeMovieinfo}
                     openMovieInfo={openMovieInfo}
+                    onGrid
                   />
                 ))
               )

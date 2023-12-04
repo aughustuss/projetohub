@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, HTMLInputTypeAttribute, MouseEventHandler } from "react";
+import { ChangeEventHandler, HTMLInputTypeAttribute, MouseEventHandler } from "react";
 import { IoIosClose } from "react-icons/io";
 interface InputProps {
     type?: HTMLInputTypeAttribute | undefined;

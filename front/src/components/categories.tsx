@@ -1,17 +1,17 @@
-import { AxiosResponse } from "axios";
-import { MovieGenreModel } from "models/entities/movieGenre";
+import { MovieGenreModel } from "models/entities/MovieGenre";
 import React from "react";
-import { getMoviesCategoriesService } from "services/getMoviesService";
-import Slide from "shared/slide";
+import { getMoviesCategoriesService } from "services/GetMoviesService";
+import Slide from "shared/Slide";
 import { Navigation } from "swiper/modules";
 import { SwiperSlide } from "swiper/react";
+import Title from "./Title";
 
 const Categories = () => {
   const [movieGenres, setMovieGenres] = React.useState<MovieGenreModel[]>([]);
 
   React.useEffect(() => {
     Promise.resolve(getMoviesCategoriesService())
-      .then((res: AxiosResponse<MovieGenreModel[], undefined>) =>
+      .then((res) =>
         setMovieGenres(res.data.genres)
       )
       .catch((err: unknown) => console.log(err));
@@ -19,9 +19,7 @@ const Categories = () => {
   return (
     <>
       <main className="flex flex-col gap-y-4 text-body">
-        <h1 className="text-title font-title font-black">
-          Explore novas categorias
-        </h1>
+        <Title center={false} green={false} message="Explore novas categorias"  />
         <Slide modules={[Navigation]}>
           {movieGenres && movieGenres.map((genre: MovieGenreModel) => (
             <SwiperSlide key={genre.id}>

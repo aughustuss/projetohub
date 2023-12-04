@@ -3,25 +3,24 @@ import {
   MovieByIdModel,
   MovieByIdCompaniesModel,
   MovieByIdGenresModel,
-} from "models/entities/movieById";
+} from "models/entities/MovieById";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 ChartJS.register(ArcElement, Tooltip, Legend);
-import { getMovieByIdService } from "services/getMoviesService";
+import { getMovieByIdService } from "services/GetMoviesService";
 import { AiFillStar } from "react-icons/ai";
 import { FaCheck } from "react-icons/fa6";
 import { BsPlus } from "react-icons/bs";
 import { AxiosResponse } from "axios";
-import Loading from "views/loading";
-import { MovieModel } from "models/entities/movie";
-import FavoritesMoviesContext from "contexts/favoritesMoviesContext";
-import AlreadyAddedMovieNotification from "shared/alreadyAddedMovieNotification";
+import Loading from "views/Loading";
+import { MovieModel } from "models/entities/Movie";
+import FavoritesMoviesContext from "contexts/FavoritesMoviesContext";
 interface MovieInfoProps {
   movieId?: string;
 }
 const MovieInfo = ({ movieId }: MovieInfoProps) => {
   const [movieById, setMovieById] = React.useState<MovieByIdModel>();
-  const {addMovie, movieExists} = React.useContext(FavoritesMoviesContext);
+  const {addMovie} = React.useContext(FavoritesMoviesContext);
   const tmdbImagePath = import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH;
   const [isLoading, setIsLoading] = React.useState(false);
   const movieHours = movieById?.runtime && Math.floor(movieById?.runtime / 60);
@@ -256,7 +255,6 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
           <button onClick={() => addMovie(movieInfosToAddInFavoriteList)} className="absolute -right-0 -top-10 bg-newBlack rounded-full p-6 font-black text-title text-primaryNeon hover:scale-105 transition duration-300 mr-2 shadow-md">
             <BsPlus />
           </button>
-          {movieExists && <AlreadyAddedMovieNotification message="Filme já está na sua lista."/>}
         </div>
       </div>
 

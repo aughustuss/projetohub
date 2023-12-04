@@ -1,27 +1,31 @@
 import { IoMenu } from "react-icons/io5";
 import React from "react";
-import SideBarContext from "contexts/sidebarContext";
-import useMediaQuery from "hooks/mediaScreen";
-import Linksmapped from "components/linksMapped";
-import Input from "components/input";
+import SideBarContext from "contexts/SidebarContext";
+import useMediaQuery from "hooks/MediaScreen";
+import Linksmapped from "components/Linksmapped";
+import Input from "components/Input";
+import LastTitleContext from "contexts/LastSearchedTitle";
 
 interface HeaderProps {
   isOnTop: boolean;
 }
 const Header = ({ isOnTop }: HeaderProps) => {
   const [searchParam, setSearchParam] = React.useState<string>("");
-  const { isToggled, handleToggle, setIsToggled } =
-    React.useContext(SideBarContext);
+  const {handleLastSearchedTitle} = React.useContext(LastTitleContext);
+  const { isToggled, handleToggle, setIsToggled } = React.useContext(SideBarContext);
+  if (searchParam.length > 0){
+    handleLastSearchedTitle(searchParam);
+  }
   const isAboveLG = useMediaQuery("(min-width: 1024px)");
   if (isAboveLG) setIsToggled(false);
   return (
     <>
       <nav
-        className={`${
-          isOnTop ? !isToggled ? "bg-transparent" : "bg-primaryBg" : "bg-primary"
-        } h-[60px] w-full fixed top-0 transition-all duration-300 text-newWhite z-30`}
+        className='h-[80px] mt-0 md:mt-[10px] w-full fixed top-0  text-newWhite z-30'
       >
-        <div className="flex justify-between items-center h-full flex-row w-[95%] md:w-[90%] mx-auto">
+        <div className={` ${
+          isOnTop ? !isToggled ? "bg-transparent" : "bg-primaryBg" : "bg-primary/90"
+        } transition-all duration-300 flex justify-between items-center h-full flex-row w-full px-4 md:w-[90%] md:rounded-lg mx-auto`}>
           <a
             href="/"
             className={`${
@@ -37,7 +41,7 @@ const Header = ({ isOnTop }: HeaderProps) => {
               onChange={(e) => setSearchParam(e.target.value)}
               onClick={() => setSearchParam("")}
               type="text"
-              placeholder="Pesquisa por um filme"
+              placeholder="Pesquise por um filme..."
               value={searchParam}
             />
           </div>
@@ -46,7 +50,7 @@ const Header = ({ isOnTop }: HeaderProps) => {
               <Linksmapped isAboveLG={isAboveLG} isOnTop={isOnTop} />
             ) : (
               <button
-                className="text-iconSize hover:scale-90 transition duration-300"
+                className="text-iconSize active:scale-90 transition duration-300"
                 onClick={() => handleToggle()}
               >
                 {" "}

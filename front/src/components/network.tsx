@@ -1,9 +1,10 @@
+import Title from "./Title"
 
 const Network = () => {
   return (
    <>
     <main>
-        <h1 className='font-title text-title font-black'>Crie o seu Network</h1>
+        <Title center={false} green={false} message="Crie o seu Network" />
         conteudo...
     </main>
    </>

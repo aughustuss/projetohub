@@ -1,18 +1,18 @@
 import React from "react";
-import { MovieModel } from "models/entities/movie";
-import Slide from "shared/slide";
+import { MovieModel } from "models/entities/Movie";
+import Slide from "shared/Slide";
 import { SwiperSlide } from "swiper/react";
 import { BsPlayFill, BsPlus } from "react-icons/bs";
 import { AiFillStar } from "react-icons/ai";
-import useMediaQuery from "hooks/mediaScreen";
+import useMediaQuery from "hooks/MediaScreen";
 import { EffectCoverflow, Navigation, Pagination } from "swiper/modules";
 import {
   getPopularMoviesService,
   getUpcomingMoviesService,
-} from "services/getMoviesService";
-import { AxiosResponse } from "axios";
-import Loading from "views/loading";
-import FavoritesMoviesContext from "contexts/favoritesMoviesContext";
+} from "services/GetMoviesService";
+import Loading from "views/Loading";
+import FavoritesMoviesContext from "contexts/FavoritesMoviesContext";
+import Title from "./Title";
 
 const Banner = () => {
   const {addMovie} = React.useContext(FavoritesMoviesContext)
@@ -25,7 +25,7 @@ const Banner = () => {
     Promise.all([
       getPopularMoviesService(),
       getUpcomingMoviesService()
-    ]).then((response: [AxiosResponse<MovieModel[], unknown>, AxiosResponse<MovieModel[], unknown>]) => {
+    ]).then((response) => {
       setPopularMovies(response[0].data.results);
       setUpComingMovies(response[1].data.results);
       setLoadingMovies(false);
@@ -40,7 +40,7 @@ const Banner = () => {
   }
   return (
     <>
-      <main className="pt-[100px] flex flex-col lg:flex-row gap-10 min-h-[550px] h-auto">
+      <main className="flex flex-col lg:flex-row gap-10 min-h-[550px] h-auto">
         <Slide modules={[Navigation, Pagination, EffectCoverflow]}>
           {popularMovies && popularMovies.map((movie: MovieModel) => (
             <SwiperSlide key={movie.id}>
@@ -89,9 +89,7 @@ const Banner = () => {
           ))}
         </Slide>
         <div className="w-full h-full flex flex-col justify-between gap-y-4">
-          <h1 className="text-title font-title font-black text-primaryNeon">
-            Novidades
-          </h1>
+          <Title center={false} green message="Novidades"/>
           {!isAboveSM ? (
             <Slide modules={[Navigation, Pagination, EffectCoverflow]}>
               {upComingMovies && upComingMovies.slice(0, 4).map((movie: MovieModel) => (

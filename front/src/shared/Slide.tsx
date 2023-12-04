@@ -18,7 +18,6 @@ const Slide = ({ children, modules }: SlideProps) => {
   return (
     <>
       <Swiper
-        
         autoplay
         freeMode
         modules={modules}
@@ -44,7 +43,7 @@ const Slide = ({ children, modules }: SlideProps) => {
             },
             1024: {
                 slidesPerView: 5,
-                spaceBetween: 30,
+                spaceBetween: 10,
             }
         } : {}}
         navigation={{

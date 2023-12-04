@@ -1,14 +1,14 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Header from "components/fixeds/header";
-import Footer from "components/fixeds/footer";
-import Sidebar from "components/fixeds/sidebar";
+import Header from "components/fixeds/Header";
+import Footer from "components/fixeds/Footer";
+import Sidebar from "components/fixeds/Sidebar";
 
 import React from "react";
-import GenreMovies from "views/genreMovies";
-const HomePage = React.lazy(() => import("views/home"));
-const MoviePage = React.lazy(() => import("views/movie"));
-const LoadingPage = React.lazy(() => import("views/loading"));
-const ChatPage = React.lazy(() => import("views/chat"));
+import GenreMovies from "views/GenreMovies";
+const HomePage = React.lazy(() => import("views/Home"));
+const MoviePage = React.lazy(() => import("views/Movie"));
+const LoadingPage = React.lazy(() => import("views/Loading"));
+const ChatPage = React.lazy(() => import("views/Chat"));
 
 function App() {
   const [isOnTop, setIsOnTop] = React.useState<boolean>(true);

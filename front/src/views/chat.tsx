@@ -1,5 +1,5 @@
-import Card from "components/card";
-import Input from "components/input";
+import Card from "components/Card";
+import Input from "components/Input";
 import React from "react";
 import { IoSend } from "react-icons/io5";
 const Chat = () => {

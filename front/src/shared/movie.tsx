@@ -1,14 +1,15 @@
-import { MovieModel } from "models/entities/movie";
+import { MovieModel } from "models/entities/Movie";
 import { FaInfo } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { AiFillStar } from "react-icons/ai";
-import FavoritesMoviesContext from "contexts/favoritesMoviesContext";
+import FavoritesMoviesContext from "contexts/FavoritesMoviesContext";
 import React from 'react'
 interface MovieProps {
   movie: MovieModel;
   openMovieInfo: (movieId: number) => void;
   selectedMovieId: number | null;
   closeMovieInfo: () => void;
+  onGrid?: boolean
 }
 
 const Movie = ({
@@ -16,6 +17,7 @@ const Movie = ({
   openMovieInfo,
   selectedMovieId,
   closeMovieInfo,
+  onGrid
 }: MovieProps) => {
   const tmdbImagePath = import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH;
   const {addMovie} = React.useContext(FavoritesMoviesContext)
@@ -27,7 +29,7 @@ const Movie = ({
   };
   return (
     <>
-       <div className="w-full flex flex-col gap-y-2 h-auto cursor-pointer hover:shadow-lg hover:shadow-black/40 transition duration-300 relative">
+       <div className={`${onGrid ? "w-full" : "w-[200px]"} flex flex-col gap-y-2 h-auto cursor-pointer hover:shadow-lg hover:shadow-black/40 transition duration-300 relative`}>
         <div className="h-[350px] w-full relative">
           <img
             src={`${tmdbImagePath}/${movie.poster_path}`}
@@ -46,7 +48,7 @@ const Movie = ({
           <FaInfo />
         </button>
         {selectedMovieId === movie.id && (
-           <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-primaryBg  overflow-auto rounded-lg flex flex-col justify-between pb-2 w-5/6  md:w-[400px]">
+           <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-primaryBg shadow-xl  overflow-auto rounded-lg flex flex-col justify-between pb-2 w-5/6  md:w-[400px]">
             <div className="h-full w-full">
               <button
                 className="absolute top-2 right-2 p-1 border-2 border-primaryNeon rounded-full text-body hover:bg-primaryNeon transition duration-300"

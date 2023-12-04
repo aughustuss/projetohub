@@ -2,21 +2,19 @@ import React from "react";
 import {
   ChildrenPropsModel,
   FavoritesMoviesContextModel,
-} from "models/contexts/contextModels";
-import { MovieModel } from "models/entities/movie";
+} from "models/contexts/ContextModels";
+import { MovieModel } from "models/entities/Movie";
 export const FavoritesMoviesContext =
   React.createContext<FavoritesMoviesContextModel>({
     movies: [],
     removeMovie: () => {},
     addMovie: () => {},
-    movieExists: false,
   });
 
   const FavoritesMoviesContextProvider: React.FC<ChildrenPropsModel> = ({
     children,
   }) => {
     const [movies, setMovies] = React.useState<MovieModel[]>([]);
-    const [movieExists, setMovieExists] = React.useState<boolean>(false);
     React.useEffect(() => {
       getMovies();
     }, []);
@@ -53,7 +51,7 @@ export const FavoritesMoviesContext =
   
     return (
       <FavoritesMoviesContext.Provider
-        value={{ movies, addMovie, removeMovie, movieExists }}
+        value={{ movies, addMovie, removeMovie }}
       >
         {children}
       </FavoritesMoviesContext.Provider>
