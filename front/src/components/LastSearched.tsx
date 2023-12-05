@@ -45,25 +45,24 @@ const LastSearched = () => {
   const closeMovieinfo = () => {
     setSelectedMovie(null);
   };
-  console.log(similarMovies);
   return (
     <>
       <section className="flex flex-col gap-y-4 h-[500px]">
         <Title
           center={false}
           green={false}
-          message="Filmes que são relevantes à sua ultima busca"
+          message={`Filmes que são relevantes à sua ultima busca: ${lastSearchedTitle.charAt(0).toUpperCase() + lastSearchedTitle.slice(1)} `}
         />
-        <div className="px-[100px] rounded-lg bg-primaryBgBorder">
+        <div className="px-4 md:px-[30px] rounded-lg bg-primaryBgBorder">
           {!isLoading ? (
-            <Slide modules={[Navigation, Pagination]}>
+            <Slide movies modules={[Navigation, Pagination]}>
               {similarMovies &&
-                similarMovies.slice(0, 6).map((movie: MovieModel) => (
+                similarMovies.slice(0, 9).map((movie: MovieModel) => (
                   <SwiperSlide className="py-10" key={movie.id}>
                     <Movie
                       onGrid={false}
                       movie={movie}
-                      openMovieInfo={openMovieInfo}
+                      openMovieInfo={() => openMovieInfo(movie.id)}
                       closeMovieInfo={closeMovieinfo}
                       selectedMovieId={selectedMovie}
                     />
@@ -71,7 +70,7 @@ const LastSearched = () => {
                 ))}
             </Slide>
           ) : (
-            <Loading />
+            <Loading big={false} />
           )}
         </div>
       </section>

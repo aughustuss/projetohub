@@ -36,7 +36,7 @@ const Banner = () => {
 
   const isAboveSM = useMediaQuery("(min-width: 400px)");
   if(loadingMovies){
-    return <Loading/>
+    return <Loading big/>
   }
   return (
     <>
@@ -120,7 +120,7 @@ const Banner = () => {
               ))}
             </Slide>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 lg:flex lg:flex-col w-full lg:max-w-[70%]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 lg:flex lg:flex-col w-full ">
               {upComingMovies && upComingMovies.slice(0, 4).map((movie: MovieModel) => (
                 <a
                   key={movie.id}
@@ -131,7 +131,7 @@ const Banner = () => {
                     src={`${import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH}${
                       movie.poster_path
                     }`}
-                    className="w-1/4 h-full object-cover rounded-lg"
+                    className="min-w-[100px] h-full object-cover rounded-lg"
                   />
                   <div className="flex flex-col gap-y-4 text-body text-bodyColor">
                     <p className="font-title text-smallDevicesTitle font-black line-clamp-1">

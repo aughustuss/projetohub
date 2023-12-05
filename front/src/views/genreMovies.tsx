@@ -229,7 +229,7 @@ const GenreMovies = () => {
                 ))
               )
             ) : (
-              <Loading />
+              <Loading big />
             )}
           </div>
           <ReactPaginate

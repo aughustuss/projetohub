@@ -4,6 +4,8 @@ import { IoClose } from "react-icons/io5";
 import { AiFillStar } from "react-icons/ai";
 import FavoritesMoviesContext from "contexts/FavoritesMoviesContext";
 import React from 'react'
+import Link from "components/Link";
+import Button from "components/Button";
 interface MovieProps {
   movie: MovieModel;
   openMovieInfo: (movieId: number) => void;
@@ -29,7 +31,7 @@ const Movie = ({
   };
   return (
     <>
-       <div className={`${onGrid ? "w-full" : "w-[200px]"} flex flex-col gap-y-2 h-auto cursor-pointer hover:shadow-lg hover:shadow-black/40 transition duration-300 relative`}>
+       <div className={`${onGrid ? "w-full" : "w-[230px]"} flex flex-col gap-y-2 h-auto cursor-pointer hover:shadow-lg hover:shadow-black/40 transition duration-300 relative`}>
         <div className="h-[350px] w-full relative">
           <img
             src={`${tmdbImagePath}/${movie.poster_path}`}
@@ -48,7 +50,7 @@ const Movie = ({
           <FaInfo />
         </button>
         {selectedMovieId === movie.id && (
-           <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-primaryBg shadow-xl  overflow-auto rounded-lg flex flex-col justify-between pb-2 w-5/6  md:w-[400px]">
+           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-primaryBg shadow-xl overflow-auto rounded-lg flex flex-col justify-between pb-2 w-full md:px-0   h-auto">
             <div className="h-full w-full">
               <button
                 className="absolute top-2 right-2 p-1 border-2 border-primaryNeon rounded-full text-body hover:bg-primaryNeon transition duration-300"
@@ -61,7 +63,7 @@ const Movie = ({
                 className="w-full h-[220px] object-cover"
               />
               <div className="flex flex-col gap-y-2 p-2 font-body text-body">
-                <h1 className="font-title font-black text-extraSmallTitle flex flex-wrap">
+                <h1 className="font-title font-black text-extraSmallTitle flex flex-wrap items-center gap-1">
                   {movie?.original_title}
                   <span className="text-subBody">
                     {" "}
@@ -79,8 +81,11 @@ const Movie = ({
               </div>
             </div>
             <div className="flex flex-row gap-x-2 w-full px-2 text-body">
-                <a href={`/movie/${movie.id}`} className="w-full bg-primaryBgBorder px-4 py-2 rounded-lg font-black text-center hover:bg-primaryBgBorder/70 transition duration-300 flex flex-col items-center justify-center">Ver mais</a>
-                <button onClick={() => addMovie(movie)} className="w-full border-primaryBgBorder border px-4 py-2 rounded-lg font-black hover:bg-primaryBgBorder transition duration-300">Adicionar à favoritos</button>
+                {/* <a href={`/movie/${movie.id}`} className="w-full bg-primaryBgBorder px-4 py-2 rounded-lg font-black text-center hover:bg-primaryBgBorder/70 transition duration-300 flex flex-col items-center justify-center">Ver mais</a> */}
+                <Link to={`/movie/${movie.id}`} onlyBorder={false}>Ver mais</Link>
+                {/* <button onClick={() => addMovie(movie)} className="w-full border-primaryBgBorder border 
+                px-4 py-2 rounded-lg font-black hover:bg-primaryBgBorder transition duration-300">Adicionar à favoritos</button> */}
+                <Button green={false} onlyBorder onClick={() => addMovie(movie)} type="button">Favoritar</Button>
             </div>
           </div>
         )}

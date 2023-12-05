@@ -15,6 +15,7 @@ import { AxiosResponse } from "axios";
 import Loading from "views/Loading";
 import { MovieModel } from "models/entities/Movie";
 import FavoritesMoviesContext from "contexts/FavoritesMoviesContext";
+import Button from "./Button";
 interface MovieInfoProps {
   movieId?: string;
 }
@@ -84,7 +85,7 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
     };
     fetchMovieById();
   }, [movieId]);
-  if (isLoading) return <Loading />;
+  if (isLoading) return <Loading big />;
 
   return (
     <main className="w-full h-auto">
@@ -101,7 +102,7 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 
       {/* Sinopse do banner */}
       <div className="h-[600px] text-body ">
-        <div className="h-auto min-h-[700px] bg-primaryBgBorder w-full px-4 md:w-[90%] md:px-0 mx-auto -mt-[30%] md:-mt-[10%] shadow-md rounded-lg absolute left-1/2 -translate-x-1/2">
+        <div className="h-auto min-h-[700px] bg-primaryBgBorder w-full px-4 md:w-[85%] md:px-0 mx-auto -mt-[30%] md:-mt-[10%] shadow-md rounded-lg absolute left-1/2 -translate-x-1/2">
           {/* Início da sinopse  */}
           <div className="p-4 md:p-8 flex flex-col gap-y-4">
             {/* Imagem e informações adicionais*/}
@@ -121,18 +122,20 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
                           {" "}
                           <p>( {movieById?.release_date.substring(0, 4)} ) </p>
                         </span>
-                        <span className="py-1 px-2 bg-primary rounded-lg text-body w-fit">
+                      
                           {movieById?.status == "Released"
-                            ? "Lançado"
-                            : "Está para lançar"}
-                        </span>
+                            ? <span className="py-1 px-2 bg-primary rounded-lg text-body w-fit text-sm">Lançado</span>
+                            : <span className="py-1 px-2 bg-slate-200 rounded-lg text-body w-fit text-sm">Esta para lançar</span>
+                            }
+                      
                       </p>
                     </div>
                     {/* Marcar como assistido */}
-                    <button className="bg-primary hover:bg-primaryOnHover transition duration-300 py-3 px-8 rounded-lg relative flex flex-row items-center font-black shadow-md active:scale-95">
+                    {/* <button className="bg-primary hover:bg-primaryOnHover transition duration-300 py-3 px-8 rounded-lg relative flex flex-row items-center font-black shadow-md active:scale-95">
                       Marcar como assistido{" "}
                       <FaCheck className="absolute right-2" />
-                    </button>
+                    </button> */}
+                    <Button green onlyBorder={false} type="button">Marcar como assistido<FaCheck/></Button>
                   </div>
                   <p className="text-body text-bodyColor italic">
                     {movieById?.tagline}

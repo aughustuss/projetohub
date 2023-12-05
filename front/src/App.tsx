@@ -27,7 +27,7 @@ function App() {
   }, []);
   return (
     <>
-      <React.Suspense fallback={<LoadingPage />}>
+      <React.Suspense fallback={<LoadingPage big />}>
         <BrowserRouter>
           <div className="font-body">
             <Header isOnTop={isOnTop} />

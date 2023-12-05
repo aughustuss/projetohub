@@ -7,12 +7,13 @@ import React from "react";
 import { SwiperModule } from "swiper/types";
 import { EffectCoverflow } from "swiper/modules";
 interface SlideProps {
-  children: React.ReactNode;
+  children: React.ReactNode | React.ReactElement;
   slideWidth?: string;
   slidesPerView?: number;
   modules: SwiperModule[]
+  movies?: boolean;
 }
-const Slide = ({ children, modules }: SlideProps) => {
+const Slide = ({ children, modules, movies }: SlideProps) => {
   const prevRef = React.useRef(null);
   const nextRef = React.useRef(null);
   return (
@@ -26,7 +27,7 @@ const Slide = ({ children, modules }: SlideProps) => {
         effect={"coverflow"}
         breakpoints={!modules.includes(EffectCoverflow) ? {
             0: {
-                slidesPerView: 2,
+                slidesPerView: movies ? 1.2 : 2 ,
                 spaceBetween: 10,
             },
             512: {
@@ -35,15 +36,19 @@ const Slide = ({ children, modules }: SlideProps) => {
             },
             648: {
                 slidesPerView: 3,
-                spaceBetween: 20,
+                spaceBetween: 40,
             },
             768: {
-                slidesPerView: 4,
-                spaceBetween: 20,
+                slidesPerView: 3,
+                spaceBetween: 60,
             },
             1024: {
-                slidesPerView: 5,
-                spaceBetween: 10,
+                slidesPerView: 4,
+                spaceBetween: 80,
+            },
+            1280: {
+              slidesPerView: 5,
+                spaceBetween: 60,
             }
         } : {}}
         navigation={{

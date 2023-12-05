@@ -25,7 +25,7 @@ const Header = ({ isOnTop }: HeaderProps) => {
       >
         <div className={` ${
           isOnTop ? !isToggled ? "bg-transparent" : "bg-primaryBg" : "bg-primary/90"
-        } transition-all duration-300 flex justify-between items-center h-full flex-row w-full px-4 md:w-[90%] md:rounded-lg mx-auto`}>
+        } transition-all duration-300 flex justify-between items-center h-full flex-row w-full px-6 md:w-[85%] md:rounded-lg mx-auto`}>
           <a
             href="/"
             className={`${

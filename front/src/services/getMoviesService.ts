@@ -56,3 +56,12 @@ export const getMoviesBasedOnItsTitleService = async (search: string) => {
         }
     })
 }
+
+export const getTrendingMovies = async () => {
+    return axios.get("https://api.themoviedb.org/3/trending/movie/day?language=en-US", {
+        headers: {
+            Authorization: bearerToken,
+            Accept: "application/json"
+        }
+    })
+}
