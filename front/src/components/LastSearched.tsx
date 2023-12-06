@@ -2,7 +2,7 @@ import React from "react";
 import Title from "./Title";
 import LastTitleContext from "contexts/LastSearchedTitle";
 import Slide from "shared/Slide";
-import { Navigation, Pagination } from "swiper/modules";
+import { Navigation, Pagination, Scrollbar } from "swiper/modules";
 import { MovieModel } from "models/entities/Movie";
 import { getMoviesBasedOnItsTitleService } from "services/GetMoviesService";
 import Movie from "shared/Movie";
@@ -49,13 +49,14 @@ const LastSearched = () => {
     <>
       <section className="flex flex-col gap-y-4 h-[500px]">
         <Title
+          bold
           center={false}
           green={false}
           message={`Filmes que são relevantes à sua ultima busca: ${lastSearchedTitle.charAt(0).toUpperCase() + lastSearchedTitle.slice(1)} `}
         />
         <div className="px-4 md:px-[30px] rounded-lg bg-primaryBgBorder">
           {!isLoading ? (
-            <Slide movies modules={[Navigation, Pagination]}>
+            <Slide scrollBar movies modules={[Navigation, Pagination, Scrollbar]}>
               {similarMovies &&
                 similarMovies.slice(0, 9).map((movie: MovieModel) => (
                   <SwiperSlide className="py-10" key={movie.id}>

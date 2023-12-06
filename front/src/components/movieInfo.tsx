@@ -135,7 +135,7 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
                       Marcar como assistido{" "}
                       <FaCheck className="absolute right-2" />
                     </button> */}
-                    <Button green onlyBorder={false} type="button">Marcar como assistido<FaCheck/></Button>
+                    <Button small={false} green onlyBorder={false} type="button">Marcar como assistido<FaCheck/></Button>
                   </div>
                   <p className="text-body text-bodyColor italic">
                     {movieById?.tagline}

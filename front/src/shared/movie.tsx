@@ -85,7 +85,7 @@ const Movie = ({
                 <Link to={`/movie/${movie.id}`} onlyBorder={false}>Ver mais</Link>
                 {/* <button onClick={() => addMovie(movie)} className="w-full border-primaryBgBorder border 
                 px-4 py-2 rounded-lg font-black hover:bg-primaryBgBorder transition duration-300">Adicionar à favoritos</button> */}
-                <Button green={false} onlyBorder onClick={() => addMovie(movie)} type="button">Favoritar</Button>
+                <Button small={false} green={false} onlyBorder onClick={() => addMovie(movie)} type="button">Favoritar</Button>
             </div>
           </div>
         )}

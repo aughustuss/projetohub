@@ -6,6 +6,7 @@ interface ButtonProps {
   onClick?: MouseEventHandler<undefined & HTMLInputElement> | undefined;
   children?: React.ReactNode;
   green: boolean;
+  small: boolean;
 }
 const Button = ({
   type,
@@ -13,12 +14,13 @@ const Button = ({
   onClick,
   children,
   green,
+  small,
 }: ButtonProps) => {
   return (
     <>
       <button
         onClick={onClick}
-        className={`text-newWhite font-bold text-sm text-center active:scale-[0.98] transition duration-300 flex flex-row items-center w-fit px-4 gap-x-4 py-2 rounded-lg ${
+        className={`text-newWhite font-bold text-sm text-center active:scale-95 transition duration-300 flex flex-row items-center w-fit px-4 gap-x-4 ${small ? "py-1 text-xs rounded-md" : "py-2 text-sm rounded-lg"} ${
           green
             ? onlyBorder
               ? "border border-primaryNeon hover:bg-primaryNeon"

@@ -5,7 +5,7 @@ const Network = () => {
   return (
     <>
       <section className="flex flex-col gap-y-4 w-full">
-        <Title center={false} green={false} message="Crie o seu Network" />
+        <Title bold center={false} green={false} message="Crie o seu Network" />
         <div className="flex flex-col md:flex-row gap-4 items-center justify-between w-full h-auto md:h-[400px]">
           <div className="w-full self-start font-semibold flex flex-col gap-y-4 px-4">
             <p className="max-w-lg text-bodyColor">

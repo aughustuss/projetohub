@@ -2,18 +2,19 @@ import { Swiper } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import 'swiper/css/scrollbar';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import React from "react";
 import { SwiperModule } from "swiper/types";
 import { EffectCoverflow } from "swiper/modules";
 interface SlideProps {
   children: React.ReactNode | React.ReactElement;
-  slideWidth?: string;
-  slidesPerView?: number;
+  stretch?: boolean;
   modules: SwiperModule[]
   movies?: boolean;
+  scrollBar: boolean;
 }
-const Slide = ({ children, modules, movies }: SlideProps) => {
+const Slide = ({ children, modules, movies, scrollBar, stretch }: SlideProps) => {
   const prevRef = React.useRef(null);
   const nextRef = React.useRef(null);
   return (
@@ -23,6 +24,7 @@ const Slide = ({ children, modules, movies }: SlideProps) => {
         freeMode
         modules={modules}
         className={`w-full rounded-lg bg-transparent`}
+        scrollbar={scrollBar}
         grabCursor
         effect={"coverflow"}
         breakpoints={!modules.includes(EffectCoverflow) ? {
@@ -39,15 +41,15 @@ const Slide = ({ children, modules, movies }: SlideProps) => {
                 spaceBetween: 40,
             },
             768: {
-                slidesPerView: 3,
+                slidesPerView: stretch ? 2 : 3,
                 spaceBetween: 60,
             },
             1024: {
-                slidesPerView: 4,
+                slidesPerView: stretch ? 3 : 4,
                 spaceBetween: 80,
             },
             1280: {
-              slidesPerView: 5,
+              slidesPerView: stretch ? 4 : 5,
                 spaceBetween: 60,
             }
         } : {}}

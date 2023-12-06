@@ -76,7 +76,7 @@ const GenreMovies = () => {
         )
       );
     }
-  }, [searchParam]);
+  }, [page, searchParam]);
 
   const sortMoviesByTitle = (order: "asc" | "desc") => {
     let sortedMovies: MovieModel[] = [];
@@ -152,13 +152,13 @@ const GenreMovies = () => {
         {selectedMovie !== null && (
           <div className="absolute inset-0 h-auto w-full bg-black z-40 opacity-70"></div>
         )}
-        <div className="w-full px-4 md:w-[90%] md:px-0 mx-auto flex flex-col items-center gap-y-10">
-          <div className="flex flex-col gap-y-4 w-full">
+        <div className="w-full px-4 md:w-[85%] md:px-0 mx-auto flex flex-col items-center gap-y-5">
+          <div className="flex flex-col gap-y-2 w-full">
             <label
               htmlFor="searchFilter"
-              className="font-title text-subTitle font-black"
+              className="font-body text-sm font-bold text-bodyColor"
             >
-              Buscar por um filme{" "}
+              Use o campo abaixo para filtrar os filmes{" "}
             </label>
             <div className="w-full md:w-[70%]">
               <Input

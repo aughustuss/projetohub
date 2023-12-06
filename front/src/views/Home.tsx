@@ -1,7 +1,6 @@
 import Banner from "components/Banner";
 import Categories from "components/Categories";
 import LastSearched from "components/LastSearched";
-import Network from "components/Network";
 import Trending from "components/Trending";
 const Home = () => {
   return (
@@ -11,7 +10,7 @@ const Home = () => {
 
         <Categories />
 
-        <Network/>
+        {/* <Network/> */}
 
         <Trending/>        
 

@@ -9,6 +9,7 @@ const HomePage = React.lazy(() => import("views/Home"));
 const MoviePage = React.lazy(() => import("views/Movie"));
 const LoadingPage = React.lazy(() => import("views/Loading"));
 const ChatPage = React.lazy(() => import("views/Chat"));
+const SearchedMoviePage = React.lazy(() => import("views/SearchedMovies"));
 
 function App() {
   const [isOnTop, setIsOnTop] = React.useState<boolean>(true);
@@ -34,10 +35,11 @@ function App() {
             <Sidebar/>
             <div className="text-newWhite">
               <Routes>
-                <Route index path="/" Component={HomePage} />
+                <Route index path="/" Component={HomePage}/>
                 <Route path="/movie/:movieId" Component={MoviePage} />
                 <Route path="/genreMovies/:movieGenre" Component={GenreMovies} />
                 <Route path="/chat" Component={ChatPage}/>
+                <Route path="/searchedMovies" Component={SearchedMoviePage}/>
               </Routes>
             </div>
             <Footer />

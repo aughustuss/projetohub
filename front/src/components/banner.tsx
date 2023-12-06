@@ -41,7 +41,7 @@ const Banner = () => {
   return (
     <>
       <main className="flex flex-col lg:flex-row gap-10 min-h-[550px] h-auto">
-        <Slide modules={[Navigation, Pagination, EffectCoverflow]}>
+        <Slide scrollBar={false} modules={[Navigation, Pagination, EffectCoverflow]}>
           {popularMovies && popularMovies.map((movie: MovieModel) => (
             <SwiperSlide key={movie.id}>
               <div className="relative w-full h-[550px] z-0 bg-none">
@@ -89,11 +89,11 @@ const Banner = () => {
           ))}
         </Slide>
         <div className="w-full h-full flex flex-col justify-between gap-y-4">
-          <Title center={false} green message="Novidades"/>
+          <Title bold center={false} green message="Novidades"/>
           {!isAboveSM ? (
-            <Slide modules={[Navigation, Pagination, EffectCoverflow]}>
+            <Slide scrollBar={false} modules={[Navigation, Pagination, EffectCoverflow]}>
               {upComingMovies && upComingMovies.slice(0, 4).map((movie: MovieModel) => (
-                <SwiperSlide className="flex flex-row gap-x-4 h-[110px] p-2 border border-primaryBgBorder rounded-lg hover:bg-primaryBgBorder transition duration-300 cursor-pointer">
+                <SwiperSlide key={movie.id} className="flex flex-row gap-x-4 h-[110px] p-2 border border-primaryBgBorder rounded-lg hover:bg-primaryBgBorder transition duration-300 cursor-pointer">
                   <img
                     src={`${import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH}${
                       movie.backdrop_path
