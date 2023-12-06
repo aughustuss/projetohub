@@ -2,32 +2,34 @@ import { Swiper } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import 'swiper/css/scrollbar';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import React from "react";
 import { SwiperModule } from "swiper/types";
 import { EffectCoverflow } from "swiper/modules";
 interface SlideProps {
-  children: React.ReactNode;
-  slideWidth?: string;
-  slidesPerView?: number;
+  children: React.ReactNode | React.ReactElement;
+  stretch?: boolean;
   modules: SwiperModule[]
+  movies?: boolean;
+  scrollBar: boolean;
 }
-const Slide = ({ children, modules }: SlideProps) => {
+const Slide = ({ children, modules, movies, scrollBar, stretch }: SlideProps) => {
   const prevRef = React.useRef(null);
   const nextRef = React.useRef(null);
   return (
     <>
       <Swiper
-        
         autoplay
         freeMode
         modules={modules}
         className={`w-full rounded-lg bg-transparent`}
+        scrollbar={scrollBar}
         grabCursor
         effect={"coverflow"}
         breakpoints={!modules.includes(EffectCoverflow) ? {
             0: {
-                slidesPerView: 2,
+                slidesPerView: movies ? 1.2 : 2 ,
                 spaceBetween: 10,
             },
             512: {
@@ -36,15 +38,19 @@ const Slide = ({ children, modules }: SlideProps) => {
             },
             648: {
                 slidesPerView: 3,
-                spaceBetween: 20,
+                spaceBetween: 40,
             },
             768: {
-                slidesPerView: 4,
-                spaceBetween: 20,
+                slidesPerView: stretch ? 2 : 3,
+                spaceBetween: 60,
             },
             1024: {
-                slidesPerView: 5,
-                spaceBetween: 30,
+                slidesPerView: stretch ? 3 : 4,
+                spaceBetween: 80,
+            },
+            1280: {
+              slidesPerView: stretch ? 4 : 5,
+                spaceBetween: 60,
             }
         } : {}}
         navigation={{

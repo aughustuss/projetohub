@@ -1,16 +1,15 @@
-import { AxiosResponse } from "axios";
-import { MovieModel } from "models/entities/movie";
+import { MovieModel } from "models/entities/Movie";
 import React from "react";
 import { useParams } from "react-router-dom";
 import {
   getMoviesBasedOnItsGenreService,
   getMoviesBasedOnItsTitleService,
-} from "services/getMoviesService";
+} from "services/GetMoviesService";
 import ReactPaginate from "react-paginate";
-import Movie from "shared/movie";
+import Movie from "shared/Movie";
 import { IoMdArrowDropup } from "react-icons/io";
-import Loading from "./loading";
-import Input from "components/input";
+import Loading from "./Loading";
+import Input from "components/Input";
 
 type SelectOptions = {
   value: string;
@@ -48,7 +47,7 @@ const GenreMovies = () => {
       setIsLoadingGenreMovies(true);
       Promise.resolve(
         getMoviesBasedOnItsGenreService(page, movieGenre).then(
-          (response: AxiosResponse<MovieModel[]>) => {
+          (response) => {
             setMovies(response.data.results);
             setPageCount(response.data.total_pages);
             setIsLoadingGenreMovies(false);
@@ -62,7 +61,7 @@ const GenreMovies = () => {
       setIsLoadingSearchedMovies(false);
       Promise.resolve(
         getMoviesBasedOnItsTitleService(searchParam).then(
-          (response: AxiosResponse<MovieModel[], unknown>) => {
+          (response) => {
             const responseData: MovieModel[] = response.data.results;
             setSearchedMovies(
               responseData.filter((genre) => {
@@ -77,7 +76,7 @@ const GenreMovies = () => {
         )
       );
     }
-  }, [searchParam]);
+  }, [page, searchParam]);
 
   const sortMoviesByTitle = (order: "asc" | "desc") => {
     let sortedMovies: MovieModel[] = [];
@@ -153,13 +152,13 @@ const GenreMovies = () => {
         {selectedMovie !== null && (
           <div className="absolute inset-0 h-auto w-full bg-black z-40 opacity-70"></div>
         )}
-        <div className="w-full px-4 md:w-[90%] md:px-0 mx-auto flex flex-col items-center gap-y-10">
-          <div className="flex flex-col gap-y-4 w-full">
+        <div className="w-full px-4 md:w-[85%] md:px-0 mx-auto flex flex-col items-center gap-y-5">
+          <div className="flex flex-col gap-y-2 w-full">
             <label
               htmlFor="searchFilter"
-              className="font-title text-subTitle font-black"
+              className="font-body text-sm font-bold text-bodyColor"
             >
-              Buscar por um filme{" "}
+              Use o campo abaixo para filtrar os filmes{" "}
             </label>
             <div className="w-full md:w-[70%]">
               <Input
@@ -214,6 +213,7 @@ const GenreMovies = () => {
                     closeMovieInfo={closeMovieinfo}
                     openMovieInfo={openMovieInfo}
                     movie={movie}
+                    onGrid
                   />
                 ))
               ) : (
@@ -224,11 +224,12 @@ const GenreMovies = () => {
                     selectedMovieId={selectedMovie}
                     closeMovieInfo={closeMovieinfo}
                     openMovieInfo={openMovieInfo}
+                    onGrid
                   />
                 ))
               )
             ) : (
-              <Loading />
+              <Loading big />
             )}
           </div>
           <ReactPaginate

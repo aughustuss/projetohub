@@ -1,11 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-// const plugin = require("tailwindcss/plugin");
-
-// const customClass = plugin(function ({addUtilities}){
-//   addUtilities({
-//     ".titleFont": ""
-//   });
-// });
 
 export default {
   content: [
@@ -20,12 +13,13 @@ export default {
         //"primary":"#9AA2E5",
         "secondary":"#f6f6f6",
         "tertiary": "#000",
-        "newWhite": "#f7f7f7",
+        "newWhite": "#e3e3e3",
         "newBlack": "#1f1f1f",
         "primaryBg": "#141A1F",
         "primaryBgBorder": "#1f2a33",
         "primaryOnHover": "#1a5415",
-        "bodyColor": "#b5b5b5"
+        "bodyColor": "#b5b5b5",
+        "shadow": "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(20,26,31,1) 61%)"
       },
       fontFamily:{
         "title": ["Poppins","sans-serif"],

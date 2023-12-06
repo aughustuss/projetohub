@@ -1,18 +1,18 @@
 import React from "react";
-import { MovieModel } from "models/entities/movie";
-import Slide from "shared/slide";
+import { MovieModel } from "models/entities/Movie";
+import Slide from "shared/Slide";
 import { SwiperSlide } from "swiper/react";
 import { BsPlayFill, BsPlus } from "react-icons/bs";
 import { AiFillStar } from "react-icons/ai";
-import useMediaQuery from "hooks/mediaScreen";
+import useMediaQuery from "hooks/MediaScreen";
 import { EffectCoverflow, Navigation, Pagination } from "swiper/modules";
 import {
   getPopularMoviesService,
   getUpcomingMoviesService,
-} from "services/getMoviesService";
-import { AxiosResponse } from "axios";
-import Loading from "views/loading";
-import FavoritesMoviesContext from "contexts/favoritesMoviesContext";
+} from "services/GetMoviesService";
+import Loading from "views/Loading";
+import FavoritesMoviesContext from "contexts/FavoritesMoviesContext";
+import Title from "./Title";
 
 const Banner = () => {
   const {addMovie} = React.useContext(FavoritesMoviesContext)
@@ -25,7 +25,7 @@ const Banner = () => {
     Promise.all([
       getPopularMoviesService(),
       getUpcomingMoviesService()
-    ]).then((response: [AxiosResponse<MovieModel[], unknown>, AxiosResponse<MovieModel[], unknown>]) => {
+    ]).then((response) => {
       setPopularMovies(response[0].data.results);
       setUpComingMovies(response[1].data.results);
       setLoadingMovies(false);
@@ -36,12 +36,12 @@ const Banner = () => {
 
   const isAboveSM = useMediaQuery("(min-width: 400px)");
   if(loadingMovies){
-    return <Loading/>
+    return <Loading big/>
   }
   return (
     <>
-      <main className="pt-[100px] flex flex-col lg:flex-row gap-10 min-h-[550px] h-auto">
-        <Slide modules={[Navigation, Pagination, EffectCoverflow]}>
+      <main className="flex flex-col lg:flex-row gap-10 min-h-[550px] h-auto">
+        <Slide scrollBar={false} modules={[Navigation, Pagination, EffectCoverflow]}>
           {popularMovies && popularMovies.map((movie: MovieModel) => (
             <SwiperSlide key={movie.id}>
               <div className="relative w-full h-[550px] z-0 bg-none">
@@ -89,13 +89,11 @@ const Banner = () => {
           ))}
         </Slide>
         <div className="w-full h-full flex flex-col justify-between gap-y-4">
-          <h1 className="text-title font-title font-black text-primaryNeon">
-            Novidades
-          </h1>
+          <Title bold center={false} green message="Novidades"/>
           {!isAboveSM ? (
-            <Slide modules={[Navigation, Pagination, EffectCoverflow]}>
+            <Slide scrollBar={false} modules={[Navigation, Pagination, EffectCoverflow]}>
               {upComingMovies && upComingMovies.slice(0, 4).map((movie: MovieModel) => (
-                <SwiperSlide className="flex flex-row gap-x-4 h-[110px] p-2 border border-primaryBgBorder rounded-lg hover:bg-primaryBgBorder transition duration-300 cursor-pointer">
+                <SwiperSlide key={movie.id} className="flex flex-row gap-x-4 h-[110px] p-2 border border-primaryBgBorder rounded-lg hover:bg-primaryBgBorder transition duration-300 cursor-pointer">
                   <img
                     src={`${import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH}${
                       movie.backdrop_path
@@ -122,7 +120,7 @@ const Banner = () => {
               ))}
             </Slide>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 lg:flex lg:flex-col w-full lg:max-w-[70%]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 lg:flex lg:flex-col w-full ">
               {upComingMovies && upComingMovies.slice(0, 4).map((movie: MovieModel) => (
                 <a
                   key={movie.id}
@@ -133,7 +131,7 @@ const Banner = () => {
                     src={`${import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH}${
                       movie.poster_path
                     }`}
-                    className="w-1/4 h-full object-cover rounded-lg"
+                    className="min-w-[100px] h-full object-cover rounded-lg"
                   />
                   <div className="flex flex-col gap-y-4 text-body text-bodyColor">
                     <p className="font-title text-smallDevicesTitle font-black line-clamp-1">

@@ -1,4 +1,4 @@
-import { MovieModel } from "models/entities/movie";
+import { MovieModel } from "models/entities/Movie";
 import React from "react";
 
 
@@ -18,5 +18,4 @@ interface FavoritesMoviesContextModel {
     movies: MovieModel[];
     addMovie: (val: MovieModel) => void
     removeMovie: (val: number) => void
-    movieExists: boolean
 }

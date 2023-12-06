@@ -1,18 +1,20 @@
-import Banner from "components/banner";
-import Categories from "components/categories";
-import Network from "components/network";
-import RecentlyAdded from "components/recentlyAdded";
+import Banner from "components/Banner";
+import Categories from "components/Categories";
+import LastSearched from "components/LastSearched";
+import Trending from "components/Trending";
 const Home = () => {
   return (
     <>
-      <main className="flex flex-col gap-y-[100px] w-full px-4 md:w-[90%] md:px-0 mx-auto">
+      <main className="flex flex-col gap-y-[100px] pt-[120px] w-full px-6 md:w-[85%] md:px-0 mx-auto">
         <Banner />
 
         <Categories />
 
-        <Network/>
+        {/* <Network/> */}
 
-        <RecentlyAdded/>        
+        <Trending/>        
+
+        <LastSearched/>
       </main>
     </>
   );

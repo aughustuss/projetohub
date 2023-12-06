@@ -1,7 +1,7 @@
 import React from "react";
-import FavoritesMoviesContext from "contexts/favoritesMoviesContext";
-import { NavLinks } from "data/navLinks";
-import { NavbarLink } from "models/entities/navLink";
+import FavoritesMoviesContext from "contexts/FavoritesMoviesContext";
+import { NavLinks } from "data/NavLinks";
+import { NavbarLink } from "models/entities/NavLink";
 
 interface LinksMappedProps {
   isOnTop?: boolean;
@@ -12,7 +12,7 @@ const LinksMapped = ({ isOnTop, isAboveLG }: LinksMappedProps) => {
   const { movies } = React.useContext(FavoritesMoviesContext);
   return (
     <>
-      {NavLinks.map((i: NavbarLink, index) => (
+      {NavLinks.map((i: NavbarLink, index: number) => (
         <a
           key={index}
           href={i.linkTo}
