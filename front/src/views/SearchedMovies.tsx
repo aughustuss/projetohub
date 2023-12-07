@@ -13,7 +13,7 @@ const SearchedMovies = () => {
   const location = useLocation();
   const movieName = new URLSearchParams(location.search).get("movieName");
   const [selectedMovie, setSelectedMovie] = React.useState<number | null>(null);
-
+  const [selectedCategories, setSelectedCategories] = React.useState<string[]>([]);
   const openMovieInfo = (movieId: number) => {
     setSelectedMovie(movieId);
   };
@@ -22,9 +22,36 @@ const SearchedMovies = () => {
     setSelectedMovie(null);
   };
 
-  const [categorizedMovies, setCategorizedMovies] = React.useState<{
-    [key: string]: MovieModel[];
-  }>({});
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const category = e.target.id;
+    const index = selectedCategories.indexOf(category);
+    if(index === -1){
+      selectedCategories.push(category);
+    } else {
+      selectedCategories.splice(index, 1);
+    }
+  }
+  const [categorizedMovies, setCategorizedMovies] = React.useState<{[key: string]: MovieModel[]}>({});
+
+  const filterMovies = () => {
+    const filteredMovies: {[key: string]: MovieModel[]} = {};
+    Object.entries(categorizedMovies).forEach(([cat, movies]) => {
+      filteredMovies[cat] = movies.filter((movie) => {
+        for (const genre of movie.genre_ids){
+          const categoryId = AllCategories.find((cat) => cat.id === Number(genre));
+          if(categoryId){
+            if(selectedCategories.includes(categoryId.id)){
+              return true;
+            }
+          }
+        }
+        return false;
+      })
+    });
+    console.log(filteredMovies);
+    setCategorizedMovies(filteredMovies);
+  }
+
   React.useEffect(() => {
     if (movieName) {
       Promise.resolve(
@@ -64,17 +91,18 @@ const SearchedMovies = () => {
               <label
                 className="flex flex-row gap-1 text-xs gap-y-2 overflow-hidden"
                 htmlFor={cat}
+                key={cat}
               >
-                <input className="accent-primary" type="checkbox" name="" id={cat} />
+                <input onChange={(e) => handleCategoryChange(e)} className="accent-primary" type="checkbox" name="" id={cat} />
                 {cat}
               </label>
             ))}
-            <Button small type="button" onlyBorder={false} green>
+            <Button onClick={() => filterMovies()} small type="button" onlyBorder={false} green>
               Filtrar
             </Button>
           </div>
         </div>
-        <div className="w-[80%]">
+        <div className="w-full md:w-[80%]">
           {Object.entries(categorizedMovies).map(([cat, movies]) => (
             <div key={cat} className="flex flex-col">
               <div className="flex flex-row flex-wrap items-baseline gap-x-4">

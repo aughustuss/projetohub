@@ -23,6 +23,7 @@ const Movie = ({
 }: MovieProps) => {
   const tmdbImagePath = import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH;
   const {addMovie} = React.useContext(FavoritesMoviesContext)
+  
   const openModalWithInfo = () => {
     openMovieInfo(movie.id);
   };
