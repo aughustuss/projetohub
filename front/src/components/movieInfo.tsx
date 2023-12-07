@@ -3,28 +3,50 @@ import {
   MovieByIdModel,
   MovieByIdCompaniesModel,
   MovieByIdGenresModel,
-} from "models/entities/movieById";
+} from "models/entities/MovieById";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 ChartJS.register(ArcElement, Tooltip, Legend);
-import { getMovieByIdService } from "services/getMoviesService";
+import { getMovieByIdService } from "services/GetMoviesService";
 import { AiFillStar } from "react-icons/ai";
 import { FaCheck } from "react-icons/fa6";
 import { BsPlus } from "react-icons/bs";
 import { AxiosResponse } from "axios";
-import Loading from "views/loading";
+import Loading from "views/Loading";
+import { MovieModel } from "models/entities/Movie";
+import FavoritesMoviesContext from "contexts/FavoritesMoviesContext";
+import Button from "./Button";
 interface MovieInfoProps {
   movieId?: string;
 }
 const MovieInfo = ({ movieId }: MovieInfoProps) => {
   const [movieById, setMovieById] = React.useState<MovieByIdModel>();
+  const {addMovie} = React.useContext(FavoritesMoviesContext);
   const tmdbImagePath = import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH;
   const [isLoading, setIsLoading] = React.useState(false);
   const movieHours = movieById?.runtime && Math.floor(movieById?.runtime / 60);
   const movieMinutes = movieById?.runtime && movieById?.runtime % 60;
   const moviePercentageLiked = movieById?.vote_average && (movieById.vote_average / 10) * 100;
   const moviePercentageDisliked = moviePercentageLiked && 100 - moviePercentageLiked;
-
+  let movieInfosToAddInFavoriteList: MovieModel;
+  if(movieById){
+    movieInfosToAddInFavoriteList = {
+      adult: movieById?.adult,
+      backdrop_path: movieById?.backdrop_path,
+      genre_ids: movieById?.genres,
+      id: movieById?.id,
+      original_language: movieById?.original_language,
+      original_title: movieById?.original_title,
+      overview: movieById?.overview,
+      popularity: movieById?.popularity,
+      poster_path: movieById?.poster_path,
+      release_date: movieById?.release_date,
+      title: movieById?.title,
+      video: movieById?.video,
+      vote_average: movieById?.vote_average,
+      vote_count: movieById?.vote_count
+    }
+  }
 
   const data = {
     labels: ["Gostaram", "Não gostaram"],
@@ -63,8 +85,7 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
     };
     fetchMovieById();
   }, [movieId]);
-
-  if (isLoading) return <Loading />;
+  if (isLoading) return <Loading big />;
 
   return (
     <main className="w-full h-auto">
@@ -81,7 +102,7 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 
       {/* Sinopse do banner */}
       <div className="h-[600px] text-body ">
-        <div className="h-auto min-h-[700px] bg-primaryBgBorder w-full px-4 md:w-[90%] md:px-0 mx-auto -mt-[30%] md:-mt-[10%] shadow-md rounded-lg absolute left-1/2 -translate-x-1/2">
+        <div className="h-auto min-h-[700px] bg-primaryBgBorder w-full px-4 md:w-[85%] md:px-0 mx-auto -mt-[30%] md:-mt-[10%] shadow-md rounded-lg absolute left-1/2 -translate-x-1/2">
           {/* Início da sinopse  */}
           <div className="p-4 md:p-8 flex flex-col gap-y-4">
             {/* Imagem e informações adicionais*/}
@@ -101,18 +122,20 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
                           {" "}
                           <p>( {movieById?.release_date.substring(0, 4)} ) </p>
                         </span>
-                        <span className="py-1 px-2 bg-primary rounded-lg text-body w-fit">
+                      
                           {movieById?.status == "Released"
-                            ? "Lançado"
-                            : "Está para lançar"}
-                        </span>
+                            ? <span className="py-1 px-2 bg-primary rounded-lg text-body w-fit text-sm">Lançado</span>
+                            : <span className="py-1 px-2 bg-slate-200 rounded-lg text-body w-fit text-sm">Esta para lançar</span>
+                            }
+                      
                       </p>
                     </div>
                     {/* Marcar como assistido */}
-                    <button className="bg-primary hover:bg-primaryOnHover transition duration-300 py-3 px-8 rounded-lg relative flex flex-row items-center font-black">
+                    {/* <button className="bg-primary hover:bg-primaryOnHover transition duration-300 py-3 px-8 rounded-lg relative flex flex-row items-center font-black shadow-md active:scale-95">
                       Marcar como assistido{" "}
                       <FaCheck className="absolute right-2" />
-                    </button>
+                    </button> */}
+                    <Button small={false} green onlyBorder={false} type="button">Marcar como assistido<FaCheck/></Button>
                   </div>
                   <p className="text-body text-bodyColor italic">
                     {movieById?.tagline}
@@ -232,7 +255,7 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
               </div>
             </div>
           </div>
-          <button className="absolute -right-0 -top-10 bg-black rounded-full p-6 font-black text-title text-primaryNeon hover:scale-105 transition duration-300 mr-2">
+          <button onClick={() => addMovie(movieInfosToAddInFavoriteList)} className="absolute -right-0 -top-10 bg-newBlack rounded-full p-6 font-black text-title text-primaryNeon hover:scale-105 transition duration-300 mr-2 shadow-md">
             <BsPlus />
           </button>
         </div>

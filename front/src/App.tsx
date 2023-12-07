@@ -1,13 +1,15 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Header from "components/fixeds/header";
-import Footer from "components/fixeds/footer";
-import Sidebar from "components/fixeds/sidebar";
+import Header from "components/fixeds/Header";
+import Footer from "components/fixeds/Footer";
+import Sidebar from "components/fixeds/Sidebar";
 
 import React from "react";
-import GenreMovies from "views/genreMovies";
-const HomePage = React.lazy(() => import("views/home"));
-const MoviePage = React.lazy(() => import("views/movie"));
-const LoadingPage = React.lazy(() => import("views/loading"));
+import GenreMovies from "views/GenreMovies";
+const HomePage = React.lazy(() => import("views/Home"));
+const MoviePage = React.lazy(() => import("views/Movie"));
+const LoadingPage = React.lazy(() => import("views/Loading"));
+const ChatPage = React.lazy(() => import("views/Chat"));
+const SearchedMoviePage = React.lazy(() => import("views/SearchedMovies"));
 
 function App() {
   const [isOnTop, setIsOnTop] = React.useState<boolean>(true);
@@ -26,16 +28,18 @@ function App() {
   }, []);
   return (
     <>
-      <React.Suspense fallback={<LoadingPage />}>
+      <React.Suspense fallback={<LoadingPage big />}>
         <BrowserRouter>
           <div className="font-body">
             <Header isOnTop={isOnTop} />
             <Sidebar/>
             <div className="text-newWhite">
               <Routes>
-                <Route index path="/" Component={HomePage} />
+                <Route index path="/" Component={HomePage}/>
                 <Route path="/movie/:movieId" Component={MoviePage} />
                 <Route path="/genreMovies/:movieGenre" Component={GenreMovies} />
+                <Route path="/chat" Component={ChatPage}/>
+                <Route path="/searchedMovies" Component={SearchedMoviePage}/>
               </Routes>
             </div>
             <Footer />

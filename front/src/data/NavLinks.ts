@@ -1,5 +1,5 @@
 
-import { NavbarLink } from 'models/entities/navLink';
+import { NavbarLink } from 'models/entities/NavLink';
 import {BiSolidHeart, BiSolidChat} from 'react-icons/bi'
 export const NavLinks: Array<NavbarLink> = [
     {
@@ -24,7 +24,7 @@ export const NavLinks: Array<NavbarLink> = [
         linkIcon: BiSolidHeart,
     },
     {
-        linkTo: "#",
+        linkTo: "/chat",
         linkText: "Conversas",
         linkIcon: BiSolidChat,
     }

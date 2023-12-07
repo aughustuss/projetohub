@@ -2,21 +2,18 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
-import { SideBarContextProvider } from "contexts/sidebarContext.tsx";
-import { PopularMoviesContextProvider } from "contexts/popularMoviesContext.tsx";
-import { UpcomingMoviesContextProvider } from "contexts/upcomingMoviesContext.tsx";
-import { MovieGenreContextProvider } from "contexts/moviesGenresContext.tsx";
+import { SideBarContextProvider } from "contexts/SidebarContext.tsx";
+import { FavoritesMoviesContextProvider } from "contexts/FavoritesMoviesContext.tsx";
+import { LastTitleContextProvider } from "contexts/LastSearchedTitle.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <PopularMoviesContextProvider>
-      <UpcomingMoviesContextProvider>
-        <MovieGenreContextProvider>
-          <SideBarContextProvider>
-            <App />
-          </SideBarContextProvider>
-        </MovieGenreContextProvider>
-      </UpcomingMoviesContextProvider>
-    </PopularMoviesContextProvider>
+    <LastTitleContextProvider>
+      <FavoritesMoviesContextProvider>
+        <SideBarContextProvider>
+          <App />
+        </SideBarContextProvider>
+      </FavoritesMoviesContextProvider>
+    </LastTitleContextProvider>
   </React.StrictMode>
 );

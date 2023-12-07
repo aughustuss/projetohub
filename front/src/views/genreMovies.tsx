@@ -1,14 +1,15 @@
-import { AxiosResponse } from "axios";
-import { MovieModel } from "models/entities/movie";
+import { MovieModel } from "models/entities/Movie";
 import React from "react";
 import { useParams } from "react-router-dom";
 import {
   getMoviesBasedOnItsGenreService,
   getMoviesBasedOnItsTitleService,
-} from "services/getMoviesService";
+} from "services/GetMoviesService";
 import ReactPaginate from "react-paginate";
-import Movie from "shared/movie";
+import Movie from "shared/Movie";
 import { IoMdArrowDropup } from "react-icons/io";
+import Loading from "./Loading";
+import Input from "components/Input";
 
 type SelectOptions = {
   value: string;
@@ -36,54 +37,46 @@ const GenreMovies = () => {
     React.useState<boolean>(false);
   const [searchParam, setSearchParam] = React.useState<string>("");
   const [searchedMovies, setSearchedMovies] = React.useState<MovieModel[]>([]);
+  const [isLoadingGenreMovies, setIsLoadingGenreMovies] =
+    React.useState<boolean>(false);
+  const [isLoadingSearchedMovies, setIsLoadingSearchedMovies] =
+    React.useState<boolean>(false);
 
-  const getMovieBasedOnItsGenre = async () => {
-    try {
-      if (movieGenre) {
-        await getMoviesBasedOnItsGenreService(page, movieGenre)
-          .then((movies: AxiosResponse) => {
-            setMovies(movies.data.results);
-            setPageCount(movies.data.total_pages);
-          })
-          .catch((err: Error) => {
-            console.log(err);
-          });
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
   React.useEffect(() => {
-    getMovieBasedOnItsGenre();
+    if (movieGenre) {
+      setIsLoadingGenreMovies(true);
+      Promise.resolve(
+        getMoviesBasedOnItsGenreService(page, movieGenre).then(
+          (response) => {
+            setMovies(response.data.results);
+            setPageCount(response.data.total_pages);
+            setIsLoadingGenreMovies(false);
+          }
+        )
+      ).catch((err: unknown) => console.log(err));
+    }
   }, [page, searchParam]);
-  const getMoviesBasedOnItsTitle = async () => {
-    try {
-      if (searchParam.length > 0) {
-        await getMoviesBasedOnItsTitleService(searchParam)
-          .then((movies) => {
-            const moviesData: MovieModel[] = movies.data.results;
+  React.useEffect(() => {
+    if (searchParam.length > 0) {
+      setIsLoadingSearchedMovies(false);
+      Promise.resolve(
+        getMoviesBasedOnItsTitleService(searchParam).then(
+          (response) => {
+            const responseData: MovieModel[] = response.data.results;
             setSearchedMovies(
-              moviesData.filter((genre) => {
+              responseData.filter((genre) => {
                 return genre.genre_ids.some(
                   (genreId) => Number(genreId) == Number(movieGenre)
                 );
               })
             );
-            console.log(searchedMovies);
             setPageCount(searchedMovies.length / 20);
-          })
-          .catch((err: Error) => {
-            console.log(err);
-          });
-      }
-    } catch (err) {
-      console.log(err);
+            setIsLoadingSearchedMovies(false);
+          }
+        )
+      );
     }
-  };
-
-  React.useEffect(() => {
-    getMoviesBasedOnItsTitle();
-  }, [searchParam]);
+  }, [page, searchParam]);
 
   const sortMoviesByTitle = (order: "asc" | "desc") => {
     let sortedMovies: MovieModel[] = [];
@@ -155,28 +148,30 @@ const GenreMovies = () => {
 
   return (
     <>
-      <main className="min-h-screen font-body text-body py-[100px] flex flex-col justify-between gap-y-10 relative">
+      <main className="min-h-screen font-body text-body py-[100px] flex flex-col justify-between gap-y-10 w-full">
         {selectedMovie !== null && (
           <div className="absolute inset-0 h-auto w-full bg-black z-40 opacity-70"></div>
         )}
-        <div className="w-full px-4 md:w-[90%] md:px-0 mx-auto flex flex-col items-center gap-y-10">
-          <div className="flex flex-col gap-y-4 w-full">
+        <div className="w-full px-4 md:w-[85%] md:px-0 mx-auto flex flex-col items-center gap-y-5">
+          <div className="flex flex-col gap-y-2 w-full">
             <label
               htmlFor="searchFilter"
-              className="font-title text-subTitle font-black"
+              className="font-body text-sm font-bold text-bodyColor"
             >
-              Buscar por um filme{" "}
+              Use o campo abaixo para filtrar os filmes{" "}
             </label>
-            <input
-              value={searchParam}
-              onChange={(e) => setSearchParam(e.target.value)}
-              type="text"
-              className="w-full md:w-2/3 py-2 px-2 rounded-lg text-newBlack"
-              placeholder="Digite o nome do filme que está buscando..."
-              id="searchFilter"
-            />
+            <div className="w-full md:w-[70%]">
+              <Input
+                hasText={searchParam.length > 0}
+                onChange={(e) => setSearchParam(e.target.value)}
+                type="text"
+                placeholder="Digite o nome do filme que está buscando..."
+                onClick={() => setSearchParam("")}
+                value={searchParam}
+              />
+            </div>
           </div>
-          <div className="self-end cursor-pointer">
+          <div className="self-end cursor-pointer hover:shadow-md transition duration-300">
             <div
               onClick={openSelectOptions}
               className="border border-primaryBgBorder rounded-md px-6 py-2 text-body relative w-[200px]"
@@ -209,25 +204,33 @@ const GenreMovies = () => {
             </div>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 w-full">
-            {searchParam.length == 0
-              ? movies.map((movie: MovieModel) => (
+            {!isLoadingGenreMovies && !isLoadingSearchedMovies ? (
+              searchParam.length == 0 ? (
+                movies.map((movie: MovieModel) => (
                   <Movie
                     key={movie.id}
                     selectedMovieId={selectedMovie}
                     closeMovieInfo={closeMovieinfo}
                     openMovieInfo={openMovieInfo}
                     movie={movie}
+                    onGrid
                   />
                 ))
-              : searchedMovies.map((sMovie: MovieModel) => (
+              ) : (
+                searchedMovies.map((sMovie: MovieModel) => (
                   <Movie
                     movie={sMovie}
                     key={sMovie.id}
                     selectedMovieId={selectedMovie}
                     closeMovieInfo={closeMovieinfo}
                     openMovieInfo={openMovieInfo}
+                    onGrid
                   />
-                ))}
+                ))
+              )
+            ) : (
+              <Loading big />
+            )}
           </div>
           <ReactPaginate
             className="flex flex-row gap-2 items-center justify-center w-fit md:max-w-full flex-wrap max-w-[300px]"
