@@ -15,8 +15,8 @@ const LastSearched = () => {
   const [selectedMovie, setSelectedMovie] = React.useState<number | null>(null);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   React.useEffect(() => {
-      setIsLoading(true);
-      const searchSimilarMovies = async () => {
+    setIsLoading(true);
+    const searchSimilarMovies = async () => {
       Promise.resolve(
         getMoviesBasedOnItsTitleService(lastSearchedTitle)
           .then((response) => {
@@ -31,7 +31,7 @@ const LastSearched = () => {
     };
     const typingTimeout = setTimeout(() => {
       searchSimilarMovies();
-    }, 5000);
+    }, 3000);
 
     return () => {
       clearTimeout(typingTimeout);
@@ -47,29 +47,44 @@ const LastSearched = () => {
   };
   return (
     <>
-      <section className="flex flex-col gap-y-4 h-[500px]">
+      <section className="flex flex-col gap-y-4 h-[600px] md:h-[500px] mb-[100px]">
         <Title
           bold
           center={false}
           green={false}
-          message={`Filmes que são relevantes à sua ultima busca: ${lastSearchedTitle.charAt(0).toUpperCase() + lastSearchedTitle.slice(1)} `}
+          message={`Filmes que são relevantes à sua ultima busca: ${
+            lastSearchedTitle.charAt(0).toUpperCase() +
+            lastSearchedTitle.slice(1)
+          } `}
         />
-        <div className="px-4 md:px-[30px] rounded-lg bg-primaryBgBorder">
+        <div className="px-4 md:px-[30px] rounded-lg bg-primaryBgBorder h-full">
           {!isLoading ? (
-            <Slide scrollBar movies modules={[Navigation, Pagination, Scrollbar]}>
-              {similarMovies &&
-                similarMovies.slice(0, 9).map((movie: MovieModel) => (
-                  <SwiperSlide className="py-10" key={movie.id}>
-                    <Movie
-                      onGrid={false}
-                      movie={movie}
-                      openMovieInfo={() => openMovieInfo(movie.id)}
-                      closeMovieInfo={closeMovieinfo}
-                      selectedMovieId={selectedMovie}
-                    />
-                  </SwiperSlide>
-                ))}
-            </Slide>
+            <>
+              {similarMovies.length > 0 ? (
+                <Slide
+                  scrollBar
+                  movies
+                  modules={[Navigation, Pagination, Scrollbar]}
+                >
+                  {similarMovies &&
+                    similarMovies.slice(0, 9).map((movie: MovieModel) => (
+                      <SwiperSlide className="py-10" key={movie.id}>
+                        <Movie
+                          onGrid={false}
+                          movie={movie}
+                          openMovieInfo={() => openMovieInfo(movie.id)}
+                          closeMovieInfo={closeMovieinfo}
+                          selectedMovieId={selectedMovie}
+                        />
+                      </SwiperSlide>
+                    ))}
+                </Slide>
+              ) : (
+                <div className="flex flex-col justify-center items-center w-full h-full text-xs italic text-bodyColor">
+                  Você ainda não pesquisou por nenhum filme...
+                </div>
+              )}
+            </>
           ) : (
             <Loading big={false} />
           )}

@@ -29,7 +29,7 @@ const Header = ({ isOnTop }: HeaderProps) => {
   if (isAboveLG) setIsToggled(false);
   return (
     <>
-      <nav className="h-[80px] mt-0 md:mt-[10px] w-full fixed top-0  text-newWhite z-30">
+      <nav className="h-[80px] mt-0 md:mt-[10px] w-full fixed top-0  text-newWhite z-50">
         <div
           className={` ${
             isOnTop

@@ -21,8 +21,8 @@ const Categories = () => {
         <div className="flex flex-col gap-y-6 h-auto">
           <div
             className={` ${
-              !showMore ? "h-auto" : "h-[200px] overflow-hidden "
-            } grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 w-full gap-4 transition duration-300 relative`}
+              !showMore ? "h-auto md:h-[560px] lg:h-[440px] xl:h-[420px]" : "h-[200px] overflow-hidden "
+            } grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 w-full gap-4 transition-all duration-300 relative`}
           >
             {showMore && (<div className="absolute bottom-0 w-full h-[80px] bg-gradient-to-b from-transparent to-primaryBg"></div>)}
             {AllCategories.map((cat: MovieGenreModel) => (

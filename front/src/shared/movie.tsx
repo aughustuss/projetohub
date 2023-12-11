@@ -51,7 +51,7 @@ const Movie = ({
           <FaInfo />
         </button>
         {selectedMovieId === movie.id && (
-           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-primaryBg shadow-xl overflow-auto rounded-lg flex flex-col justify-between pb-2 w-full md:px-0   h-auto">
+           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30 bg-primaryBg shadow-xl overflow-auto rounded-lg flex flex-col justify-between pb-2 w-full md:px-0   h-auto">
             <div className="h-full w-full">
               <button
                 className="absolute top-2 right-2 p-1 border-2 border-primaryNeon rounded-full text-body hover:bg-primaryNeon transition duration-300"
@@ -81,7 +81,7 @@ const Movie = ({
                 <p className="text-bodyColor italic">Idioma original: {movie?.original_language.toUpperCase()}</p>
               </div>
             </div>
-            <div className="flex flex-row gap-x-2 w-full px-2 text-body">
+            <div className="flex flex-row gap-x-2 w-full px-2 text-xs">
                 {/* <a href={`/movie/${movie.id}`} className="w-full bg-primaryBgBorder px-4 py-2 rounded-lg font-black text-center hover:bg-primaryBgBorder/70 transition duration-300 flex flex-col items-center justify-center">Ver mais</a> */}
                 <Link to={`/movie/${movie.id}`} onlyBorder={false}>Ver mais</Link>
                 {/* <button onClick={() => addMovie(movie)} className="w-full border-primaryBgBorder border 

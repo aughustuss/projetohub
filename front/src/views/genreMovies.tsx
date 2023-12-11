@@ -148,7 +148,7 @@ const GenreMovies = () => {
 
   return (
     <>
-      <main className="min-h-screen font-body text-body py-[100px] flex flex-col justify-between gap-y-10 w-full">
+      <main className="min-h-screen font-body text-body pt-[120px] pb-[100px] flex flex-col justify-between gap-y-10 w-full">
         {selectedMovie !== null && (
           <div className="absolute inset-0 h-auto w-full bg-black z-40 opacity-70"></div>
         )}
