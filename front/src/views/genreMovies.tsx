@@ -7,7 +7,7 @@ import {
 } from "services/GetMoviesService";
 import ReactPaginate from "react-paginate";
 import Movie from "shared/Movie";
-import { IoMdArrowDropup } from "react-icons/io";
+import { MdKeyboardArrowDown } from "react-icons/md";
 import Loading from "./Loading";
 import Input from "components/Input";
 
@@ -149,9 +149,6 @@ const GenreMovies = () => {
   return (
     <>
       <main className="min-h-screen font-body text-body pt-[120px] pb-[100px] flex flex-col justify-between gap-y-10 w-full">
-        {selectedMovie !== null && (
-          <div className="absolute inset-0 h-auto w-full bg-black z-40 opacity-70"></div>
-        )}
         <div className="w-full px-4 md:w-[85%] md:px-0 mx-auto flex flex-col items-center gap-y-5">
           <div className="flex flex-col gap-y-2 w-full">
             <label
@@ -174,12 +171,12 @@ const GenreMovies = () => {
           <div className="self-end cursor-pointer hover:shadow-md transition duration-300">
             <div
               onClick={openSelectOptions}
-              className="border border-primaryBgBorder rounded-md px-6 py-2 text-body relative w-[200px]"
+              className="border border-primaryBgBorder rounded-md shadow-lg shadow-black/40  h-fit p-4  text-body relative w-[200px]"
             >
               <p className="flex flex-row items-center justify-between w-full gap-x-4">
                 {" "}
                 {selectedOption.label}{" "}
-                <IoMdArrowDropup
+                <MdKeyboardArrowDown
                   className={`${
                     selectOptionsMenu ? "rotate-0" : "rotate-180"
                   } transition duration-300`}
@@ -193,7 +190,7 @@ const GenreMovies = () => {
                       .map((option: SelectOptions) => (
                         <button
                           onClick={() => handleOptionChange(option)}
-                          className="hover:bg-black py-2 px-4 w-full text-start"
+                          className="hover:bg-primaryBg py-2 px-4 w-full text-start"
                         >
                           {option.label}
                         </button>

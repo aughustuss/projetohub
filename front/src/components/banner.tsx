@@ -64,7 +64,7 @@ const Banner = () => {
                       className="rounded-lg object-cover h-full w-full"
                     />
                     <div className="bg-black absolute inset-0 h-full z-10 w-full opacity-25 rounded-lg" />
-                    <button onClick={() => addMovie(movie)} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-full bg-primaryNeon text-iconSize font-black z-40 hover:bg-primaryOnHover transition duration-300 active:scale-95 ">
+                    <button onClick={() => addMovie(movie)} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-full bg-primary text-iconSize font-black z-40 hover:bg-primaryOnHover transition duration-300 active:scale-95 ">
                       <BsPlus />
                     </button>
                   </div>

@@ -39,14 +39,14 @@ const Trending = () => {
           bold
           center={false}
           green={false}
-          message="Filmes que estão populares no momento"
+          message="Os mais populares no momento"
         />
         {!isLoading && trendingMovies ? (
         <>
-        <Slide scrollBar movies modules={[Pagination, Navigation, Scrollbar]}>
+        <Slide scrollBar  movies modules={[Pagination, Navigation, Scrollbar]}>
           {trendingMovies.map((movie: MovieModel) => (
             <SwiperSlide className="py-10" key={movie.id} >
-              <Movie selectedMovieId={selectedMovie} openMovieInfo={() => openMovieInfo(movie.id)} closeMovieInfo={closeMovieInfo} movie={movie} />
+              <Movie onGrid selectedMovieId={selectedMovie} openMovieInfo={() => openMovieInfo(movie.id)} closeMovieInfo={closeMovieInfo} movie={movie} />
             </SwiperSlide>
             ))}
             </Slide>

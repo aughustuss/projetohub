@@ -7,6 +7,7 @@ interface ButtonProps {
   children?: React.ReactNode;
   green: boolean;
   small: boolean;
+  fullWidth?: boolean;
 }
 const Button = ({
   type,
@@ -15,12 +16,13 @@ const Button = ({
   children,
   green,
   small,
+  fullWidth
 }: ButtonProps) => {
   return (
     <>
       <button
         onClick={onClick}
-        className={`text-newWhite font-bold text-center active:scale-95 transition duration-300 flex flex-row items-center w-fit px-4 gap-x-4 ${small ? "py-2 px-6 text-xs rounded-sm" : "py-2 rounded-lg"} ${
+        className={`text-newWhite font-bold text-center active:scale-95 transition duration-300 flex flex-row items-center ${fullWidth ? "w-full justify-center" : "w-fit"} px-4 gap-x-4 ${small ? "py-2 px-6 text-xs rounded-sm" : "py-2 rounded-lg"} ${
           green
             ? onlyBorder
               ? "border border-primaryNeon hover:bg-primaryNeon"

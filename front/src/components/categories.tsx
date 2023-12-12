@@ -28,7 +28,7 @@ const Categories = () => {
             {AllCategories.map((cat: MovieGenreModel) => (
               <div
                 key={cat.id}
-                className="h-[100px] rounded-lg bg-primaryBgBorder p-2 sm:p-4 flex flex-row gap-2 sm:gap-4 w-full justify-between items-center hover:shadow-lg hover:shadow-black/40 transition duration-300 opacity-100 ease-in"
+                className="h-[100px] rounded-lg border border-primaryBgBorder p-2 flex flex-row gap-2 w-full justify-between items-center hover:shadow-lg hover:shadow-black/40 transition duration-300 opacity-100 ease-in"
               >
                 <div className="w-full self-center">
                   <p className="p-4 justify-center items-center flex bg-primaryBg rounded-2xl text-primary text-3xl">

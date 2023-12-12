@@ -1,43 +1,20 @@
 import React from "react";
 import Title from "./Title";
-import LastTitleContext from "contexts/LastSearchedTitle";
 import Slide from "shared/Slide";
 import { Navigation, Pagination, Scrollbar } from "swiper/modules";
 import { MovieModel } from "models/entities/Movie";
-import { getMoviesBasedOnItsTitleService } from "services/GetMoviesService";
 import Movie from "shared/Movie";
 import { SwiperSlide } from "swiper/react";
 import Loading from "views/Loading";
-
-const LastSearched = () => {
-  const { lastSearchedTitle } = React.useContext(LastTitleContext);
-  const [similarMovies, setSimiliarMovies] = React.useState<MovieModel[]>([]);
+interface LastSearchedProps {
+  similarMovies: MovieModel[];
+  isLoading: boolean;
+  lastSearchedTitle?: string;
+  categorySimilar: boolean;
+}
+const Similar = ({similarMovies, isLoading, lastSearchedTitle, categorySimilar}:LastSearchedProps) => {
   const [selectedMovie, setSelectedMovie] = React.useState<number | null>(null);
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  React.useEffect(() => {
-    setIsLoading(true);
-    const searchSimilarMovies = async () => {
-      Promise.resolve(
-        getMoviesBasedOnItsTitleService(lastSearchedTitle)
-          .then((response) => {
-            setSimiliarMovies(response.data.results);
-            setIsLoading(false);
-          })
-          .catch((err) => {
-            console.log(err);
-            setIsLoading(false);
-          })
-      );
-    };
-    const typingTimeout = setTimeout(() => {
-      searchSimilarMovies();
-    }, 3000);
-
-    return () => {
-      clearTimeout(typingTimeout);
-    };
-  }, [lastSearchedTitle]);
-
+  
   const openMovieInfo = (movieId: number) => {
     setSelectedMovie(movieId);
   };
@@ -47,17 +24,17 @@ const LastSearched = () => {
   };
   return (
     <>
-      <section className="flex flex-col gap-y-4 h-[600px] md:h-[500px] mb-[100px]">
+      <section className="flex flex-col gap-y-4 h-[600px] md:h-[500px]">
         <Title
           bold
           center={false}
           green={false}
-          message={`Filmes que são relevantes à sua ultima busca: ${
-            lastSearchedTitle.charAt(0).toUpperCase() +
+          message={!categorySimilar ? `Filmes que são relavantes à sua ultima busca sobre ${
+            lastSearchedTitle && lastSearchedTitle.charAt(0).toUpperCase() +
             lastSearchedTitle.slice(1)
-          } `}
+          } ` : 'Você também pode querer assistir'}
         />
-        <div className="px-4 md:px-[30px] rounded-lg bg-primaryBgBorder h-full">
+        <div className={`${!categorySimilar && 'px-4 md:px-[30px] rounded-lg bg-primaryBgBorder h-full w-full'}`}>
           {!isLoading ? (
             <>
               {similarMovies.length > 0 ? (
@@ -65,12 +42,13 @@ const LastSearched = () => {
                   scrollBar
                   movies
                   modules={[Navigation, Pagination, Scrollbar]}
+                  hasDarkBg={!categorySimilar}
                 >
                   {similarMovies &&
-                    similarMovies.slice(0, 9).map((movie: MovieModel) => (
+                    similarMovies.slice(0, 10).map((movie: MovieModel) => (
                       <SwiperSlide className="py-10" key={movie.id}>
                         <Movie
-                          onGrid={false}
+                          onGrid
                           movie={movie}
                           openMovieInfo={() => openMovieInfo(movie.id)}
                           closeMovieInfo={closeMovieinfo}
@@ -94,4 +72,4 @@ const LastSearched = () => {
   );
 };
 
-export default LastSearched;
+export default Similar;
