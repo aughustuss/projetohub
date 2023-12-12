@@ -37,7 +37,7 @@ function App() {
               <Routes>
                 <Route index path="/" Component={HomePage}/>
                 <Route path="/movie/:movieId" Component={MoviePage} />
-                <Route path="/genreMovies/:movieGenre" Component={GenreMovies} />
+                <Route path="/genre/:movieGenre" Component={GenreMovies} />
                 <Route path="/chat" Component={ChatPage}/>
                 <Route path="/searchedMovies" Component={SearchedMoviePage}/>
               </Routes>

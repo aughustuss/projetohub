@@ -40,7 +40,7 @@ const Categories = () => {
                   <p className="text-xs sm:text-sm font-semibold">{cat.name.length > 10 ? cat.name.slice(0, 6) + "..." : cat.name}</p>
                   <a
                     className="text-xs italic underline text-primary"
-                    href={`/genreMovies/${cat.id}`}
+                    href={`/genre/${cat.id}`}
                   >
                     Ver mais
                   </a>
