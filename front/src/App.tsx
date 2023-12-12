@@ -14,9 +14,9 @@ const SearchedMoviePage = React.lazy(() => import("views/SearchedMovies"));
 function App() {
   const [isOnTop, setIsOnTop] = React.useState<boolean>(true);
   React.useEffect(() => {
-    const handleScroll = () => {
+    const handleScroll = () => {  
       if (window.scrollY === 0) {
-        setIsOnTop(true);
+        setIsOnTop(true); 
       } else if (window.scrollY > 25) {
         setIsOnTop(false);
       }
