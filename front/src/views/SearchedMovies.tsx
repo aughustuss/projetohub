@@ -6,11 +6,11 @@ import { getMoviesBasedOnItsTitleService } from "services/GetMoviesService";
 import Movie from "shared/Movie";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import Button from "components/Button";
+import OrderBy from "components/OrderBy";
 const SearchedMovies = () => {
   const location = useLocation();
   const movieName = new URLSearchParams(location.search).get("movieName");
   const [isFilterOpen, setFilterOpen] = React.useState<boolean>(false);
-  const [isOrderByOpen, setOrderByOpen] = React.useState<boolean>(false);
   const [selectedMovie, setSelectedMovie] = React.useState<number | null>(null);
   const [selectedCategories, setSelectedCategories] = React.useState<number[]>(
     []
@@ -29,7 +29,10 @@ const SearchedMovies = () => {
     setSelectedMovie(null);
   };
 
-  const handleFilterOpen = (setArray:  React.Dispatch<React.SetStateAction<boolean>>, val: boolean) => {
+  const handleFilterOpen = (
+    setArray: React.Dispatch<React.SetStateAction<boolean>>,
+    val: boolean
+  ) => {
     setArray(!val);
   };
 
@@ -49,44 +52,54 @@ const SearchedMovies = () => {
 
   const findTheMostRepeatedCategory = (movies: MovieModel[]) => {
     const categoryCount = new Map<number, number>();
-    for (const movie of movies){
-      for (const genre of movie.genre_ids){
-        const categoryId = AllCategories.find((cat) => cat.id === Number(genre));
-        if(categoryId){
-          categoryCount.set(categoryId.id, (categoryCount.get(categoryId.id) || 0) + 1);
+    for (const movie of movies) {
+      for (const genre of movie.genre_ids) {
+        const categoryId = AllCategories.find(
+          (cat) => cat.id === Number(genre)
+        );
+        if (categoryId) {
+          categoryCount.set(
+            categoryId.id,
+            (categoryCount.get(categoryId.id) || 0) + 1
+          );
         }
       }
     }
 
     let mostFrequentCategoryCount = 0;
     let maxCount = 0;
-    for(const [categoryId, count] of categoryCount.entries()){
-      if(count > maxCount){
+    for (const [categoryId, count] of categoryCount.entries()) {
+      if (count > maxCount) {
         mostFrequentCategoryCount = categoryId;
         maxCount = count;
       }
     }
-    localStorage.setItem("mostFrequentCategory", JSON.stringify(mostFrequentCategoryCount));
+    localStorage.setItem(
+      "mostFrequentCategory",
+      JSON.stringify(mostFrequentCategoryCount)
+    );
     return mostFrequentCategoryCount;
-  }
+  };
 
-  const filterMovies = (movies: MovieModel[],selectedCategories: number[]): MovieModel[] => {
-    if(selectedCategories.length > 0){
-
+  const filterMovies = (
+    movies: MovieModel[],
+    selectedCategories: number[]
+  ): MovieModel[] => {
+    if (selectedCategories.length > 0) {
       return movies.filter((movie) => {
         for (const genre of movie.genre_ids) {
           const categoryId = AllCategories.find(
             (cat) => cat.id === Number(genre)
-            );
-            if (categoryId && selectedCategories.includes(categoryId.id)) {
-              return true;
-            }
+          );
+          if (categoryId && selectedCategories.includes(categoryId.id)) {
+            return true;
           }
-          return false;
-        });
-      } else {
-        return categorizedMovies;
-      }
+        }
+        return false;
+      });
+    } else {
+      return categorizedMovies;
+    }
   };
 
   React.useEffect(() => {
@@ -105,85 +118,55 @@ const SearchedMovies = () => {
       );
     }
   }, [movieName]);
+  console.log(categorizedMovies);
   return (
     <>
       <main className="pb-[100px] pt-[120px] min-h-screen w-[85%] flex flex-col gap-4 md:flex-row mx-auto">
         <div className="w-full md:w-[20%] flex flex-col justify-start gap-y-2  text-bodyColor text-sm h-fit  shadow-lg border border-primaryBgBorder p-4 rounded-lg">
-            <div className=" w-full flex flex-col gap-4 border border-primaryBgBorder bg-primaryBg rounded-md shadow-lg  h-fit p-4"
-            >
-              <div className="flex flex-row items-center w-full justify-between">
-                Filtrar apenas por{" "}
-                <MdKeyboardArrowDown
-                  onClick={() => handleFilterOpen(setFilterOpen, isFilterOpen)}
-                  className={` ${
-                    isFilterOpen ? "rotate-0" : "rotate-180"
-                  } text-lg transition-all duration-300 cursor-pointer`}
-                />
-              </div>
-
-              {isFilterOpen && (
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-1 gap-3 w-full">
-                  {AllCategories.map((cat) => (
-                    <label
-                      className="flex flex-row gap-1 items-center text-xs gap-y-2 overflow-hidden"
-                      htmlFor={cat.name}
-                      key={cat.id}
-                    >
-                      <input
-                        onChange={(e) => handleCategoryChange(e)}
-                        className="accent-primary w-5 h-5 md:w-4 md:h-4"
-                        type="checkbox"
-                        name=""
-                        id={cat.name}
-                        value={cat.id}
-                      />
-                      {cat.name}
-                    </label>
-                  ))}
-                  <Button
-                    onClick={() => handleFilterClick()}
-                    small
-                    type="button"
-                    onlyBorder={false}
-                    green
-                    fullWidth
-                  >
-                    Filtrar
-                  </Button>
-                </div>
-              )}
+          <div className=" w-full flex flex-col gap-4 border border-primaryBgBorder bg-primaryBg rounded-md h-fit p-4 shadow-lg shadow-black/40">
+            <div className="flex flex-row items-center w-full justify-between ">
+              Filtrar apenas por{" "}
+              <MdKeyboardArrowDown
+                onClick={() => handleFilterOpen(setFilterOpen, isFilterOpen)}
+                className={` ${
+                  isFilterOpen ? "rotate-0" : "rotate-180"
+                } text-lg transition-all duration-300 cursor-pointer`}
+              />
             </div>
-            <div className="w-full flex flex-col gap-4 border bg-primaryBg border-primaryBgBorder rounded-md shadow-lg h-fit p-4">
-            <div className="flex flex-row items-center w-full justify-between">
-                Ordenar por{" "}
-                <MdKeyboardArrowDown
-                  onClick={() => handleFilterOpen(setOrderByOpen, isOrderByOpen)}
-                  className={` ${
-                    isOrderByOpen ? "rotate-0" : "rotate-180"
-                  } text-lg transition-all duration-300 cursor-pointer`}
-                />
-              </div>
 
-              {isOrderByOpen && (
-                <div className="flex flex-col gap-3">
-                  <div>
-                    <input type="radio" />
-                    <input type="radio" />
-                    <input type="radio" />
-                    <input type="radio" />
-                  </div>
-                  <Button
-                    small
-                    type="button"
-                    onlyBorder={false}
-                    green
-                    fullWidth
+            {isFilterOpen && (
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-1 gap-3 w-full">
+                {AllCategories.map((cat) => (
+                  <label
+                    className="flex flex-row gap-1 items-center text-xs gap-y-2 overflow-hidden "
+                    htmlFor={cat.name}
+                    key={cat.id}
                   >
-                    Ordenar
-                  </Button>
-                </div>
-              )}
-            </div>
+                    <input
+                      onChange={(e) => handleCategoryChange(e)}
+                      className="accent-primary w-5 h-5 md:w-4 md:h-4"
+                      type="checkbox"
+                      name=""
+                      id={cat.name}
+                      value={cat.id}
+                    />
+                    {cat.name}
+                  </label>
+                ))}
+                <Button
+                  onClick={() => handleFilterClick()}
+                  small
+                  type="button"
+                  onlyBorder={false}
+                  green
+                  fullWidth
+                >
+                  Filtrar
+                </Button>
+              </div>
+            )}
+          </div>
+          <OrderBy absolute={false} fullWidth movies={filteredMovies} setMovies={setFilteredMovies} />
         </div>
         <div className="w-full md:w-[80%] relative">
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 w-full">

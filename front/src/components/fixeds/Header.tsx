@@ -18,8 +18,12 @@ const Header = ({ isOnTop }: HeaderProps) => {
 
   const handleEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if(event.key === "Enter"){
-      navigate(`/searchedMovies?movieName=${searchParam}`)
+      return navigate(`/searchedMovies?movieName=${searchParam}`)
     }
+  }
+
+  const handleGo = () => {
+    return navigate(`/searchedMovies?movieName=${searchParam}`)
   }
 
   if (searchParam.length > 0) {
@@ -47,7 +51,7 @@ const Header = ({ isOnTop }: HeaderProps) => {
           >
             HubFilmes
           </a>
-          <div className="w-3/4 px-4 md:px-0 md:w-1/3 h-1/2 relative flex flex-row items-center">
+          <div className="w-3/4 px-4 md:px-0 md:w-1/3 h-1/2 relative flex flex-row items-center gap-1">
             <Input
               hasText={searchParam.length > 0}
               onChange={(e) => setSearchParam(e.target.value)}
@@ -57,6 +61,11 @@ const Header = ({ isOnTop }: HeaderProps) => {
               placeholder="Pesquise por um filme..."
               value={searchParam}
             />
+            {searchParam.length > 0 && (
+            <button className="border border-primaryBgBorder hover:bg-primaryBgBorder transition duration-300 active:scale-95 h-full px-4 rounded-lg font-semibold text-xs" onClick={() => handleGo()} >
+              Ir
+            </button>
+            )}
           </div>
           <div className="text-links font-bold flex flex-row items-center gap-x-8">
             {isAboveLG ? (

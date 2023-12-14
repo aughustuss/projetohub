@@ -1,4 +1,4 @@
-import MovieInfo from "components/movieInfo";
+import MovieInfo from "components/MovieInfo";
 import CommentSection from "components/ComentSection";
 import { useParams } from "react-router-dom";
 import authorImage from '../assets/sobre.jpeg';
@@ -13,8 +13,10 @@ const Movie = () => {
   ];
   return (
     <>
+      <main className="flex flex-col gap-y-6">
       <MovieInfo movieId={movieId} />
       <CommentSection comments={comments}/>
+      </main>
     </>
   )
     

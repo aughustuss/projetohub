@@ -12,24 +12,27 @@ interface LinksMappedProps {
 const LinksMapped = ({ isOnTop, isAboveLG }: LinksMappedProps) => {
   const { movies } = React.useContext(FavoritesMoviesContext);
   const [categoriesMenuOpen, setCategoriesMenuOpen] = React.useState<boolean>(false);
+  
+
   const handleCategoriesMenu = () => {
     setCategoriesMenuOpen(!categoriesMenuOpen);
-  }
+  };
   return (
     <>
       {NavLinks.map((i: NavbarLink, index: number) => (
-        <a
+        <div
+          id={index.toString()}
           key={index}
-          href={i.linkTo}
-          className={`hover:text-primaryOnHover transition-all duration-300 flex flex-col justify-center items-center w-full`}
+          //href={i.linkTo}
+          className={`text-newWhite hover:text-primaryOnHover transition-all duration-300 flex flex-col justify-center items-center w-full`}
         >
           {isAboveLG ? (
-            <span>
+            <div>
               {!i.linkIcon && i.linkText !== "Filmes" && (
-                <span>{i.linkText}</span>
+                <a id={index.toString()} href={i.linkTo}>{i.linkText}</a>
               )}
               {!i.linkIcon && i.linkText === "Filmes" && (
-                <div className="group relative w-full ">
+                <div id={index.toString()} className="group relative w-full cursor-pointer">
                   <span className="hover:text-primaryOnHover">Filmes</span>
                   <div className="hidden group-hover:absolute group-hover:top-full group-hover:w-[320px] h-auto p-4 absolute text-xs gap-6 bg-primaryBgBorder shadow-lg shadow-black/40 rounded-lg group-hover:grid group-hover:grid-cols-3 group-hover:place-items-start group-hover:mx-auto">
                     {AllCategories.map((cat) => (
@@ -45,7 +48,8 @@ const LinksMapped = ({ isOnTop, isAboveLG }: LinksMappedProps) => {
                 </div>
               )}
               {i.linkIcon && i.linkText === "Conversas" && (
-                <div
+                <a
+                  href={i.linkTo}
                   className={`${
                     isOnTop ? "text-primary" : "text-newWhite"
                   } text-iconSize  relative hover:text-primaryOnHover transition duration-300 active:scale-95`}
@@ -55,10 +59,11 @@ const LinksMapped = ({ isOnTop, isAboveLG }: LinksMappedProps) => {
                   <span className="absolute h-[16px] w-[16px] bg-red-600 rounded-full -right-1 -top-2 text-newWhite text-[10px] flex justify-center items-center">
                     0
                   </span>
-                </div>
+                </a>
               )}
               {i.linkIcon && i.linkText === "Favoritos" && (
-                <div
+                <a
+                  href={i.linkTo}
                   className={`${
                     isOnTop ? "text-primary" : "text-newWhite"
                   } text-iconSize  relative hover:text-primaryOnHover transition duration-300 active:scale-95`}
@@ -69,29 +74,43 @@ const LinksMapped = ({ isOnTop, isAboveLG }: LinksMappedProps) => {
                       {movies.length}
                     </span>
                   )}
-                </div>
+                </a>
               )}
-            </span>
+            </div>
           ) : (
             <>
-            {i.linkText !== "Filmes" && i.linkText}
-            {i.linkText == "Filmes" && (
-              <div className="flex flex-col gap-y-1 w-full h-auto">
-                <span className="flex flex-row items-center justify-center gap-x-2 relative w-full">Filmes <MdKeyboardArrowDown onClick={() => handleCategoriesMenu()} className={`${
-                    categoriesMenuOpen ? "rotate-0" : "rotate-180"
-                  } transition duration-300 absolute ml-[30%] text-lg`} /></span>
+              {i.linkText !== "Filmes" && <a href={i.linkTo}>{i.linkText}</a>}
+              {i.linkText == "Filmes" && (
+                <div className="flex flex-col items-center gap-y-1 w-full h-auto px-2">
+                  <span className="flex flex-row items-center justify-center gap-x-2 relative w-full">
+                    Filmes{" "}
+                    <MdKeyboardArrowDown
+                      onClick={() => handleCategoriesMenu()}
+                      className={`${
+                        categoriesMenuOpen ? "rotate-0" : "rotate-180"
+                      } transition duration-300 absolute ml-[30%] text-lg`}
+                    />
+                  </span>
                   {categoriesMenuOpen && (
-                  <div className="grid grid-cols-2 place-items-center justify-center items-center gap-4">
-                    {AllCategories.map((cat) => (
-                      <a href="" className="text-newWhite text-xs">{cat.name}</a>
-                    ))}
-                  </div>
+                    <div className="flex flex-col justify-center items-center gap-5 h-[200px] overflow-auto py-4  bg-primaryBgBorder w-full rounded-lg">
+                      {AllCategories.map((cat, index) => (
+                        <a
+                          key={cat.id}
+                          href={`/genre/${cat.id}`}
+                          className={`${
+                            index == 1 && "pt-10"
+                          } text-bodyColor text-xs hover:text-primaryOnHover`}
+                        >
+                          {cat.name}
+                        </a>
+                      ))}
+                    </div>
                   )}
-              </div>
-            )}
+                </div>
+              )}
             </>
           )}
-        </a>
+        </div>
       ))}
     </>
   );
