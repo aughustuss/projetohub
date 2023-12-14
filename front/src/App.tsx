@@ -4,7 +4,7 @@ import Footer from "components/fixeds/Footer";
 import Sidebar from "components/fixeds/Sidebar";
 
 import React from "react";
-import GenreMovies from "views/GenreMovies";
+import GenreMovies from "views/genreMovies";
 const HomePage = React.lazy(() => import("views/Home"));
 const MoviePage = React.lazy(() => import("views/Movie"));
 const LoadingPage = React.lazy(() => import("views/Loading"));
