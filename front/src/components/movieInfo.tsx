@@ -101,7 +101,7 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
       </div>
 
       {/* Sinopse do banner */}
-      <div className="h-[600px] text-body ">
+      <div className="h-[1100px] sm:h-[1000px] md:h-[800px] lg:h-[600px] text-body ">
         <div className="h-auto min-h-[700px] bg-primaryBgBorder w-full px-4 md:w-[85%] md:px-0 mx-auto -mt-[30%] md:-mt-[10%] shadow-md rounded-lg absolute left-1/2 -translate-x-1/2">
           {/* Início da sinopse  */}
           <div className="p-4 md:p-8 flex flex-col gap-y-4">
