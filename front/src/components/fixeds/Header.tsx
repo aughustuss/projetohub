@@ -6,6 +6,7 @@ import Linksmapped from "components/Linksmapped";
 import Input from "components/Input";
 import LastTitleContext from "contexts/LastSearchedTitle";
 import { useNavigate } from "react-router-dom";
+import { IoMdClose } from "react-icons/io";
 interface HeaderProps {
   isOnTop: boolean;
 }
@@ -60,6 +61,8 @@ const Header = ({ isOnTop }: HeaderProps) => {
               onKeyDown={handleEnter}
               placeholder="Pesquise por um filme..."
               value={searchParam}
+              withIcon
+              icon={<IoMdClose/>}
             />
             {searchParam.length > 0 && (
             <button className="border border-primaryBgBorder hover:bg-primaryBgBorder transition duration-300 active:scale-95 h-full px-4 rounded-lg font-semibold text-xs" onClick={() => handleGo()} >

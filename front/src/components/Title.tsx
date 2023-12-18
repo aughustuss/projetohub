@@ -1,5 +1,5 @@
 interface TitleProps {
-    message: string;
+    message: string | React.ReactNode;
     green: boolean;
     center: boolean;
     bold: boolean;
