@@ -98,13 +98,6 @@ const CommentSection: React.FC<CommentSectionProps> = ({ comments }) => {
               onChange={handleInputChange}
             />
             <div className="flex items-center justify-end space-x-2">
-              <button
-                onClick={() => setNewComment({ author: "", text: "" })}
-                className="hover:bg-gray-300 hover:text-black font-bold text-sm p-2 border-2 border-solid border-gray-700 rounded-lg overflow-hidden bg-transparent flex items-center"
-              >
-                Cancelar
-                <FaTimes className="ml-2" />
-              </button>
               <Button
                 green={false}
                 onlyBorder
@@ -124,13 +117,6 @@ const CommentSection: React.FC<CommentSectionProps> = ({ comments }) => {
                  Enviar Comentário
                 <FaPaperPlane className="ml-2" />
               </Button>
-              <button
-                onClick={handleAddComment}
-                className="hover:bg-gray-900 hover:text-white font-bold text-sm p-2 bg-gray-300 text-black rounded-lg overflow-hidden flex items-center"
-              >
-                Enviar Comentário
-                <FaPaperPlane className="ml-2" />
-              </button>
             </div>
           </div>
         </div>
