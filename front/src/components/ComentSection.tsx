@@ -97,25 +97,27 @@ const CommentSection: React.FC<CommentSectionProps> = ({ comments }) => {
               onChange={handleInputChange}
             />
             <div className="flex flex-wrap gap-2 items-center justify-start md:justify-end ">
-              <Button
-                green={false}
-                onlyBorder
-                small
-                onClick={() => setNewComment({ author: "", text: "" })}
-              >
-                {" "}
-                Cancelar
-                <FaTimes className="ml-2" />
-              </Button>
-              <Button
-                green
-                onlyBorder={false}
-                small
-                onClick={handleAddComment}
-              >
-                 Enviar Comentário
-                <FaPaperPlane className="ml-2" />
-              </Button>
+              <div className="flex items-center justify-end space-x-2">
+                <Button
+                  green={false}
+                  onlyBorder
+                  small
+                  onClick={() => setNewComment({ author: "", text: "" })}
+                >
+                  {" "}
+                  Cancelar
+                  <FaTimes className="ml-2" />
+                </Button>
+                <Button
+                  green
+                  onlyBorder={false}
+                  small
+                  onClick={handleAddComment}
+                >
+                  Enviar Comentário
+                  <FaPaperPlane className="ml-2" />
+                </Button>
+              </div>
             </div>
           </div>
         </div>
