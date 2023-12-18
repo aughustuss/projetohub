@@ -16,12 +16,15 @@ import Loading from "views/Loading";
 import { MovieModel } from "models/entities/Movie";
 import FavoritesMoviesContext from "contexts/FavoritesMoviesContext";
 import Button from "./Button";
+import WatchedListContext from "contexts/WatchedListContext";
 interface MovieInfoProps {
   movieId?: string;
 }
 const MovieInfo = ({ movieId }: MovieInfoProps) => {
+  const [movieExists, setMovieExists] = React.useState<boolean>(false);
   const [movieById, setMovieById] = React.useState<MovieByIdModel>();
   const {addMovie} = React.useContext(FavoritesMoviesContext);
+  const {addToWatchedList, checkIfMovieExists, alreadyAdded} = React.useContext(WatchedListContext);
   const tmdbImagePath = import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH;
   const [isLoading, setIsLoading] = React.useState(false);
   const movieHours = movieById?.runtime && Math.floor(movieById?.runtime / 60);
@@ -85,6 +88,14 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
     };
     fetchMovieById();
   }, [movieId]);
+
+  React.useEffect(() => {
+    if(movieId){
+      const movieExists = checkIfMovieExists(Number(movieId));
+      console.log(movieExists);
+      setMovieExists(movieExists);
+    }
+  }, [movieId])
   if (isLoading) return <Loading big />;
 
   return (
@@ -135,7 +146,16 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
                       Marcar como assistido{" "}
                       <FaCheck className="absolute right-2" />
                     </button> */}
-                    <Button small={false} green onlyBorder={false} type="button">Marcar como assistido<FaCheck/></Button>
+                    {!alreadyAdded
+                    ? 
+                    (
+                      <Button onClick={() => { if(movieById?.id) addToWatchedList(movieById?.id)}} small={false} green onlyBorder={false} type="button">Marcar como assistido<FaCheck/></Button>
+                    ) 
+                    
+                    : 
+                    (
+                      <Button disabled small={false} green onlyBorder={false} type="button">Filme já marcado como assistido</Button>
+                    )}
                   </div>
                   <p className="text-body text-bodyColor italic">
                     {movieById?.tagline}
