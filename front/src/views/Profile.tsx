@@ -17,6 +17,7 @@ import OrderBy from "components/OrderBy";
 import Slide from "shared/Slide";
 import { SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar } from "swiper/modules";
+import Link from "components/Link";
 
 interface MovieModelWithTime extends MovieModel {
   readonly addedDate: Date;
@@ -36,12 +37,10 @@ const Profile = () => {
   //const [userFavoriteList, setUserFavoriteList] = React.useState<MovieModelWithTime[]>([]);
   const [userWatchedList, setUserWatchedList] = React.useState<number>();
   const [selectedMovie, setSelectedMovie] = React.useState<number | null>(null);
-  const [userMostRepeatedCategory, setUserMostRepeatedCategory] =
-    React.useState<number>();
-  const [userMostRepeatedCategoryName, setUserMostRepeatedCategoryName] =
-    React.useState<string>("");
+  const [userMostRepeatedCategory, setUserMostRepeatedCategory] = React.useState<number>();
+  const [userMostRepeatedCategoryName, setUserMostRepeatedCategoryName] = React.useState<string>("");
   const [userMoviesCount, setUserMoviesCount] = React.useState<number>();
-
+  const [userTitle, setUserTitle] = React.useState<string>("");
   const openMovieInfo = (movieId: number) => {
     setSelectedMovie(movieId);
   };
@@ -57,6 +56,25 @@ const Profile = () => {
     }
     if (movies) {
       setUserFavoriteList(movies);
+      if(movies.length > 5 && movies.length <= 25){
+        setUserTitle("Assiste alguns filmes")
+      } else if (movies.length > 25 && movies.length <= 50){
+        setUserTitle("Gosta de assistir filmes")
+      } else if (movies.length > 50 && movies.length <= 100){
+        setUserTitle("Tem uma paixão por filmes")
+      } else if (movies.length > 100 && movies.length <= 200){
+        setUserTitle("Ama muito filmes")
+      } else if (movies.length > 200 && movies.length <= 300){
+        setUserTitle("É louco por filmes")
+      } else if(movies.length > 200 && movies.length <= 400){
+        setUserTitle("Realmente gosta de filmes, não passa um dia sem ver!")
+      } else if(movies.length > 400 && movies.length <= 800){
+        setUserTitle("É um grande cinéfilo")
+      } else if (movies.length > 800 && movies.length <= 1000){
+        setUserTitle("Um dos maiores cinéfilos que já pisaram na terra")
+      } else {
+        setUserTitle("Ninguém jamais assistiu tantos filmes assim. É mais que um cinéfilo!")
+      }
     }
     if (favoriteMovies) {
       const parsedFavoriteMovies = JSON.parse(favoriteMovies);
@@ -89,38 +107,44 @@ const Profile = () => {
   return (
     <>
       <main className="flex flex-col gap-y-[80px] pt-[120px] pb-[100px] w-full px-6 md:w-[85%] md:px-0 mx-auto">
-        <div className="flex flex-row items-start gap-x-4 h-auto bg-primaryBgBorder p-4 rounded-lg shadow-lg shadow-black/30 w-full">
-          <div className="h-full w-1/4">
+        <div className="flex flex-wrap flex-row items-start gap-4 h-auto bg-primaryBgBorder p-4 rounded-lg shadow-lg shadow-black/30 w-full justify-center sm:justify-start">
+          <div className="h-full w-full md:w-1/4 flex flex-row items-center md:justify-center gap-4">
             <img
               src={Perfil}
-              className="h-4/6 w-full object-cover rounded-lg"
+              className="h-4/6 w-[80px] md:w-full object-cover rounded-lg"
             />
           </div>
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-8 md:w-fit w-full">
             <Title
               bold
               center={false}
               green={false}
-              message="Micael AKA Michas - Um grande Cinéfilo"
+              message={
+              <Row baseline>
+                Micael <p> <span className="italic text-sm">AKA</span> <span className="text-lg"> ( Michas ) -</span> <span className="text-base"> {userTitle} </span> </p>
+              </Row>
+              }
+              responsive
+              fullWidth
             />
             <Row space>
-              <Row baseline>
+              <Row baseline responsive>
                 {" "}
                 <GreenText bold>{userWatchedList}</GreenText>{" "}
                 <Text text="Filmes assistidos" bold />
               </Row>
-              <Row baseline>
+              <Row baseline responsive>
                 {" "}
                 <GreenText bold> {userFavoriteMovies.length} </GreenText>{" "}
                 <Text text="Filmes favoritados" bold />
               </Row>
-              <Row baseline>
+              <Row baseline responsive>
                 {" "}
                 <GreenText bold> 100 </GreenText>{" "}
                 <Text text="Amigos cinéfilos" bold />
               </Row>
             </Row>
-            <Row space>
+            <Row space responsive>
               <div className="border border-primaryBg p-4 rounded-lg w-fit text-sm gap-y-2 flex flex-col">
                 <p>
                   O gênero preferido do Michas é:{" "}
@@ -132,15 +156,15 @@ const Profile = () => {
                   gênero{" "}
                 </p>
               </div>
-              <div className="gap-2 flex flex-col">
+              <div className="gap-2 flex flex-col w-full sm:w-fit">
                 <Button fullWidth green={false} onlyBorder={false} small>
                   <BiSolidChat className="text-2xl" />
                   Enviar mensagem{" "}
                 </Button>
-                <Button fullWidth green={false} onlyBorder={false} small>
+                <Link small col={false} to="/chat" onlyBorder={false} fullWidth bgPrimary>
                   <IoPersonAdd className="text-lg" />
                   Seguir{" "}
-                </Button>
+                </Link>
               </div>
             </Row>
           </div>
@@ -194,7 +218,7 @@ const Profile = () => {
               setMovies={setUserFavoriteList}
               absolute
             />
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 w-full">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 md:gap-3 w-full">
               {userFavoriteList.map((movie) => (
                 <div key={movie.id} className="flex flex-col gap-y-2">
                   <Movie

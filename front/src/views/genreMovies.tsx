@@ -99,7 +99,7 @@ const GenreMovies = () => {
           </div>
           <OrderBy absolute movies={movies} setMovies={setMovies} searchParam={searchParam} searchedMovies={searchedMovies} setSearchedMovies={setSearchedMovies} />
           
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 w-full">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 sm:gap-3 w-full">
             {!isLoadingGenreMovies && !isLoadingSearchedMovies ? (
               searchParam.length == 0 ? (
                 movies.map((movie: MovieModel) => (

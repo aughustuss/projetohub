@@ -4,10 +4,11 @@ interface RowProps {
     baseline?: boolean;
     space?: boolean;
     moreGap?: boolean;
+    responsive?: boolean;
 }
-const Row = ({children, baseline, space, moreGap}: RowProps) => {
+const Row = ({children, baseline, space, moreGap, responsive}: RowProps) => {
   return (
-    <div className={`flex flex-row ${baseline ? "items-baseline" : "items-center"} ${space && "justify-between"} ${moreGap ? "gap-x-6" : "gap-x-2"} `}>{children}</div>
+    <div className={`flex ${responsive ? "flex-col  sm:flex-row" : "flex-row"}  w-full ${baseline ? "items-baseline" : "items-center"} ${space && "justify-between"} ${moreGap ? "gap-6" : "gap-2"} `}>{children}</div>
   )
 }
 

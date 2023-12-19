@@ -2,7 +2,7 @@ import React from "react";
 import {
   ChildrenPropsModel,
 } from "models/contexts/ContextModels";
-import { MovieModelWithTime } from "models/entities/Movie";
+import { MovieModel, MovieModelWithTime } from "models/entities/Movie";
 
 interface FavoritesMoviesContextModel {
   movies: MovieModelWithTime[];
@@ -11,7 +11,7 @@ interface FavoritesMoviesContextModel {
   checkIfMovieExists: (val: number) => boolean;
   movieAlreadyAdded: boolean;
   setUserFavoriteList: React.Dispatch<React.SetStateAction<MovieModelWithTime[]>>
-  addMovie: (val: MovieModelWithTime) => void
+  addMovie: (val: MovieModelWithTime | MovieModel) => void
   removeMovie: (val: number) => void
 }
 
@@ -70,7 +70,7 @@ const FavoritesMoviesContextProvider: React.FC<ChildrenPropsModel> = ({
     }
   };
 
-  const addMovie = (movie: MovieModelWithTime) => {
+  const addMovie = (movie: MovieModelWithTime | MovieModel) => {
     
     setMovies((prevMovies) => {
       const movieExists = prevMovies.some(

@@ -125,7 +125,7 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
                 <div className="flex flex-col gap-2">
                   <div className="flex flex-col md:flex-row items-baseline justify-between gap-2">
                     <div className="flex flex-row items-baseline gap-2 flex-wrap">
-                      <p className="font-title font-black text-movieSlideTitle">
+                      <div className="font-title font-black text-movieSlideTitle">
                         {movieById?.original_title}{" "}
                         <span className="font-normal text-title">
                           {" "}
@@ -137,7 +137,7 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
                             : <span className="py-1 px-2 bg-slate-200 rounded-lg text-body w-fit text-sm">Esta para lançar</span>
                             }
                       
-                      </p>
+                      </div>
                     </div>
                     {/* Marcar como assistido */}
                     {/* <button className="bg-primary hover:bg-primaryOnHover transition duration-300 py-3 px-8 rounded-lg relative flex flex-row items-center font-black shadow-md active:scale-95">
@@ -251,7 +251,7 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
               <p className="font-title font-black text-subTitle">
                 Produzido por
               </p>
-              <div className="flex flex-row items-center flex-wrap gap-4">
+              <div className="flex flex-row items-center gap-4">
                 {movieById?.production_companies.map(
                   (company: MovieByIdCompaniesModel) => (
                     <div
@@ -278,9 +278,6 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
           </button>
         </div>
       </div>
-
-      {/* Corpo */}
-      <div className="w-full px-4 md:w-[90%] md:px-0 mx-auto"></div>
     </main>
   );
 };

@@ -97,7 +97,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ comments }) => {
               onChange={handleInputChange}
             />
             <div className="flex flex-wrap gap-2 items-center justify-start md:justify-end ">
-              <div className="flex items-center justify-end space-x-2">
+              <div className="flex flex-col md:flex-row items-start md:items-end justify-end gap-2">
                 <Button
                   green={false}
                   onlyBorder

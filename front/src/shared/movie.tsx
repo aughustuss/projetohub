@@ -1,4 +1,4 @@
-import { MovieModelWithTime } from "models/entities/Movie";
+import { MovieModel, MovieModelWithTime } from "models/entities/Movie";
 import { FaInfo } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { AiFillStar } from "react-icons/ai";
@@ -7,7 +7,7 @@ import React from 'react'
 import Link from "components/Link";
 import Button from "components/Button";
 interface MovieProps {
-  movie: MovieModelWithTime;
+  movie: MovieModelWithTime | MovieModel;
   openMovieInfo: (movieId: number) => void;
   selectedMovieId: number | null;
   closeMovieInfo: () => void;
@@ -24,11 +24,12 @@ const Movie = ({
   const tmdbImagePath = import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH;
   const {addMovie, checkIfMovieExists} = React.useContext(FavoritesMoviesContext)
   const [movieExists, setMovieExists] = React.useState<boolean>(false);
-
   const openModalWithInfo = () => {
-    openMovieInfo(movie.id);
-    const mExists = checkIfMovieExists(movie.id);
-    setMovieExists(mExists);
+    if (selectedMovieId === null || selectedMovieId === movie.id) {
+      openMovieInfo(movie.id);
+      const mExists = checkIfMovieExists(movie.id);
+      setMovieExists(mExists);
+    }
   };
   const closeModalWithInfo = () => {
     closeMovieInfo();
@@ -54,7 +55,7 @@ const Movie = ({
           <FaInfo />
         </button>
         {selectedMovieId === movie.id && (
-           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30 bg-primaryBg shadow-xl shadow-black/40 overflow-auto rounded-lg flex flex-col justify-between pb-4 w-full md:px-0 h-auto border border-primaryBgBorder">
+           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30 bg-primaryBg shadow-xl shadow-black/40 overflow-auto rounded-lg flex flex-col justify-between pb-2 sm:pb-4 w-full md:px-0 h-auto border border-primaryBgBorder">
             <div className="h-full w-full">
               <button
                 className="absolute top-2 right-2 p-1 border-2 border-primaryNeon rounded-full text-body hover:bg-primaryNeon transition duration-300"
@@ -66,7 +67,7 @@ const Movie = ({
                 src={`${tmdbImagePath}/${movie.backdrop_path}`}
                 className="w-full h-[220px] object-cover"
               />
-              <div className="flex flex-col gap-y-1 p-2 font-body text-body">
+              <div className="flex flex-col gap-y-1 p-2 font-body text-xs">
                 <h1 className="font-title font-black text-extraSmallTitle flex flex-wrap items-center gap-1">
                   <span className="line-clamp-1">{movie?.original_title}</span>
                   <span className="text-subBody">
@@ -74,19 +75,19 @@ const Movie = ({
                     ( {new Date(movie?.release_date).toLocaleDateString()} )
                   </span>
                 </h1>
-                <p className="flex flex-row items-center gap-x-2 text-subBody text-bodyColor">
+                <p className="flex flex-row items-center gap-x-2 text-[10px] text-bodyColor">
                   <AiFillStar className="text-yellow-600" />
                   <span>
-                    {movie?.vote_average} / 10 - {movie?.vote_count} Avaliações
+                    {movie?.vote_average.toFixed(1)} / 10 - {movie?.vote_count} Avaliações
                   </span>
                 </p>
                 <p className="line-clamp-1">{movie?.overview}</p>
                 <p className="text-bodyColor italic text-xs">Idioma original: {movie?.original_language.toUpperCase()}</p>
               </div>
             </div>
-            <div className="flex flex-row gap-x-2 w-full px-2 text-xs">
+            <div className="flex flex-col sm:flex-row gap-1 w-full px-2 text-xs">
                 {/* <a href={`/movie/${movie.id}`} className="w-full bg-primaryBgBorder px-4 py-2 rounded-lg font-black text-center hover:bg-primaryBgBorder/70 transition duration-300 flex flex-col items-center justify-center">Ver mais</a> */}
-                <Link bg fullWidth to={`/movie/${movie.id}`} onlyBorder={false}>Ver mais</Link>
+                <Link bgNotPrimary fullWidth to={`/movie/${movie.id}`} onlyBorder={false}>Ver mais</Link>
                 {/* <button onClick={() => addMovie(movie)} className="w-full border-primaryBgBorder border 
                 px-4 py-2 rounded-lg font-black hover:bg-primaryBgBorder transition duration-300">Adicionar à favoritos</button> */}
                 {!movieExists ? (
