@@ -8,6 +8,8 @@ interface FavoritesMoviesContextModel {
   movies: MovieModelWithTime[];
   recentlyAdded: MovieModelWithTime[];
   userFavoriteList: MovieModelWithTime[];
+  checkIfMovieExists: (val: number) => boolean;
+  movieAlreadyAdded: boolean;
   setUserFavoriteList: React.Dispatch<React.SetStateAction<MovieModelWithTime[]>>
   addMovie: (val: MovieModelWithTime) => void
   removeMovie: (val: number) => void
@@ -18,6 +20,8 @@ export const FavoritesMoviesContext =
     movies: [],
     recentlyAdded: [],
     userFavoriteList: [],
+    checkIfMovieExists: () => false,
+    movieAlreadyAdded: false,
     setUserFavoriteList: () => {},
     removeMovie: () => {},
     addMovie: () => {},
@@ -29,7 +33,8 @@ const FavoritesMoviesContextProvider: React.FC<ChildrenPropsModel> = ({
   const [movies, setMovies] = React.useState<MovieModelWithTime[]>([]);
   const [recentlyAdded, setRecentlyAdded] = React.useState<MovieModelWithTime[]>([]);
   const [userFavoriteList, setUserFavoriteList] = React.useState<MovieModelWithTime[]>([]);
-  console.log(userFavoriteList);
+  const [movieAlreadyAdded, setMovieAlreadyAdded] = React.useState<boolean>(false);
+
   React.useEffect(() => {
     if (movies.length > 0) {
       const twoDaysAgo = new Date();
@@ -41,6 +46,18 @@ const FavoritesMoviesContextProvider: React.FC<ChildrenPropsModel> = ({
       setUserFavoriteList(movies);
     }
   }, [movies]);
+
+  const checkIfMovieExists = (movieId: number) => {
+    if (movies) {
+      const movieExists = movies.some((id) => id.id === movieId);
+      if (movieExists) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return false;
+  };
 
   React.useEffect(() => {
     getMovies();
@@ -54,6 +71,7 @@ const FavoritesMoviesContextProvider: React.FC<ChildrenPropsModel> = ({
   };
 
   const addMovie = (movie: MovieModelWithTime) => {
+    
     setMovies((prevMovies) => {
       const movieExists = prevMovies.some(
         (newMovie) => newMovie.id === movie.id
@@ -82,7 +100,7 @@ const FavoritesMoviesContextProvider: React.FC<ChildrenPropsModel> = ({
 
   return (
     <FavoritesMoviesContext.Provider
-      value={{ movies, addMovie, removeMovie, recentlyAdded, userFavoriteList, setUserFavoriteList }}
+      value={{ movies, addMovie, removeMovie, recentlyAdded, userFavoriteList, setUserFavoriteList, checkIfMovieExists, movieAlreadyAdded }}
     >
       {children}
     </FavoritesMoviesContext.Provider>

@@ -25,7 +25,7 @@ const Button = ({
       <button
         disabled={disabled}
         onClick={onClick}
-        className={`text-newWhite font-bold text-center active:scale-95 transition duration-300 flex flex-row items-center ${fullWidth ? "w-full justify-center" : "w-fit"} px-4 gap-x-4 ${small ? "py-2 px-6 text-xs rounded-md" : "py-2 rounded-lg"} ${disabled && "disabled:cursor-not-allowed disabled:bg-primary/40 text-bodyColor/40 active:scale-100"}
+        className={`text-newWhite font-bold text-center transition duration-300 flex flex-row items-center ${fullWidth ? "w-full justify-center" : "w-fit"} px-4 gap-x-4 ${small ? "py-2 px-6 text-xs rounded-md" : "py-2 rounded-lg"} ${disabled ? "disabled:cursor-not-allowed disabled:bg-primary/40 text-bodyColor/40" : "active:scale-95"}
         ${
           green
             ? onlyBorder

@@ -14,6 +14,9 @@ import GreenText from "components/GreenText";
 import { IoMdClose } from "react-icons/io";
 import FavoritesMoviesContext from "contexts/FavoritesMoviesContext";
 import OrderBy from "components/OrderBy";
+import Slide from "shared/Slide";
+import { SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Scrollbar } from "swiper/modules";
 
 interface MovieModelWithTime extends MovieModel {
   readonly addedDate: Date;
@@ -23,8 +26,14 @@ const Profile = () => {
   const [userFavoriteMovies, setUserFavoriteMovies] = React.useState<
     MovieModelWithTime[]
   >([]);
-  const { removeMovie, movies, recentlyAdded } = React.useContext(FavoritesMoviesContext);
-  const [userFavoriteList, setUserFavoriteList] = React.useState<MovieModelWithTime[]>([]);
+  const {
+    removeMovie,
+    movies,
+    recentlyAdded,
+    userFavoriteList,
+    setUserFavoriteList,
+  } = React.useContext(FavoritesMoviesContext);
+  //const [userFavoriteList, setUserFavoriteList] = React.useState<MovieModelWithTime[]>([]);
   const [userWatchedList, setUserWatchedList] = React.useState<number>();
   const [selectedMovie, setSelectedMovie] = React.useState<number | null>(null);
   const [userMostRepeatedCategory, setUserMostRepeatedCategory] =
@@ -46,7 +55,7 @@ const Profile = () => {
     if (watchedMovies) {
       setUserWatchedList(JSON.parse(watchedMovies).length);
     }
-    if(movies){
+    if (movies) {
       setUserFavoriteList(movies);
     }
     if (favoriteMovies) {
@@ -144,32 +153,34 @@ const Profile = () => {
               green={false}
               message="Filmes adicionados recentemente à lista de favoritos"
             />
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 w-full">
+            <Slide scrollBar modules={[Pagination, Scrollbar, Navigation]}>
               {recentlyAdded.map((movie) => (
-                <div key={movie.id} className="flex flex-col gap-y-2">
-                  <Movie
-                    movie={movie}
-                    selectedMovieId={selectedMovie}
-                    onGrid
-                    closeMovieInfo={closeMovieInfo}
-                    openMovieInfo={() => openMovieInfo(movie.id)}
-                  />
-                  <p className="text-xs italic text-bodyColor">
-                    Adicionado em{" "}
-                    {new Date(movie.addedDate).toLocaleDateString("pt-BR")}
-                  </p>
-                  <Button
-                    onClick={() => removeMovie(movie.id)}
-                    green={false}
-                    onlyBorder
-                    small
-                    fullWidth
-                  >
-                    Remover da lista <IoMdClose className="font-black" />
-                  </Button>
-                </div>
+                <SwiperSlide className="py-10" key={movie.id}>
+                  <div className="flex flex-col gap-y-2">
+                    <Movie
+                      movie={movie}
+                      selectedMovieId={selectedMovie}
+                      onGrid
+                      closeMovieInfo={closeMovieInfo}
+                      openMovieInfo={() => openMovieInfo(movie.id)}
+                    />
+                    <p className="text-xs italic text-bodyColor">
+                      Adicionado em{" "}
+                      {new Date(movie.addedDate).toLocaleDateString("pt-BR")}
+                    </p>
+                    <Button
+                      onClick={() => removeMovie(movie.id)}
+                      green={false}
+                      onlyBorder
+                      small
+                      fullWidth
+                    >
+                      Remover da lista <IoMdClose className="font-black" />
+                    </Button>
+                  </div>
+                </SwiperSlide>
               ))}
-            </div>
+            </Slide>
           </div>
           <div className="flex flex-col gap-y-4">
             <Title
@@ -178,7 +189,11 @@ const Profile = () => {
               green={false}
               message="Todos os filmes da sua lista você encontra aqui"
             />
-            <OrderBy movies={userFavoriteList} setMovies={setUserFavoriteList} absolute />
+            <OrderBy
+              movies={userFavoriteList}
+              setMovies={setUserFavoriteList}
+              absolute
+            />
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 w-full">
               {userFavoriteList.map((movie) => (
                 <div key={movie.id} className="flex flex-col gap-y-2">

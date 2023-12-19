@@ -23,6 +23,7 @@ const WatchedListContextProvider: React.FC<WatchedListContextProviderProps> = ({
 }) => {
   const [watchedList, setWatchedList] = React.useState<number[]>([]);
   const [alreadyAdded, setAlreadyAdded] = React.useState<boolean>(false);
+  
   const addToWatchedList = (movieId: number) => {
     setWatchedList((prevList) => {
       const movieExists = prevList.some((id) => id === movieId);
