@@ -83,7 +83,7 @@ const Movie = ({
             </div>
             <div className="flex flex-row gap-x-2 w-full px-2 text-xs">
                 {/* <a href={`/movie/${movie.id}`} className="w-full bg-primaryBgBorder px-4 py-2 rounded-lg font-black text-center hover:bg-primaryBgBorder/70 transition duration-300 flex flex-col items-center justify-center">Ver mais</a> */}
-                <Link fullWidth to={`/movie/${movie.id}`} onlyBorder={false}>Ver mais</Link>
+                <Link bg fullWidth to={`/movie/${movie.id}`} onlyBorder={false}>Ver mais</Link>
                 {/* <button onClick={() => addMovie(movie)} className="w-full border-primaryBgBorder border 
                 px-4 py-2 rounded-lg font-black hover:bg-primaryBgBorder transition duration-300">Adicionar à favoritos</button> */}
                 <Button fullWidth small={false} green={false} onlyBorder onClick={() => addMovie(movie)} type="button">Favoritar</Button>

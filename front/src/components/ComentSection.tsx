@@ -34,7 +34,7 @@ const CommentItem: React.FC<{ comment: Comment }> = ({ comment }) => {
         </div>
       </div>
       <div className="flex items-center text-gray-500 text-sm">
-        <small className="text-sm">{comment.date}</small>
+        <small className="text-xs">{comment.date}</small>
         <span className="ml-3 flex items-center">
           <IoHeart className="text-red-500 text-xl mr-1" /> {comment.likes}
         </span>
@@ -72,10 +72,9 @@ const CommentSection: React.FC<CommentSectionProps> = ({ comments }) => {
   };
 
   return (
-    <div className="w-6/12 mx-auto mt-10 flex flex-col gap-y-4">
-      {/* <h2 className="text-2xl font-semibold mb-6">Seção de comentários</h2> */}
+    <div className="flex flex-col gap-y-4 pt-[20px] pb-[100px] w-full px-6 md:w-[85%] md:px-0 mx-auto border-t border-primaryBgBorder">
       <Title bold center={false} green={false} message="Seção de Comentários" />
-      <div className="flex flex-col-reverse">
+      <div className="flex flex-col-reverse w-full md:w-3/5">
         <div className="space-y-4">
           {simulatedComments.map((comment) => (
             <CommentItem key={comment.id} comment={comment} />
@@ -92,31 +91,33 @@ const CommentSection: React.FC<CommentSectionProps> = ({ comments }) => {
             <textarea
               name="text"
               placeholder="Escreva seu comentário..."
-              className="w-full p-2 rounded bg-[#181818] outline-none mb-2"
+              className="w-full p-2 rounded-lg bg-primaryBgBorder outline-none text-sm shadow-lg"
               rows={4}
               value={newComment.text}
               onChange={handleInputChange}
             />
-            <div className="flex items-center justify-end space-x-2">
-              <Button
-                green={false}
-                onlyBorder
-                small
-                onClick={() => setNewComment({ author: "", text: "" })}
-              >
-                {" "}
-                Cancelar
-                <FaTimes className="ml-2" />
-              </Button>
-              <Button
-                green
-                onlyBorder={false}
-                small
-                onClick={handleAddComment}
-              >
-                 Enviar Comentário
-                <FaPaperPlane className="ml-2" />
-              </Button>
+            <div className="flex flex-wrap gap-2 items-center justify-start md:justify-end ">
+              <div className="flex items-center justify-end space-x-2">
+                <Button
+                  green={false}
+                  onlyBorder
+                  small
+                  onClick={() => setNewComment({ author: "", text: "" })}
+                >
+                  {" "}
+                  Cancelar
+                  <FaTimes className="ml-2" />
+                </Button>
+                <Button
+                  green
+                  onlyBorder={false}
+                  small
+                  onClick={handleAddComment}
+                >
+                  Enviar Comentário
+                  <FaPaperPlane className="ml-2" />
+                </Button>
+              </div>
             </div>
           </div>
         </div>
