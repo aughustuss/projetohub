@@ -3,7 +3,7 @@ import React from "react";
 import SideBarContext from "contexts/SidebarContext";
 import useMediaQuery from "hooks/MediaScreen";
 import Linksmapped from "components/Linksmapped";
-import Input from "components/Input";
+import Input from "components/input";
 import LastTitleContext from "contexts/LastSearchedTitle";
 import { useNavigate } from "react-router-dom";
 interface HeaderProps {
