@@ -4,12 +4,8 @@ import Footer from "components/fixeds/Footer";
 import Sidebar from "components/fixeds/Sidebar";
 
 import React from "react";
-<<<<<<< HEAD
 import GenreMovies from "views/genreMovies";
 const LoginPage = React.lazy(() => import("views/Login"));
-=======
-import GenreMovies from "views/GenreMovies";
->>>>>>> 3d09387cd50ebc3bcc1c6ec8eecfdb10737735d9
 const HomePage = React.lazy(() => import("views/Home"));
 const MoviePage = React.lazy(() => import("views/Movie"));
 const LoadingPage = React.lazy(() => import("views/Loading"));
@@ -46,11 +42,7 @@ function App() {
                 <Route path="/genre/:movieGenre" Component={GenreMovies} />
                 <Route path="/chat" Component={ChatPage}/>
                 <Route path="/searchedMovies" Component={SearchedMoviePage}/>
-<<<<<<< HEAD
                 <Route path="/login" Component={LoginPage}/>
-=======
-                <Route path="/profile" Component={ProfilePage}/>
->>>>>>> 3d09387cd50ebc3bcc1c6ec8eecfdb10737735d9
               </Routes>
             </div>
             <Footer/>
