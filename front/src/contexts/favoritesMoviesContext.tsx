@@ -8,7 +8,7 @@ interface FavoritesMoviesContextModel {
   movies: MovieModelWithTime[];
   recentlyAdded: MovieModelWithTime[];
   userFavoriteList: MovieModelWithTime[];
-  //setUserFavoriteList: React.Dispatch<React.SetStateAction<
+  setUserFavoriteList: React.Dispatch<React.SetStateAction<MovieModelWithTime[]>>
   addMovie: (val: MovieModelWithTime) => void
   removeMovie: (val: number) => void
 }
@@ -18,6 +18,7 @@ export const FavoritesMoviesContext =
     movies: [],
     recentlyAdded: [],
     userFavoriteList: [],
+    setUserFavoriteList: () => {},
     removeMovie: () => {},
     addMovie: () => {},
   });
@@ -28,7 +29,7 @@ const FavoritesMoviesContextProvider: React.FC<ChildrenPropsModel> = ({
   const [movies, setMovies] = React.useState<MovieModelWithTime[]>([]);
   const [recentlyAdded, setRecentlyAdded] = React.useState<MovieModelWithTime[]>([]);
   const [userFavoriteList, setUserFavoriteList] = React.useState<MovieModelWithTime[]>([]);
-
+  console.log(userFavoriteList);
   React.useEffect(() => {
     if (movies.length > 0) {
       const twoDaysAgo = new Date();
@@ -81,7 +82,7 @@ const FavoritesMoviesContextProvider: React.FC<ChildrenPropsModel> = ({
 
   return (
     <FavoritesMoviesContext.Provider
-      value={{ movies, addMovie, removeMovie, recentlyAdded, userFavoriteList }}
+      value={{ movies, addMovie, removeMovie, recentlyAdded, userFavoriteList, setUserFavoriteList }}
     >
       {children}
     </FavoritesMoviesContext.Provider>

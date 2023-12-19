@@ -43,13 +43,12 @@ const Profile = () => {
   React.useEffect(() => {
     const watchedMovies = localStorage.getItem("watchedList");
     const favoriteMovies = localStorage.getItem("userFavoriteMovies");
-    if(movies){
-      setUserFavoriteList(movies);
-    }
     if (watchedMovies) {
       setUserWatchedList(JSON.parse(watchedMovies).length);
     }
-
+    if(movies){
+      setUserFavoriteList(movies);
+    }
     if (favoriteMovies) {
       const parsedFavoriteMovies = JSON.parse(favoriteMovies);
       setUserFavoriteMovies(parsedFavoriteMovies);
@@ -179,7 +178,7 @@ const Profile = () => {
               green={false}
               message="Todos os filmes da sua lista você encontra aqui"
             />
-            <OrderBy movies={movies} setMovies={setUserFavoriteList} absolute />
+            <OrderBy movies={userFavoriteList} setMovies={setUserFavoriteList} absolute />
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 w-full">
               {userFavoriteList.map((movie) => (
                 <div key={movie.id} className="flex flex-col gap-y-2">
