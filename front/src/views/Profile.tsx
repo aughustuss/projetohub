@@ -33,12 +33,15 @@ const Profile = () => {
     recentlyAdded,
     userFavoriteList,
     setUserFavoriteList,
+    clearMovies,
   } = React.useContext(FavoritesMoviesContext);
   //const [userFavoriteList, setUserFavoriteList] = React.useState<MovieModelWithTime[]>([]);
   const [userWatchedList, setUserWatchedList] = React.useState<number>();
   const [selectedMovie, setSelectedMovie] = React.useState<number | null>(null);
-  const [userMostRepeatedCategory, setUserMostRepeatedCategory] = React.useState<number>();
-  const [userMostRepeatedCategoryName, setUserMostRepeatedCategoryName] = React.useState<string>("");
+  const [userMostRepeatedCategory, setUserMostRepeatedCategory] =
+    React.useState<number>();
+  const [userMostRepeatedCategoryName, setUserMostRepeatedCategoryName] =
+    React.useState<string>("");
   const [userMoviesCount, setUserMoviesCount] = React.useState<number>();
   const [userTitle, setUserTitle] = React.useState<string>("");
   const openMovieInfo = (movieId: number) => {
@@ -56,24 +59,26 @@ const Profile = () => {
     }
     if (movies) {
       setUserFavoriteList(movies);
-      if(movies.length > 5 && movies.length <= 25){
-        setUserTitle("Assiste alguns filmes")
-      } else if (movies.length > 25 && movies.length <= 50){
-        setUserTitle("Gosta de assistir filmes")
-      } else if (movies.length > 50 && movies.length <= 100){
-        setUserTitle("Tem uma paixão por filmes")
-      } else if (movies.length > 100 && movies.length <= 200){
-        setUserTitle("Ama muito filmes")
-      } else if (movies.length > 200 && movies.length <= 300){
-        setUserTitle("É louco por filmes")
-      } else if(movies.length > 200 && movies.length <= 400){
-        setUserTitle("Realmente gosta de filmes, não passa um dia sem ver!")
-      } else if(movies.length > 400 && movies.length <= 800){
-        setUserTitle("É um grande cinéfilo")
-      } else if (movies.length > 800 && movies.length <= 1000){
-        setUserTitle("Um dos maiores cinéfilos que já pisaram na terra")
+      if (movies.length > 5 && movies.length <= 25) {
+        setUserTitle("Assiste alguns filmes");
+      } else if (movies.length > 25 && movies.length <= 50) {
+        setUserTitle("Gosta de assistir filmes");
+      } else if (movies.length > 50 && movies.length <= 100) {
+        setUserTitle("Tem uma paixão por filmes");
+      } else if (movies.length > 100 && movies.length <= 200) {
+        setUserTitle("Ama muito filmes");
+      } else if (movies.length > 200 && movies.length <= 300) {
+        setUserTitle("É louco por filmes");
+      } else if (movies.length > 200 && movies.length <= 400) {
+        setUserTitle("Realmente gosta de filmes, não passa um dia sem ver!");
+      } else if (movies.length > 400 && movies.length <= 800) {
+        setUserTitle("É um grande cinéfilo");
+      } else if (movies.length > 800 && movies.length <= 1000) {
+        setUserTitle("Um dos maiores cinéfilos que já pisaram na terra");
       } else {
-        setUserTitle("Ninguém jamais assistiu tantos filmes assim. É mais que um cinéfilo!")
+        setUserTitle(
+          "Ninguém jamais assistiu tantos filmes assim. É mais que um cinéfilo!"
+        );
       }
     }
     if (favoriteMovies) {
@@ -120,9 +125,15 @@ const Profile = () => {
               center={false}
               green={false}
               message={
-              <Row baseline>
-                Micael <p> <span className="italic text-sm">AKA</span> <span className="text-lg"> ( Michas ) -</span> <span className="text-base"> {userTitle} </span> </p>
-              </Row>
+                <Row baseline>
+                  Micael{" "}
+                  <p>
+                    {" "}
+                    <span className="italic text-sm">AKA</span>{" "}
+                    <span className="text-lg"> ( Michas ) -</span>{" "}
+                    <span className="text-base"> {userTitle} </span>{" "}
+                  </p>
+                </Row>
               }
               responsive
               fullWidth
@@ -146,22 +157,37 @@ const Profile = () => {
             </Row>
             <Row space responsive>
               <div className="border border-primaryBg p-4 rounded-lg w-fit text-sm gap-y-2 flex flex-col">
-                <p>
-                  O gênero preferido do Michas é:{" "}
-                  <GreenText bold>{userMostRepeatedCategoryName}</GreenText>{" "}
-                </p>
-                <p>
-                  Este usuário assistiu{" "}
-                  <GreenText bold> {userMoviesCount}</GreenText> filmes deste
-                  gênero{" "}
-                </p>
+                {userMostRepeatedCategoryName &&
+                userMostRepeatedCategoryName !== "" &&
+                userFavoriteMovies.length > 0 ? (
+                  <>
+                    <p>
+                      O gênero preferido do Michas é: {" "}
+                      <GreenText bold>{userMostRepeatedCategoryName}</GreenText>
+                    </p>
+                    <p>
+                      Este usuário assistiu{" "}
+                      <GreenText bold> {userMoviesCount}</GreenText> filmes
+                      deste gênero{" "}
+                    </p>
+                  </>
+                ) : (
+                  <p>Michas ainda não assistiu filme.</p>
+                )}
               </div>
               <div className="gap-2 flex flex-col w-full sm:w-fit">
                 <Button fullWidth green={false} onlyBorder={false} small>
                   <BiSolidChat className="text-2xl" />
                   Enviar mensagem{" "}
                 </Button>
-                <Link small col={false} to="/chat" onlyBorder={false} fullWidth bgPrimary>
+                <Link
+                  small
+                  col={false}
+                  to="/chat"
+                  onlyBorder={false}
+                  fullWidth
+                  bgPrimary
+                >
                   <IoPersonAdd className="text-lg" />
                   Seguir{" "}
                 </Link>
@@ -177,7 +203,9 @@ const Profile = () => {
               green={false}
               message="Filmes adicionados recentemente à lista de favoritos"
             />
-            <Slide scrollBar modules={[Pagination, Scrollbar, Navigation]}>
+            {userFavoriteMovies.length > 0 ? (
+
+              <Slide scrollBar modules={[Pagination, Scrollbar, Navigation]}>
               {recentlyAdded.map((movie) => (
                 <SwiperSlide className="py-10" key={movie.id}>
                   <div className="flex flex-col gap-y-2">
@@ -193,18 +221,30 @@ const Profile = () => {
                       {new Date(movie.addedDate).toLocaleDateString("pt-BR")}
                     </p>
                     <Button
-                      onClick={() => removeMovie(movie.id)}
-                      green={false}
-                      onlyBorder
-                      small
-                      fullWidth
-                    >
-                      Remover da lista <IoMdClose className="font-black" />
-                    </Button>
+                    onClick={() => {
+                      if(movies.length < 2){
+                        clearMovies();
+                      } else {
+                        removeMovie(movie.id)
+                      }
+                    }}
+                    green={false}
+                    onlyBorder
+                    small
+                    fullWidth
+                  >
+                    Remover da lista <IoMdClose className="font-black" />
+                  </Button>
                   </div>
                 </SwiperSlide>
               ))}
             </Slide>
+              ) : (
+                <div className="flex flex-col items-center justify-center h-[400px] text-xs text-bodyColor gap-y-4">
+                  Você ainda não assistiu nenhuma filme... Que pena. Vamos mudar isso!
+                  <Link bgNotPrimary onlyBorder to="/movies">Navegar por Filmes</Link>
+                </div>
+              )}
           </div>
           <div className="flex flex-col gap-y-4">
             <Title
@@ -218,7 +258,9 @@ const Profile = () => {
               setMovies={setUserFavoriteList}
               absolute
             />
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 md:gap-3 w-full">
+            {userFavoriteList.length > 0 ?(
+
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 md:gap-3 w-full">
               {userFavoriteList.map((movie) => (
                 <div key={movie.id} className="flex flex-col gap-y-2">
                   <Movie
@@ -227,13 +269,19 @@ const Profile = () => {
                     onGrid
                     closeMovieInfo={closeMovieInfo}
                     openMovieInfo={() => openMovieInfo(movie.id)}
-                  />
+                    />
                   <p className="text-xs italic text-bodyColor">
                     Adicionado em{" "}
                     {new Date(movie.addedDate).toLocaleDateString("pt-BR")}
                   </p>
                   <Button
-                    onClick={() => removeMovie(movie.id)}
+                    onClick={() => {
+                      if(movies.length < 2){
+                        clearMovies();
+                      } else {
+                        removeMovie(movie.id)
+                      }
+                    }}
                     green={false}
                     onlyBorder
                     small
@@ -244,6 +292,12 @@ const Profile = () => {
                 </div>
               ))}
             </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center h-[400px] text-xs text-bodyColor gap-y-4">
+                  Você ainda não assistiu nenhuma filme... Que pena. Vamos mudar isso!
+                  <Link bgNotPrimary onlyBorder to="/movies">Navegar por Filmes</Link>
+                </div>
+              )}
           </div>
         </div>
       </main>

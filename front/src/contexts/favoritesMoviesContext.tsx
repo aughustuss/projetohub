@@ -13,6 +13,7 @@ interface FavoritesMoviesContextModel {
   setUserFavoriteList: React.Dispatch<React.SetStateAction<MovieModelWithTime[]>>
   addMovie: (val: MovieModelWithTime | MovieModel) => void
   removeMovie: (val: number) => void
+  clearMovies: () => void;
 }
 
 export const FavoritesMoviesContext =
@@ -25,6 +26,7 @@ export const FavoritesMoviesContext =
     setUserFavoriteList: () => {},
     removeMovie: () => {},
     addMovie: () => {},
+    clearMovies: () => {}
   });
 
 const FavoritesMoviesContextProvider: React.FC<ChildrenPropsModel> = ({
@@ -98,9 +100,16 @@ const FavoritesMoviesContextProvider: React.FC<ChildrenPropsModel> = ({
     }
   };
 
+  const clearMovies = () => {
+    setRecentlyAdded([]);
+    setUserFavoriteList([]);
+    setMovies([]);
+    localStorage.removeItem("userFavoriteMovies");
+  }
+
   return (
     <FavoritesMoviesContext.Provider
-      value={{ movies, addMovie, removeMovie, recentlyAdded, userFavoriteList, setUserFavoriteList, checkIfMovieExists, movieAlreadyAdded }}
+      value={{ movies, addMovie, removeMovie, recentlyAdded, userFavoriteList, setUserFavoriteList, checkIfMovieExists, movieAlreadyAdded , clearMovies}}
     >
       {children}
     </FavoritesMoviesContext.Provider>
