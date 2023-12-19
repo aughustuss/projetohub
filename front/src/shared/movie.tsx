@@ -1,4 +1,4 @@
-import { MovieModel } from "models/entities/Movie";
+import { MovieModelWithTime } from "models/entities/Movie";
 import { FaInfo } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { AiFillStar } from "react-icons/ai";
@@ -7,7 +7,7 @@ import React from 'react'
 import Link from "components/Link";
 import Button from "components/Button";
 interface MovieProps {
-  movie: MovieModel;
+  movie: MovieModelWithTime;
   openMovieInfo: (movieId: number) => void;
   selectedMovieId: number | null;
   closeMovieInfo: () => void;
@@ -22,10 +22,13 @@ const Movie = ({
   onGrid
 }: MovieProps) => {
   const tmdbImagePath = import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH;
-  const {addMovie} = React.useContext(FavoritesMoviesContext)
-  
+  const {addMovie, checkIfMovieExists} = React.useContext(FavoritesMoviesContext)
+  const [movieExists, setMovieExists] = React.useState<boolean>(false);
+
   const openModalWithInfo = () => {
     openMovieInfo(movie.id);
+    const mExists = checkIfMovieExists(movie.id);
+    setMovieExists(mExists);
   };
   const closeModalWithInfo = () => {
     closeMovieInfo();
@@ -86,7 +89,11 @@ const Movie = ({
                 <Link bg fullWidth to={`/movie/${movie.id}`} onlyBorder={false}>Ver mais</Link>
                 {/* <button onClick={() => addMovie(movie)} className="w-full border-primaryBgBorder border 
                 px-4 py-2 rounded-lg font-black hover:bg-primaryBgBorder transition duration-300">Adicionar à favoritos</button> */}
-                <Button fullWidth small={false} green={false} onlyBorder onClick={() => addMovie(movie)} type="button">Favoritar</Button>
+                {!movieExists ? (
+                  <Button fullWidth small={false} green={false} onlyBorder onClick={() => addMovie(movie)} type="button">Favoritar</Button>
+                ) : (
+                  <Button fullWidth small={false} green={false} onlyBorder disabled type="button">Favoritado</Button>
+                )}
             </div>
           </div>
         )}

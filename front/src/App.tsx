@@ -43,6 +43,7 @@ function App() {
                 <Route path="/chat" Component={ChatPage}/>
                 <Route path="/searchedMovies" Component={SearchedMoviePage}/>
                 <Route path="/login" Component={LoginPage}/>
+                <Route path="/profile" Component={ProfilePage} />
               </Routes>
             </div>
             <Footer/>

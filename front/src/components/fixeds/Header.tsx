@@ -3,7 +3,7 @@ import React from "react";
 import SideBarContext from "contexts/SidebarContext";
 import useMediaQuery from "hooks/MediaScreen";
 import Linksmapped from "components/Linksmapped";
-import Input from "components/input";
+import Input from "components/Input";
 import LastTitleContext from "contexts/LastSearchedTitle";
 import { useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
@@ -63,7 +63,6 @@ const Header = ({ isOnTop }: HeaderProps) => {
               value={searchParam}
               withIcon
               icon={<IoMdClose/>}
-              left
             />
             {searchParam.length > 0 && (
             <button className="border border-primaryBgBorder hover:bg-primaryBgBorder transition duration-300 active:scale-95 h-full px-4 rounded-lg font-semibold text-xs" onClick={() => handleGo()} >

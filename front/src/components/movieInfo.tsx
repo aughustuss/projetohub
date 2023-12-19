@@ -13,7 +13,7 @@ import { FaCheck } from "react-icons/fa6";
 import { BsPlus } from "react-icons/bs";
 import { AxiosResponse } from "axios";
 import Loading from "views/Loading";
-import { MovieModel } from "models/entities/Movie";
+import { MovieModelWithTime } from "models/entities/Movie";
 import FavoritesMoviesContext from "contexts/FavoritesMoviesContext";
 import Button from "./Button";
 import WatchedListContext from "contexts/WatchedListContext";
@@ -23,15 +23,16 @@ interface MovieInfoProps {
 const MovieInfo = ({ movieId }: MovieInfoProps) => {
   
   const [movieById, setMovieById] = React.useState<MovieByIdModel>();
+  const [movieExists, setMovieExists] = React.useState<boolean>(false);
   const {addMovie} = React.useContext(FavoritesMoviesContext);
-  const {addToWatchedList, alreadyAdded} = React.useContext(WatchedListContext);
+  const {addToWatchedList, checkIfMovieExists} = React.useContext(WatchedListContext);
   const tmdbImagePath = import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH;
   const [isLoading, setIsLoading] = React.useState(false);
   const movieHours = movieById?.runtime && Math.floor(movieById?.runtime / 60);
   const movieMinutes = movieById?.runtime && movieById?.runtime % 60;
   const moviePercentageLiked = movieById?.vote_average && (movieById.vote_average / 10) * 100;
   const moviePercentageDisliked = moviePercentageLiked && 100 - moviePercentageLiked;
-  let movieInfosToAddInFavoriteList: MovieModel;
+  let movieInfosToAddInFavoriteList: MovieModelWithTime;
   if(movieById){
     movieInfosToAddInFavoriteList = {
       adult: movieById?.adult,
@@ -47,7 +48,8 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
       title: movieById?.title,
       video: movieById?.video,
       vote_average: movieById?.vote_average,
-      vote_count: movieById?.vote_count
+      vote_count: movieById?.vote_count,
+      addedDate: new Date(),
     }
   }
 
@@ -66,6 +68,8 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
   };
 
   React.useEffect(() => {
+    const mExists = checkIfMovieExists(Number(movieId));
+    setMovieExists(mExists);
     const fetchMovieById = async () => {
       try {
         setIsLoading(true);
@@ -87,6 +91,7 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
       }
     };
     fetchMovieById();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [movieId]);
 
   if (isLoading) return <Loading big />;
@@ -139,7 +144,7 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
                       Marcar como assistido{" "}
                       <FaCheck className="absolute right-2" />
                     </button> */}
-                    {!alreadyAdded
+                    {!movieExists
                     ? 
                     (
                       <Button onClick={() => { if(movieById?.id) addToWatchedList(movieById?.id)}} small={false} green onlyBorder={false} type="button"><FaCheck/>Marcar como assistido</Button>
@@ -268,8 +273,8 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
               </div>
             </div>
           </div>
-          <button onClick={() => addMovie(movieInfosToAddInFavoriteList)} className="absolute -right-0 -top-10 bg-newBlack rounded-full p-6 font-black text-title text-primaryNeon hover:scale-105 transition duration-300 mr-2 shadow-md">
-            <BsPlus />
+          <button onClick={() => addMovie(movieInfosToAddInFavoriteList)} className="absolute -right-0 -top-10 bg-newBlack rounded-full p-4 font-black text-title text-primaryNeon active:scale-95 transition duration-300 mr-2 shadow-md">
+            <BsPlus className="text-4xl" />
           </button>
         </div>
       </div>
