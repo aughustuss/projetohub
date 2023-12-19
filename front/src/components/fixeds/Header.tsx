@@ -63,6 +63,7 @@ const Header = ({ isOnTop }: HeaderProps) => {
               value={searchParam}
               withIcon
               icon={<IoMdClose/>}
+              left
             />
             {searchParam.length > 0 && (
             <button className="border border-primaryBgBorder hover:bg-primaryBgBorder transition duration-300 active:scale-95 h-full px-4 rounded-lg font-semibold text-xs" onClick={() => handleGo()} >

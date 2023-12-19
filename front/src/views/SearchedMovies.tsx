@@ -7,6 +7,7 @@ import Movie from "shared/Movie";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import Button from "components/Button";
 import OrderBy from "components/OrderBy";
+import { findTheMostRepeatedCategory } from "utils/CategoryFrequency";
 const SearchedMovies = () => {
   const location = useLocation();
   const movieName = new URLSearchParams(location.search).get("movieName");
@@ -50,35 +51,8 @@ const SearchedMovies = () => {
     setFilteredMovies(filterMovies(categorizedMovies, selectedCategories));
   };
 
-  const findTheMostRepeatedCategory = (movies: MovieModel[]) => {
-    const categoryCount = new Map<number, number>();
-    for (const movie of movies) {
-      for (const genre of movie.genre_ids) {
-        const categoryId = AllCategories.find(
-          (cat) => cat.id === Number(genre)
-        );
-        if (categoryId) {
-          categoryCount.set(
-            categoryId.id,
-            (categoryCount.get(categoryId.id) || 0) + 1
-          );
-        }
-      }
-    }
-
-    let mostFrequentCategoryCount = 0;
-    let maxCount = 0;
-    for (const [categoryId, count] of categoryCount.entries()) {
-      if (count > maxCount) {
-        mostFrequentCategoryCount = categoryId;
-        maxCount = count;
-      }
-    }
-    localStorage.setItem(
-      "mostFrequentCategory",
-      JSON.stringify(mostFrequentCategoryCount)
-    );
-    return mostFrequentCategoryCount;
+  const findTheMostRepeatedCategoryService = (movies: MovieModel[]) => {
+    return findTheMostRepeatedCategory(movies, "mostFrequentCategory");
   };
 
   const filterMovies = (
@@ -110,7 +84,7 @@ const SearchedMovies = () => {
             const movies = res.data.results;
             setCategorizedMovies(movies);
             setFilteredMovies(movies);
-            findTheMostRepeatedCategory(movies);
+            findTheMostRepeatedCategoryService(movies);
           })
           .catch((err) => {
             console.log(err);
@@ -118,7 +92,6 @@ const SearchedMovies = () => {
       );
     }
   }, [movieName]);
-  console.log(categorizedMovies);
   return (
     <>
       <main className="pb-[100px] pt-[120px] min-h-screen w-[85%] flex flex-col gap-4 md:flex-row mx-auto">
