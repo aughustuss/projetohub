@@ -1,5 +1,5 @@
 import React from "react";
-import { MovieModel, MovieModelWithTime } from "models/entities/Movie";
+import { MovieModel } from "models/entities/Movie";
 import Slide from "shared/Slide";
 import { SwiperSlide } from "swiper/react";
 import { BsPlayFill, BsPlus } from "react-icons/bs";
@@ -16,8 +16,8 @@ import Title from "./Title";
 
 const Banner = () => {
   const {addMovie} = React.useContext(FavoritesMoviesContext)
-  const [popularMovies, setPopularMovies] = React.useState<MovieModel[] | MovieModelWithTime[]>([]);
-  const [upComingMovies, setUpComingMovies] = React.useState<MovieModel[] | MovieModelWithTime[] >([]);
+  const [popularMovies, setPopularMovies] = React.useState<MovieModel[]>([]);
+  const [upComingMovies, setUpComingMovies] = React.useState<MovieModel[] >([]);
   
   const [loadingMovies, setLoadingMovies] = React.useState<boolean>(false);
   
@@ -42,7 +42,7 @@ const Banner = () => {
     <>
       <main className="flex flex-col lg:flex-row gap-10 min-h-[550px] h-auto">
         <Slide scrollBar={false} modules={[Navigation, Pagination, EffectCoverflow]}>
-          {popularMovies && popularMovies.map((movie: MovieModel | MovieModelWithTime) => (
+          {popularMovies && popularMovies.map((movie: MovieModel) => (
             <SwiperSlide key={movie.id}>
               <div className="relative w-full h-[550px] z-0 bg-none">
                 <div className="relative h-[85%] w-full">

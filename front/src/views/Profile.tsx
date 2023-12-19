@@ -37,19 +37,13 @@ const Profile = () => {
   } = React.useContext(FavoritesMoviesContext);
   //const [userFavoriteList, setUserFavoriteList] = React.useState<MovieModelWithTime[]>([]);
   const [userWatchedList, setUserWatchedList] = React.useState<number>();
-  const [selectedMovie, setSelectedMovie] = React.useState<number | null>(null);
   const [userMostRepeatedCategory, setUserMostRepeatedCategory] =
     React.useState<number>();
   const [userMostRepeatedCategoryName, setUserMostRepeatedCategoryName] =
     React.useState<string>("");
   const [userMoviesCount, setUserMoviesCount] = React.useState<number>();
   const [userTitle, setUserTitle] = React.useState<string>("");
-  const openMovieInfo = (movieId: number) => {
-    setSelectedMovie(movieId);
-  };
-  const closeMovieInfo = () => {
-    setSelectedMovie(null);
-  };
+  
 
   React.useEffect(() => {
     const watchedMovies = localStorage.getItem("watchedList");
@@ -59,7 +53,7 @@ const Profile = () => {
     }
     if (movies) {
       setUserFavoriteList(movies);
-      if (movies.length > 5 && movies.length <= 25) {
+      if (movies.length >= 0 && movies.length <= 25) {
         setUserTitle("Assiste alguns filmes");
       } else if (movies.length > 25 && movies.length <= 50) {
         setUserTitle("Gosta de assistir filmes");
@@ -80,6 +74,7 @@ const Profile = () => {
           "Ninguém jamais assistiu tantos filmes assim. É mais que um cinéfilo!"
         );
       }
+      console.log(movies.length)
     }
     if (favoriteMovies) {
       const parsedFavoriteMovies = JSON.parse(favoriteMovies);
@@ -195,7 +190,7 @@ const Profile = () => {
             </Row>
           </div>
         </div>
-        <div className="flex flex-col gap-y-[80px]">
+        <div className="flex flex-col gap-y-[10px]">
           <div className="flex flex-col gap-y-4">
             <Title
               bold
@@ -211,14 +206,11 @@ const Profile = () => {
                   <div className="flex flex-col gap-y-2">
                     <Movie
                       movie={movie}
-                      selectedMovieId={selectedMovie}
                       onGrid
-                      closeMovieInfo={closeMovieInfo}
-                      openMovieInfo={() => openMovieInfo(movie.id)}
                     />
                     <p className="text-xs italic text-bodyColor">
                       Adicionado em{" "}
-                      {new Date(movie.addedDate).toLocaleDateString("pt-BR")}
+                      {movie.addedDate && new Date(movie.addedDate).toLocaleDateString("pt-BR")}
                     </p>
                     <Button
                     onClick={() => {
@@ -265,14 +257,11 @@ const Profile = () => {
                 <div key={movie.id} className="flex flex-col gap-y-2">
                   <Movie
                     movie={movie}
-                    selectedMovieId={selectedMovie}
                     onGrid
-                    closeMovieInfo={closeMovieInfo}
-                    openMovieInfo={() => openMovieInfo(movie.id)}
                     />
                   <p className="text-xs italic text-bodyColor">
                     Adicionado em{" "}
-                    {new Date(movie.addedDate).toLocaleDateString("pt-BR")}
+                    {movie.addedDate && new Date(movie.addedDate).toLocaleDateString("pt-BR")}
                   </p>
                   <Button
                     onClick={() => {
