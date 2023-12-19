@@ -19,6 +19,7 @@ interface InputProps {
   password?: boolean;
   width?: string | number;
   height?: string | number;
+  left?: boolean;
 }
 const Input = ({
   onChange,
@@ -34,6 +35,7 @@ const Input = ({
   password,
   height,
   width,
+  left,
 }: InputProps) => {
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
   const handleTypeChange = () => {
@@ -57,7 +59,7 @@ const Input = ({
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-          className={` ${height ? `h-[${height}px]` : "py-2"} pl-2 pr-8 py-2 rounded-lg text-sm text-newBlack  w-full
+          className={` ${height ? `h-[${height}px]` : "py-2"} ${left ? "pl-8 pr-2" : "pl-2 pr-8"}  py-2 rounded-lg text-sm text-newBlack  w-full
           shadow-md`} 
         />
         {hasText && withIcon && (
@@ -65,9 +67,9 @@ const Input = ({
             {!password ? (
               <button
                 onClick={onClick}
-                className="absolute right-1 text-iconSize transition-all duration-300 text-black"
+                className={` ${left ? "left-1" : "right-1"} absolute  text-iconSize transition-all duration-300 text-black`}
               >
-                <div className="text-xs pr-1">{icon && icon}</div>
+                <div className={`text-xs ${left ? "pl-1" : "pr-1"}`}>{icon && icon}</div>
               </button>
             ) : (
               <button

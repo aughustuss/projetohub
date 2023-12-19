@@ -40,6 +40,7 @@ const GenreMovies = () => {
         )
       ).catch((err: unknown) => console.log(err));
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, searchParam]);
   React.useEffect(() => {
     if (searchParam.length > 0) {
@@ -61,6 +62,7 @@ const GenreMovies = () => {
         )
       );
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, searchParam]);
 
 

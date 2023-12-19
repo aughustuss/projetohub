@@ -8,7 +8,7 @@ export const NavLinks: Array<NavbarLink> = [
     },
     {
         linkText: "Perfil",
-        linkTo: "#",
+        linkTo: "/profile",
     },
     {
         linkText: "Filmes",
@@ -19,7 +19,7 @@ export const NavLinks: Array<NavbarLink> = [
         linkTo: "#",
     },
     {
-        linkTo: "#",
+        linkTo: "/profile",
         linkText: "Favoritos",
         linkIcon: BiSolidHeart,
     },

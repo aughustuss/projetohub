@@ -1,4 +1,4 @@
-import { MovieModel } from "models/entities/Movie";
+import { MovieModel, MovieModelWithTime } from "models/entities/Movie";
 import React from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { sortMoviesByReleaseDate, sortMoviesByTitle } from "utils/OrderBy";
@@ -8,8 +8,8 @@ interface SelectOptions {
 }
 
 interface OrderByProps {
-  movies: MovieModel[];
-  setMovies: React.Dispatch<React.SetStateAction<MovieModel[]>>;
+  movies: MovieModel[] | MovieModelWithTime[];
+  setMovies: React.Dispatch<React.SetStateAction<MovieModelWithTime[] | MovieModel[]>>
   searchParam?: string;
   searchedMovies?: MovieModel[];
   setSearchedMovies?: React.Dispatch<React.SetStateAction<MovieModel[]>>;
@@ -110,6 +110,7 @@ const OrderBy = ({
                   .slice(1, options.length)
                   .map((option: SelectOptions) => (
                     <button
+                      key={option.value}
                       onClick={() => handleOptionChange(option)}
                       className="hover:bg-primaryBg py-2 px-4 w-full text-start"
                     >
