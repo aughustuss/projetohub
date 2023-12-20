@@ -7,17 +7,13 @@ import Row from "components/Row";
 import Button from "components/Button";
 import { BiSolidChat } from "react-icons/bi";
 import { IoPersonAdd } from "react-icons/io5";
-import Movie from "shared/Movie";
 import { findTheMostRepeatedCategory } from "utils/CategoryFrequency";
 import { AllCategories } from "data/Categories";
 import GreenText from "components/GreenText";
-import { IoMdClose } from "react-icons/io";
 import FavoritesMoviesContext from "contexts/FavoritesMoviesContext";
 import OrderBy from "components/OrderBy";
-import Slide from "shared/Slide";
-import { SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Scrollbar } from "swiper/modules";
 import Link from "components/Link";
+import MoviesList from "components/MoviesList";
 
 interface MovieModelWithTime extends MovieModel {
   readonly addedDate: Date;
@@ -28,12 +24,10 @@ const Profile = () => {
     MovieModelWithTime[]
   >([]);
   const {
-    removeMovie,
     movies,
     recentlyAdded,
     userFavoriteList,
     setUserFavoriteList,
-    clearMovies,
   } = React.useContext(FavoritesMoviesContext);
   //const [userFavoriteList, setUserFavoriteList] = React.useState<MovieModelWithTime[]>([]);
   const [userWatchedList, setUserWatchedList] = React.useState<number>();
@@ -74,7 +68,6 @@ const Profile = () => {
           "Ninguém jamais assistiu tantos filmes assim. É mais que um cinéfilo!"
         );
       }
-      console.log(movies.length)
     }
     if (favoriteMovies) {
       const parsedFavoriteMovies = JSON.parse(favoriteMovies);
@@ -199,38 +192,7 @@ const Profile = () => {
               message="Filmes adicionados recentemente à lista de favoritos"
             />
             {userFavoriteMovies.length > 0 ? (
-
-              <Slide scrollBar modules={[Pagination, Scrollbar, Navigation]}>
-              {recentlyAdded.map((movie) => (
-                <SwiperSlide className="py-10" key={movie.id}>
-                  <div className="flex flex-col gap-y-2">
-                    <Movie
-                      movie={movie}
-                      onGrid
-                    />
-                    <p className="text-xs italic text-bodyColor">
-                      Adicionado em{" "}
-                      {movie.addedDate && new Date(movie.addedDate).toLocaleDateString("pt-BR")}
-                    </p>
-                    <Button
-                    onClick={() => {
-                      if(movies.length < 2){
-                        clearMovies();
-                      } else {
-                        removeMovie(movie.id)
-                      }
-                    }}
-                    green={false}
-                    onlyBorder
-                    small
-                    fullWidth
-                  >
-                    Remover da lista <IoMdClose className="font-black" />
-                  </Button>
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Slide>
+              <MoviesList extraItems grid={false} movies={recentlyAdded} />
               ) : (
                 <div className="flex flex-col items-center justify-center h-[400px] text-xs text-bodyColor gap-y-4">
                   Você ainda não assistiu nenhuma filme... Que pena. Vamos mudar isso!
@@ -252,35 +214,7 @@ const Profile = () => {
             />
             {userFavoriteList.length > 0 ?(
 
-              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 md:gap-3 w-full">
-              {userFavoriteList.map((movie) => (
-                <div key={movie.id} className="flex flex-col gap-y-2">
-                  <Movie
-                    movie={movie}
-                    onGrid
-                    />
-                  <p className="text-xs italic text-bodyColor">
-                    Adicionado em{" "}
-                    {movie.addedDate && new Date(movie.addedDate).toLocaleDateString("pt-BR")}
-                  </p>
-                  <Button
-                    onClick={() => {
-                      if(movies.length < 2){
-                        clearMovies();
-                      } else {
-                        removeMovie(movie.id)
-                      }
-                    }}
-                    green={false}
-                    onlyBorder
-                    small
-                    fullWidth
-                  >
-                    Remover da lista <IoMdClose className="font-black" />
-                  </Button>
-                </div>
-              ))}
-            </div>
+              <MoviesList extraItems grid movies={userFavoriteList} />
               ) : (
                 <div className="flex flex-col items-center justify-center h-[400px] text-xs text-bodyColor gap-y-4">
                   Você ainda não assistiu nenhuma filme... Que pena. Vamos mudar isso!

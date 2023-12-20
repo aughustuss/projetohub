@@ -37,7 +37,7 @@ const Slide = ({
 
   const onAfterInit = (swiper: SwiperClass) => {
     if(!swiper.destroyed){
-      if(swiper.slides.length === 5 && swiper.currentBreakpoint === 1280){
+      if(swiper.slides.length === 5 && swiper.currentBreakpoint >= 1200){
         setIsSlideActive(false);
       }
     }
