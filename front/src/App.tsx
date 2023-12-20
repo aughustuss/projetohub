@@ -4,7 +4,8 @@ import Footer from "components/fixeds/Footer";
 import Sidebar from "components/fixeds/Sidebar";
 
 import React from "react";
-import GenreMovies from "views/GenreMovies";
+import GenreMovies from "views/genreMovies";
+import Cadastro from "views/Cadastro";
 const LoginPage = React.lazy(() => import("views/Login"));
 const HomePage = React.lazy(() => import("views/Home"));
 const MoviePage = React.lazy(() => import("views/Movie"));
@@ -43,6 +44,7 @@ function App() {
                 <Route path="/chat" Component={ChatPage}/>
                 <Route path="/searchedMovies" Component={SearchedMoviePage}/>
                 <Route path="/login" Component={LoginPage}/>
+                <Route path="/cadastro" Component={Cadastro}/>
                 <Route path="/profile" Component={ProfilePage} />
               </Routes>
             </div>
