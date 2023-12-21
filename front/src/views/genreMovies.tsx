@@ -17,7 +17,6 @@ const GenreMovies = () => {
   const [movies, setMovies] = React.useState<MovieModel[]>([]);
   const [page, setPage] = React.useState<number>(1);
   const [pageCount, setPageCount] = React.useState<number>(0);
-  const [selectedMovie, setSelectedMovie] = React.useState<number | null>(null);
 
     React.useState<boolean>(false);
   const [searchParam, setSearchParam] = React.useState<string>("");
@@ -66,14 +65,6 @@ const GenreMovies = () => {
   }, [page, searchParam]);
 
 
-  const openMovieInfo = (movieId: number) => {
-    setSelectedMovie(movieId);
-  };
-
-  const closeMovieinfo = () => {
-    setSelectedMovie(null);
-  };
-
 
   return (
     <>
@@ -105,9 +96,6 @@ const GenreMovies = () => {
                 movies.map((movie: MovieModel) => (
                   <Movie
                     key={movie.id}
-                    selectedMovieId={selectedMovie}
-                    closeMovieInfo={closeMovieinfo}
-                    openMovieInfo={openMovieInfo}
                     movie={movie}
                     onGrid
                   />
@@ -117,9 +105,6 @@ const GenreMovies = () => {
                   <Movie
                     movie={sMovie}
                     key={sMovie.id}
-                    selectedMovieId={selectedMovie}
-                    closeMovieInfo={closeMovieinfo}
-                    openMovieInfo={openMovieInfo}
                     onGrid
                   />
                 ))

@@ -5,7 +5,7 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import React from "react";
-import { SwiperModule } from "swiper/types";
+import {  SwiperModule } from "swiper/types";
 import { EffectCoverflow } from "swiper/modules";
 interface SlideProps {
   children: React.ReactNode | React.ReactElement;
@@ -34,6 +34,15 @@ const Slide = ({
       setIsSlideActive(true);
     }
   };
+
+  const onAfterInit = (swiper: SwiperClass) => {
+    if(!swiper.destroyed){
+      if(swiper.slides.length === 5 && swiper.currentBreakpoint >= 1200){
+        setIsSlideActive(false);
+      }
+    }
+  }
+
   return (
     <>
       <Swiper
@@ -44,6 +53,7 @@ const Slide = ({
         modules={modules}
         className="w-full rounded-lg bg-transparent relative"
         scrollbar={scrollBar}
+        onAfterInit={onAfterInit}
         grabCursor
         effect={"coverflow"}
         breakpoints={

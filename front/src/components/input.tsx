@@ -15,6 +15,7 @@ interface InputProps {
   password?: boolean;
   height?: number;
   left?: boolean;
+  transparent?: boolean;
 }
 
 const Input = ({
@@ -31,6 +32,7 @@ const Input = ({
   password,
   height,
   left,
+  transparent,
 }: InputProps) => {
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
 
@@ -43,12 +45,11 @@ const Input = ({
         <label htmlFor="input">{label}</label>
         <input
           onKeyDown={onKeyDown}
-          id="input"
           type={showPassword && password ? "password" : type}
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-          className={`${height ? `h-[${height}px]` : "py-2"} ${left ? "pl-8 pr-2" : "pl-2 pr-8"} py-2 rounded-lg text-sm text-newBlack w-full shadow-md`}
+          className={`${height ? `h-[${height}px]` : "py-2"} ${left ? "pl-8 pr-2" : "pl-2 pr-8"} py-2 rounded-lg text-sm text-newBlack w-full shadow-md ${transparent ? "bg-transparent border border-primaryBgBorder text-newWhite" : "bg-newWhite"}`}
         />
         {hasText && withIcon && (
           <>

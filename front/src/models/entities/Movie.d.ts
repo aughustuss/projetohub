@@ -13,8 +13,5 @@ export interface MovieModel {
     video: boolean;
     vote_average: number;
     vote_count: number;
-}
-
-export interface MovieModelWithTime extends MovieModel {
-    addedDate: Date;
+    addedDate?: Date;
 }

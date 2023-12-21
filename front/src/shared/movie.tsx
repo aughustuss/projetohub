@@ -1,4 +1,4 @@
-import { MovieModel, MovieModelWithTime } from "models/entities/Movie";
+import { MovieModel } from "models/entities/Movie";
 import { FaInfo } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { AiFillStar } from "react-icons/ai";
@@ -7,33 +7,25 @@ import React from 'react'
 import Link from "components/Link";
 import Button from "components/Button";
 interface MovieProps {
-  movie: MovieModelWithTime | MovieModel;
-  openMovieInfo: (movieId: number) => void;
-  selectedMovieId: number | null;
-  closeMovieInfo: () => void;
+  movie: MovieModel;
   onGrid?: boolean
 }
 
 const Movie = ({
   movie,
-  openMovieInfo,
-  selectedMovieId,
-  closeMovieInfo,
   onGrid
 }: MovieProps) => {
+
   const tmdbImagePath = import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH;
-  const {addMovie, checkIfMovieExists} = React.useContext(FavoritesMoviesContext)
+  const {addMovie, checkIfMovieExistsInFavorites} = React.useContext(FavoritesMoviesContext)
   const [movieExists, setMovieExists] = React.useState<boolean>(false);
-  const openModalWithInfo = () => {
-    if (selectedMovieId === null || selectedMovieId === movie.id) {
-      openMovieInfo(movie.id);
-      const mExists = checkIfMovieExists(movie.id);
-      setMovieExists(mExists);
-    }
-  };
-  const closeModalWithInfo = () => {
-    closeMovieInfo();
-  };
+  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
+  const handleModalOpen = () => {
+    const mExists = checkIfMovieExistsInFavorites(movie.id);
+    setMovieExists(mExists);
+    setIsModalOpen(!isModalOpen);
+  }
+
   return (
     <>
        <div className={`${onGrid ? "w-full" : "w-[230px]"} flex flex-col gap-y-2 h-auto cursor-pointer hover:shadow-lg hover:shadow-black/40 transition duration-300 relative`}>
@@ -46,20 +38,18 @@ const Movie = ({
         </div>
         <button
           onClick={
-            selectedMovieId === movie.id
-              ? closeModalWithInfo
-              : openModalWithInfo
+            handleModalOpen
           }
           className="absolute right-2 top-2 z-10 rounded-full p-1 border-2 border-primaryNeon hover:bg-primaryNeon transition duration-300"
         >
           <FaInfo />
         </button>
-        {selectedMovieId === movie.id && (
-           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30 bg-primaryBg shadow-xl shadow-black/40 overflow-auto rounded-lg flex flex-col justify-between pb-2 sm:pb-4 w-full md:px-0 h-auto border border-primaryBgBorder">
+        {isModalOpen && (
+           <div id="modalinfo" className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30 bg-primaryBg shadow-xl shadow-black/40 overflow-auto rounded-lg flex flex-col justify-between pb-2 sm:pb-4 w-full md:px-0 h-auto border border-primaryBgBorder">
             <div className="h-full w-full">
               <button
                 className="absolute top-2 right-2 p-1 border-2 border-primaryNeon rounded-full text-body hover:bg-primaryNeon transition duration-300"
-                onClick={closeModalWithInfo}
+                onClick={handleModalOpen}
               >
                 <IoClose />
               </button>
