@@ -6,6 +6,7 @@ import Sidebar from "components/fixeds/Sidebar";
 import React from "react";
 import GenreMovies from "views/genreMovies";
 import Cadastro from "views/Cadastro";
+import Trailer from "views/Trailer";
 const LoginPage = React.lazy(() => import("views/Login"));
 const HomePage = React.lazy(() => import("views/Home"));
 const MoviePage = React.lazy(() => import("views/Movie"));
@@ -46,6 +47,7 @@ function App() {
                 <Route path="/login" Component={LoginPage}/>
                 <Route path="/cadastro" Component={Cadastro}/>
                 <Route path="/profile" Component={ProfilePage} />
+                <Route path="/trailer" Component={Trailer} />
               </Routes>
             </div>
             <Footer/>

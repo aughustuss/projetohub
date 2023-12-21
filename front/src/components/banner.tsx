@@ -71,7 +71,7 @@ const Banner = () => {
                 </div>
                 {/* Titulo e assista ao trailer */}
                 <div className="absolute right-1/2 lg:right-1/4 top-16 lg:top-auto lg:bottom-1/3 translate-x-1/2 lg:translate-y-1/2 w-full max-w-[260px] lg:max-w-[200px] xl:max-w-[300px] text-center z-20 flex flex-row items-center h-[60px] gap-x-2">
-                  <a className="border-2 border-primaryNeon p-3 rounded-full flex flex-col items-center justify-center text-iconSize hover:bg-primaryNeon cursor-pointer transition duration-300">
+                  <a href="/trailer" className="border-2 border-primaryNeon p-3 rounded-full flex flex-col items-center justify-center text-iconSize hover:bg-primaryNeon cursor-pointer transition duration-300">
                     <BsPlayFill />
                   </a>
                   <div className="flex flex-col gap-y-0 justify-center h-full w-full text-start">
