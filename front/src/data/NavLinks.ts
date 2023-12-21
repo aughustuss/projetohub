@@ -1,31 +1,57 @@
-
 import { NavbarLink } from 'models/entities/NavLink';
-import {BiSolidHeart, BiSolidChat} from 'react-icons/bi'
-export const NavLinks: Array<NavbarLink> = [
+import { BiSolidHeart, BiSolidChat } from 'react-icons/bi';
+import React from 'react';
+import LoginContext from 'contexts/LoginContext';
+
+const useNavLinks = () => {
+  const { isLoggedIn } = React.useContext(LoginContext);
+
+  const navLinks: Array<NavbarLink> = [
     {
-        linkText: "Início",
-        linkTo: "/",   
+      linkText: 'Início',
+      linkTo: '/',
+      show: true,
     },
     {
-        linkText: "Perfil",
-        linkTo: "/profile",
+      linkText: 'Filmes',
+      linkTo: '#',
+      show: true,
     },
     {
-        linkText: "Filmes",
-        linkTo: "#",
+      linkText: 'Cinéfilos',
+      linkTo: '#',
+      show: isLoggedIn,
     },
     {
-        linkText: "Cinéfilos",
-        linkTo: "#",
+      linkText: 'Perfil',
+      linkTo: '/profile',
+      show: isLoggedIn,
     },
     {
-        linkTo: "/profile",
-        linkText: "Favoritos",
-        linkIcon: BiSolidHeart,
+      linkText: 'Logout',
+      linkTo: '/login',
+      show: isLoggedIn,
     },
     {
-        linkTo: "/chat",
-        linkText: "Conversas",
-        linkIcon: BiSolidChat,
-    }
-];
+      linkText: 'Login',
+      linkTo: '/login',
+      show: !isLoggedIn,
+    },
+    {
+      linkTo: '/profile',
+      linkText: 'Favoritos',
+      linkIcon: BiSolidHeart,
+      show: isLoggedIn,
+    },
+    {
+      linkTo: '/chat',
+      linkText: 'Conversas',
+      linkIcon: BiSolidChat,
+      show: isLoggedIn,
+    },
+  ];
+
+  return navLinks;
+};
+
+export default useNavLinks;

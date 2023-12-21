@@ -1,9 +1,10 @@
 import React from "react";
 import FavoritesMoviesContext from "contexts/FavoritesMoviesContext";
-import { NavLinks } from "data/NavLinks";
+import useNavLinks from "data/NavLinks";
 import { NavbarLink } from "models/entities/NavLink";
 import { AllCategories } from "data/Categories";
 import { MdKeyboardArrowDown } from "react-icons/md";
+import LoginContext from "contexts/LoginContext";
 interface LinksMappedProps {
   isOnTop?: boolean;
   isAboveLG?: boolean;
@@ -11,30 +12,43 @@ interface LinksMappedProps {
 
 const LinksMapped = ({ isOnTop, isAboveLG }: LinksMappedProps) => {
   const { movies } = React.useContext(FavoritesMoviesContext);
-  const [categoriesMenuOpen, setCategoriesMenuOpen] = React.useState<boolean>(false);
-  
+  const [categoriesMenuOpen, setCategoriesMenuOpen] =
+    React.useState<boolean>(false);
 
+  const navLinks = useNavLinks();
+  const { isLoggedIn, logout } = React.useContext(LoginContext);
   const handleCategoriesMenu = () => {
     setCategoriesMenuOpen(!categoriesMenuOpen);
   };
   return (
     <>
-      {NavLinks.map((i: NavbarLink, index: number) => (
+      {navLinks.map((i: NavbarLink, index: number) => (
         <div
           id={index.toString()}
           key={index}
-          //href={i.linkTo}
-          className={`text-newWhite hover:text-primaryOnHover transition-all duration-300 flex flex-col justify-center items-center w-full`}
+          className={`text-newWhite ${
+            i.show ? "block" : "hidden"
+          } hover:text-primaryOnHover transition-all duration-300 flex flex-col justify-center items-center w-full text-[13px]`}
         >
           {isAboveLG ? (
             <div>
-              {!i.linkIcon && i.linkText !== "Filmes" && (
-                <a id={index.toString()} href={i.linkTo}>{i.linkText}</a>
+              {!i.linkIcon && i.linkText !== "Filmes" && i.show && (
+                <>
+                  <a
+                    onClick={() => i.linkText === "Logout" && logout()}
+                    href={i.linkTo}
+                  >
+                    {i.linkText}
+                  </a>
+                </>
               )}
               {!i.linkIcon && i.linkText === "Filmes" && (
-                <div id={index.toString()} className="group relative w-full cursor-pointer">
+                <div
+                  id={index.toString()}
+                  className="group relative w-full cursor-pointer"
+                >
                   <span className="hover:text-primaryOnHover">Filmes</span>
-                  <div className="hidden group-hover:absolute group-hover:top-full group-hover:w-[320px] h-auto p-4 absolute text-xs gap-6 bg-primaryBgBorder shadow-lg shadow-black/40 rounded-lg group-hover:grid group-hover:grid-cols-3 group-hover:place-items-start group-hover:mx-auto">
+                  <div className={`hidden group-hover:absolute group-hover:top-full group-hover:w-[320px] h-auto p-4 absolute text-xs gap-6 bg-primaryBgBorder shadow-lg shadow-black/40 rounded-lg group-hover:grid group-hover:grid-cols-3 group-hover:place-items-start group-hover:mx-auto ${isLoggedIn ? "group-hover:left-0" : "group-hover:-right-full" } `}>
                     {AllCategories.map((cat) => (
                       <a
                         href={`/genre/${cat.id}`}
@@ -47,7 +61,7 @@ const LinksMapped = ({ isOnTop, isAboveLG }: LinksMappedProps) => {
                   </div>
                 </div>
               )}
-              {i.linkIcon && i.linkText === "Conversas" && (
+              {i.linkIcon && i.linkText === "Conversas" && isLoggedIn && (
                 <a
                   href={i.linkTo}
                   className={`${
@@ -61,7 +75,7 @@ const LinksMapped = ({ isOnTop, isAboveLG }: LinksMappedProps) => {
                   </span>
                 </a>
               )}
-              {i.linkIcon && i.linkText === "Favoritos" && (
+              {i.linkIcon && i.linkText === "Favoritos" && isLoggedIn && (
                 <a
                   href={i.linkTo}
                   className={`${

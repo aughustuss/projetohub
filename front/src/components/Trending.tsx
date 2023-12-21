@@ -3,15 +3,11 @@ import Title from "./Title";
 import React, { useEffect } from "react";
 import { getTrendingMovies } from "services/GetMoviesService";
 import Loading from "views/Loading";
-import Slide from "shared/Slide";
-import { SwiperSlide } from "swiper/react";
-import Movie from "shared/Movie";
-import { Navigation, Pagination, Scrollbar } from "swiper/modules";
+import MoviesList from "./MoviesList";
 
 const Trending = () => {
   const [trendingMovies, setTrendingMovies] = React.useState<MovieModel[]>([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [selectedMovie, setSelectedMovie] = React.useState<number | null>(null);
   useEffect(() => {
     Promise.resolve(
       getTrendingMovies()
@@ -25,13 +21,6 @@ const Trending = () => {
         })
     );
   }, []);
-  const openMovieInfo = (movieId: number) => {
-    setSelectedMovie(movieId);
-  }
-
-  const closeMovieInfo = () => {
-    setSelectedMovie(null);
-  }
   return (
     <>
       <main>
@@ -42,16 +31,16 @@ const Trending = () => {
           message="Os mais populares no momento"
         />
         {!isLoading && trendingMovies ? (
-        <>
-        <Slide scrollBar  movies modules={[Pagination, Navigation, Scrollbar]}>
-          {trendingMovies.map((movie: MovieModel) => (
-            <SwiperSlide className="py-10" key={movie.id} >
-              <Movie onGrid selectedMovieId={selectedMovie} openMovieInfo={() => openMovieInfo(movie.id)} closeMovieInfo={closeMovieInfo} movie={movie} />
-            </SwiperSlide>
-            ))}
-            </Slide>
-        </>
-        ) : <Loading big={false} />}
+          <>
+            <MoviesList
+              grid={false}
+              extraItems={false}
+              movies={trendingMovies}
+            />
+          </>
+        ) : (
+          <Loading big={false} />
+        )}
       </main>
     </>
   );

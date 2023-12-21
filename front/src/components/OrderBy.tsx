@@ -1,4 +1,4 @@
-import { MovieModel, MovieModelWithTime } from "models/entities/Movie";
+import { MovieModel } from "models/entities/Movie";
 import React from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { sortMoviesByReleaseDate, sortMoviesByTitle } from "utils/OrderBy";
@@ -8,8 +8,8 @@ interface SelectOptions {
 }
 
 interface OrderByProps {
-  movies: MovieModel[] | MovieModelWithTime[];
-  setMovies: React.Dispatch<React.SetStateAction<MovieModelWithTime[] | MovieModel[]>>
+  movies: MovieModel[];
+  setMovies: React.Dispatch<React.SetStateAction<MovieModel[]>>
   searchParam?: string;
   searchedMovies?: MovieModel[];
   setSearchedMovies?: React.Dispatch<React.SetStateAction<MovieModel[]>>;

@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
-import Input from '../components/Input';
+import Input from 'components/Input';
+import {useNavigate} from 'react-router-dom'
 import { IoEye, IoPerson } from 'react-icons/io5';
+import LoginContext from 'contexts/LoginContext';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [isEmailValid, setIsEmailValid] = useState<boolean>(true);
-
+  const navigate = useNavigate();
+  const {login} = React.useContext(LoginContext);
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
 
   const handleLoginClick = () => {
     if (isValidEmail(email)) {
-      console.log('Login successful!');
+      login(email);
+      navigate("/profile");
     } else {
       setIsEmailValid(false);
     }
@@ -24,7 +28,7 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="flex items-center justify-center h-screen">
-      <main className="bg-[#0D9E00] w-full md:w-1/3 lg:w-1/3 xl:w-1/2 h-2/4 md:h-[400px] lg:h-[400px] xl:h-[400px] flex flex-col items-center justify-start gap-4 mx-auto">
+      <main className="bg-[#0D9E00] rounded-lg w-3/4 md:w-1/3 lg:w-1/3 xl:w-1/2 h-2/4 md:h-[400px] lg:h-[400px] xl:h-[400px] flex flex-col items-center justify-start gap-4 mx-auto">
         <h1 className="text-center text-3xl font-bold font-title mt-[40px] mb-[30px]">FAÇA LOGIN</h1>
         <div className="w-full md:w-[200px] lg:w-[200px] xl:w-[400px]">
           <Input

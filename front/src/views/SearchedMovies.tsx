@@ -12,23 +12,13 @@ const SearchedMovies = () => {
   const location = useLocation();
   const movieName = new URLSearchParams(location.search).get("movieName");
   const [isFilterOpen, setFilterOpen] = React.useState<boolean>(false);
-  const [selectedMovie, setSelectedMovie] = React.useState<number | null>(null);
-  const [selectedCategories, setSelectedCategories] = React.useState<number[]>(
-    []
-  );
+  const selectedCategories: number[] = [];
 
   const [categorizedMovies, setCategorizedMovies] = React.useState<
     MovieModel[]
   >([]);
   const [filteredMovies, setFilteredMovies] = React.useState<MovieModel[]>([]);
 
-  const openMovieInfo = (movieId: number) => {
-    setSelectedMovie(movieId);
-  };
-
-  const closeMovieInfo = () => {
-    setSelectedMovie(null);
-  };
 
   const handleFilterOpen = (
     setArray: React.Dispatch<React.SetStateAction<boolean>>,
@@ -147,9 +137,6 @@ const SearchedMovies = () => {
               filteredMovies.map((movie) => (
                 <Movie
                   movie={movie}
-                  closeMovieInfo={closeMovieInfo}
-                  selectedMovieId={selectedMovie}
-                  openMovieInfo={() => openMovieInfo(movie.id)}
                   key={movie.id}
                   onGrid
                 />
