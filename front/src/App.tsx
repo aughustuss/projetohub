@@ -4,9 +4,10 @@ import Footer from "components/fixeds/Footer";
 import Sidebar from "components/fixeds/Sidebar";
 
 import React from "react";
-import GenreMovies from "views/genreMovies";
-import Cadastro from "views/Cadastro";
-import Trailer from "views/Trailer";
+const GenreMovies = React.lazy(() => import("views/genreMovies"));
+const Cadastro =  React.lazy(() => import("views/Cadastro"));
+const Trailer = React.lazy(() => import("views/Trailer"));
+const Cinefilos = React.lazy(() => import("views/Cinefilos"));
 const LoginPage = React.lazy(() => import("views/Login"));
 const HomePage = React.lazy(() => import("views/Home"));
 const MoviePage = React.lazy(() => import("views/Movie"));
@@ -48,6 +49,7 @@ function App() {
                 <Route path="/cadastro" Component={Cadastro}/>
                 <Route path="/profile" Component={ProfilePage} />
                 <Route path="/trailer" Component={Trailer} />
+                <Route path="/cinefilos" Component={Cinefilos} />
               </Routes>
             </div>
             <Footer/>
