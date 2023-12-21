@@ -7,25 +7,18 @@ import { FavoritesMoviesContextProvider } from "contexts/FavoritesMoviesContext.
 import { LastTitleContextProvider } from "contexts/LastSearchedTitle.tsx";
 import { WatchedListContextProvider } from "contexts/WatchedListContext.tsx";
 import { LoginContextProvider } from "contexts/LoginContext.tsx";
-import { BrowserRouter } from "react-router-dom";
-const LoadingPage = React.lazy(() => import("views/Loading.tsx"))
-
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <React.Suspense fallback={<LoadingPage big />}>
-      <BrowserRouter>
-        <LoginContextProvider>
-          <LastTitleContextProvider>
-            <WatchedListContextProvider>
-              <FavoritesMoviesContextProvider>
-                <SideBarContextProvider>
-                  <App />
-                </SideBarContextProvider>
-              </FavoritesMoviesContextProvider>
-            </WatchedListContextProvider>
-          </LastTitleContextProvider>
-        </LoginContextProvider>
-      </BrowserRouter>
-    </React.Suspense>
+    <LoginContextProvider>
+      <LastTitleContextProvider>
+        <WatchedListContextProvider>
+          <FavoritesMoviesContextProvider>
+            <SideBarContextProvider>
+              <App />
+            </SideBarContextProvider>
+          </FavoritesMoviesContextProvider>
+        </WatchedListContextProvider>
+      </LastTitleContextProvider>
+    </LoginContextProvider>
   </React.StrictMode>
 );
