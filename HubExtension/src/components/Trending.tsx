@@ -5,13 +5,7 @@ import Card from '../components/Card';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-
-export interface Movie {
-  id: number;
-  title: string;
-  poster_path: string;
-  overview: string;
-}
+import { Movie } from '../models/Movie';
 
 const Home: React.FC = () => {
   const [movies, setMovies] = useState<Movie[] | null>(null);
@@ -64,7 +58,7 @@ const Home: React.FC = () => {
       <h1 className="text-3xl font-bold mt-[30px] mb-[40px]">Filmes Populares</h1>
       <Slider {...sliderSettings}>
         {movies.map((movie) => (
-          <Card key={movie.id} movie={movie} />
+          <Card key={movie.id} movie={movie}  />
         ))}
       </Slider>
     </div>
