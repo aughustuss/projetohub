@@ -1,36 +1,60 @@
+// Favoritos.tsx
 import React from "react";
 import { Movie } from "../models/Movie";
 
 interface PropsDoContextoDosFavoritos {
   addFavorito: (movie: Movie) => void;
+  removeFavorito: (movieId: number) => void;
   favoritos: Movie[];
 }
 
 interface PropsDoProvider {
   children: React.ReactNode;
 }
+
 const ContextoDosFavoritos = React.createContext<PropsDoContextoDosFavoritos>({
   addFavorito: () => {},
+  removeFavorito: () => {},
   favoritos: [],
 });
 
 const ProviderDoContextoDosFavoritos: React.FC<PropsDoProvider> = ({
   children,
 }) => {
-  const [favoritos, setFavoritos] = React.useState<Movie[]>([]);
+  const [favoritos, setFavoritos] = React.useState<Movie[]>(() => {
+   const localStorageFavoritos = localStorage.getItem("favoritos");
+    return localStorageFavoritos ? JSON.parse(localStorageFavoritos) : [];
+  });
 
   const addFavorito = (movie: Movie) => {
-    if (!favoritos.find((fav: Movie) => fav.id === movie.id)) {
-      setFavoritos((prevFavoritos: Movie[]) => [...prevFavoritos, movie]);
-    }
+    setFavoritos((prevFavoritos: Movie[]) => {
+      if (!prevFavoritos.some((fav: Movie) => fav.id === movie.id)) {
+        const newFavoritos = [...prevFavoritos, movie];
+        localStorage.setItem("favoritos", JSON.stringify(newFavoritos));
+        console.log("Lista de favoritos após adicionar:", newFavoritos);
+        return newFavoritos;
+      }
+      console.log("Filme já está nos favoritos, não adicionando novamente.");
+      return prevFavoritos;
+    });
+  };
+
+  const removeFavorito = (movieId: number) => {
+    setFavoritos((prevFavoritos: Movie[]) => {
+      const updatedFavoritos = prevFavoritos.filter((fav: Movie) => fav.id !== movieId);
+      localStorage.setItem("favoritos", JSON.stringify(updatedFavoritos));
+      return updatedFavoritos;
+    });
   };
 
   return (
-    <ContextoDosFavoritos.Provider value={{ addFavorito, favoritos }}>
+    <ContextoDosFavoritos.Provider
+      value={{ addFavorito, removeFavorito, favoritos }}
+    >
       {children}
     </ContextoDosFavoritos.Provider>
   );
 };
 
 export default ContextoDosFavoritos;
-export {ProviderDoContextoDosFavoritos}
+export { ProviderDoContextoDosFavoritos };
