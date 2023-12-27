@@ -1,5 +1,4 @@
 import React, { ChangeEvent, MouseEventHandler, KeyboardEventHandler } from 'react';
-import { IoEye, IoEyeOff } from 'react-icons/io5';
 
 interface InputProps {
   type?: string;
