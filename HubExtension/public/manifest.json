@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Hub Filmes",
+  "version": "2.0",
+  "description": "Pesquise Seu Filme Aqui",
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": {
+      "16": "./assets/logo16.png",
+      "48": "./assets/logo48.png",
+      "128": "./assets/logo128.png"
+    }
+  },
+  "icons": {
+    "16": "./assets/logo16.png",
+    "48": "./assets/logo48.png",
+    "128": "./assets/logo128.png"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
+}
