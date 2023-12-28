@@ -5,7 +5,7 @@ import Footer from "components/fixeds/Footer";
 import Sidebar from "components/fixeds/Sidebar";
 
 import React from "react";
-const GenreMovies = React.lazy(() => import("views/GenreMovies"));
+const GenreMovies = React.lazy(() => import("views/genreMovies"));
 const Cadastro =  React.lazy(() => import("views/Cadastro"));
 const Trailer = React.lazy(() => import("views/Trailer"));
 // const Cinefilos = React.lazy(() => import("views/Cinefilos"));
@@ -14,10 +14,11 @@ import LoginContext from "contexts/LoginContext";
 const LoginPage = React.lazy(() => import("views/Login"));
 const HomePage = React.lazy(() => import("views/Home"));
 const MoviePage = React.lazy(() => import("views/Movie"));
-const ChatPage = React.lazy(() => import("views/Chat"));
+const ChatPage = React.lazy(() => import("views/chat"));
 const SearchedMoviePage = React.lazy(() => import("views/SearchedMovies"));
 const ProfilePage = React.lazy(() => import("views/Profile"));
 const LoadingPage = React.lazy(() => import("views/Loading"));
+const Cinefilos = React.lazy(() => import("views/Cinefilos"));
 
 function App() {
   const { isLoggedIn, loading } = React.useContext(LoginContext);
@@ -66,7 +67,7 @@ function App() {
                 <Route path="/cadastro" Component={Cadastro}/>
                 <Route path="/profile" Component={ProfilePage} />
                 <Route path="/trailer" Component={Trailer} />
-                {/* <Route path="/cinefilos" Component={Cinefilos} /> */}
+                <Route path="/cinefilos" Component={Cinefilos} /> 
                 <Route
                   path="/chat"
                   element={

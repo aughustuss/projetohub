@@ -6,7 +6,6 @@ import ContextoDosFavoritos from "../contexts/Favoritos";
 
 const FavoritesSlider: React.FC = () => {
   const { favoritos } = useContext(ContextoDosFavoritos);
-  console.log(favoritos);
 
   const sliderSettings = {
     dots: false,

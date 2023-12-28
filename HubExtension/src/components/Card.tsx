@@ -1,8 +1,9 @@
 // Card.tsx
-import React, { useState } from 'react';
+import React from 'react';
 import { FaPlus, FaInfo, FaMinus } from 'react-icons/fa';
 import { Movie } from '../models/Movie';
 import ContextoDosFavoritos from '../contexts/Favoritos';
+
 
 interface CardProps {
   movie: Movie;
@@ -13,7 +14,6 @@ const Card: React.FC<CardProps> = ({ movie }) => {
   const { favoritos, addFavorito, removeFavorito } = React.useContext(
     ContextoDosFavoritos
   );
-  const [isInfoExpanded, setInfoExpanded] = useState(false);
 
   const isFavorito = favoritos.some((favorito) => favorito.id === id);
 
@@ -24,7 +24,7 @@ const Card: React.FC<CardProps> = ({ movie }) => {
       addFavorito(movie);
     }
   };
-
+  const link = `http://localhost:5173/movie/${id}`;
   return (
     <div key={id} className="card-container mr-[30px] relative">
       <div className="image-container relative">
@@ -36,7 +36,7 @@ const Card: React.FC<CardProps> = ({ movie }) => {
         />
         {!isFavorito && (
           <div
-            className="icon-container absolute top-1/2 left-[100px] transform -translate-x-1/2 -translate-y-1/2"
+            className="icon-container absolute top-1/2 left-[80px] transform -translate-x-1/2 -translate-y-1/2"
             onClick={handleToggleFavorito}
           >
             <FaPlus
@@ -46,7 +46,7 @@ const Card: React.FC<CardProps> = ({ movie }) => {
         )}
         {isFavorito && (
           <div
-            className="icon-container absolute top-1/2 left-[100px] transform -translate-x-1/2 -translate-y-1/2"
+            className="icon-container absolute top-1/2 left-[80px] transform -translate-x-1/2 -translate-y-1/2"
             onClick={handleToggleFavorito}
           >
             <FaMinus
@@ -55,11 +55,12 @@ const Card: React.FC<CardProps> = ({ movie }) => {
           </div>
         )}
       </div>
-      <div className="absolute top-2 right-10 ">
-        <FaInfo
-          onClick={() => setInfoExpanded(!isInfoExpanded)}
-          className="cursor-pointer icon info-icon bg-green-400 text-green-900 border-2 border-green-800 rounded-full w-8 h-8 p-2"
-        />
+      <div className="absolute top-2 right-2 ">        
+        <a href = {link}>
+          <FaInfo
+            className="cursor-pointer icon info-icon bg-green-400 text-green-900 border-2 border-green-800 rounded-full w-8 h-8 p-2"
+          />
+        </a>        
       </div>
     </div>
   );

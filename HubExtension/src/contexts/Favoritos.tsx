@@ -31,10 +31,8 @@ const ProviderDoContextoDosFavoritos: React.FC<PropsDoProvider> = ({
       if (!prevFavoritos.some((fav: Movie) => fav.id === movie.id)) {
         const newFavoritos = [...prevFavoritos, movie];
         localStorage.setItem("favoritos", JSON.stringify(newFavoritos));
-        console.log("Lista de favoritos após adicionar:", newFavoritos);
         return newFavoritos;
       }
-      console.log("Filme já está nos favoritos, não adicionando novamente.");
       return prevFavoritos;
     });
   };
