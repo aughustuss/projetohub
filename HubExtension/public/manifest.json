@@ -3,6 +3,9 @@
   "name": "Hub Filmes",
   "version": "2.0",
   "description": "Pesquise Seu Filme Aqui",
+  "permissions": [
+    "activeTab"
+  ],
   "action": {
     "default_popup": "index.html",
     "default_icon": {

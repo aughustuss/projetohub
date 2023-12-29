@@ -7,7 +7,7 @@ import Sidebar from "components/fixeds/Sidebar";
 import React from "react";
 const GenreMovies = React.lazy(() => import("views/genreMovies"));
 const Cadastro =  React.lazy(() => import("views/Cadastro"));
-const Trailer = React.lazy(() => import("views/Trailer"));
+const VideoTrailer = React.lazy(() => import("views/VideoTrailer"));
 // const Cinefilos = React.lazy(() => import("views/Cinefilos"));
 import ProtectedRoute from "components/ProtectedRoute";
 import LoginContext from "contexts/LoginContext";
@@ -66,7 +66,7 @@ function App() {
                 <Route path="/login" Component={LoginPage}/>
                 <Route path="/cadastro" Component={Cadastro}/>
                 <Route path="/profile" Component={ProfilePage} />
-                <Route path="/trailer" Component={Trailer} />
+                <Route path="/trailer/:movieName" element={<VideoTrailer />} />
                 <Route path="/cinefilos" Component={Cinefilos} /> 
                 <Route
                   path="/chat"

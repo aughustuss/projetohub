@@ -3,6 +3,7 @@ import React from 'react';
 import { FaPlus, FaInfo, FaMinus } from 'react-icons/fa';
 import { Movie } from '../models/Movie';
 import ContextoDosFavoritos from '../contexts/Favoritos';
+import { Link } from 'react-router-dom';
 
 
 interface CardProps {
@@ -56,11 +57,11 @@ const Card: React.FC<CardProps> = ({ movie }) => {
         )}
       </div>
       <div className="absolute top-2 right-2 ">        
-        <a href = {link}>
+        <Link to = {link}>
           <FaInfo
             className="cursor-pointer icon info-icon bg-green-400 text-green-900 border-2 border-green-800 rounded-full w-8 h-8 p-2"
           />
-        </a>        
+        </Link>        
       </div>
     </div>
   );
