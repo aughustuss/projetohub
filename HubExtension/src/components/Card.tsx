@@ -25,7 +25,7 @@ const Card: React.FC<CardProps> = ({ movie }) => {
       addFavorito(movie);
     }
   };
-  const link = `http://localhost:5173/movie/${id}`;
+  const link = `/movie/${id}`;
   return (
     <div key={id} className="card-container mr-[30px] relative">
       <div className="image-container relative">
