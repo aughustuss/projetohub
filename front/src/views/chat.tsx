@@ -49,7 +49,7 @@ const Chat = () => {
   console.log(chats);
   return (
     <>
-      <main className="h-screen overflow-auto flex flex-col justify-center md:flex-row w-full px-4 md:w-[90%] md:px-0 mx-auto pt-[120px] mb-[60px]">
+      <main className="h-screen flex flex-col items-center justify-center md:flex-row w-full px-4 md:w-[90%] md:px-0 mx-auto pt-[120px] mb-[60px]">
         {/* <section className="w-full md:w-1/4 border-r border-primaryBgBorder flex flex-col gap-y-6 p-4 ">
           <Input
             placeholder="Busque por um chat"
@@ -65,7 +65,8 @@ const Chat = () => {
             <Card />
           </div>
         </section> */}
-        <section className="w-full md:w-3/4 p-4 flex flex-col justify-end gap-6">
+        <section className="w-full md:w-3/4 p-4 flex flex-col h-full justify-center items-center gap-6">
+          <div className="h-[500px] flex flex-col w-full gap-y-6 overflow-auto">
           {chats.map((chat, index) => (
             <Message
               key={index}
@@ -74,6 +75,7 @@ const Chat = () => {
               message={chat.message}
             />
           ))}
+          </div>
           <div className="w-full flex flex-row items-center gap-x-2 h-[40px]">
             <Input
               transparent

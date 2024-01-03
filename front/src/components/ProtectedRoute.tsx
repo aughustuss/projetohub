@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate } from "react-router-dom"
+import { Navigate, Outlet } from "react-router-dom"
 
 interface PrivateRouteProps {
   isAccessible: boolean;
@@ -13,10 +13,9 @@ const ProtectedRoute = ({
   children,
 }: PrivateRouteProps) => {
   if (!isAccessible) {
-    return <Navigate to={redirectPath} />;
+    return <Navigate to={redirectPath} replace />;
   }
-
-  return children;
+  return children ? children : <Outlet />;
 };
 
 export default ProtectedRoute;

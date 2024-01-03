@@ -143,6 +143,7 @@ const Profile = () => {
                 <Text text="Amigos cinéfilos" bold />
               </Row>
             </Row>
+            <button className="btn">Opa</button>
             <Row space responsive>
               <div className="border border-primaryBg p-4 rounded-lg w-fit text-sm gap-y-2 flex flex-col">
                 {userMostRepeatedCategoryName &&
@@ -191,12 +192,12 @@ const Profile = () => {
               green={false}
               message="Filmes adicionados recentemente à lista de favoritos"
             />
-            {userFavoriteMovies.length > 0 ? (
-              <MoviesList extraItems grid={false} movies={recentlyAdded} />
+            {recentlyAdded.length > 0 ? (
+              <MoviesList hasMovies extraItems grid={false} movies={recentlyAdded} />
               ) : (
-                <div className="flex flex-col items-center justify-center h-[400px] text-xs text-bodyColor gap-y-4">
-                  Você ainda não assistiu nenhuma filme... Que pena. Vamos mudar isso!
-                  <Link bgNotPrimary onlyBorder to="/movies">Navegar por Filmes</Link>
+                <div className="flex flex-col items-center justify-center text-center h-[400px] text-xs text-bodyColor gap-y-4">
+                  Você não adicionou nenhum filme à sua lista recentemente... Que pena. Vamos mudar isso!
+                  <Link bgNotPrimary onlyBorder to={`/genre/${userMostRepeatedCategory}`}>Navegar por Filmes</Link>
                 </div>
               )}
           </div>
@@ -214,11 +215,11 @@ const Profile = () => {
             />
             {userFavoriteList.length > 0 ?(
 
-              <MoviesList extraItems grid movies={userFavoriteList} />
+              <MoviesList hasMovies extraItems grid movies={userFavoriteList} />
               ) : (
                 <div className="flex flex-col items-center justify-center h-[400px] text-xs text-bodyColor gap-y-4">
                   Você ainda não assistiu nenhuma filme... Que pena. Vamos mudar isso!
-                  <Link bgNotPrimary onlyBorder to="/movies">Navegar por Filmes</Link>
+                  <Link bgNotPrimary onlyBorder to={`/genre/${userMostRepeatedCategory}`} >Navegar por Filmes</Link>
                 </div>
               )}
           </div>

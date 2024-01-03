@@ -15,14 +15,7 @@ interface SlideProps {
   scrollBar: boolean;
   hasDarkBg?: boolean;
 }
-const Slide = ({
-  children,
-  modules,
-  movies,
-  scrollBar,
-  stretch,
-  hasDarkBg
-}: SlideProps) => {
+const Slide = ({children,modules,movies,scrollBar,stretch,hasDarkBg}: SlideProps) => {
   const prevRef = React.useRef(null);
   const nextRef = React.useRef(null);
 
@@ -42,9 +35,7 @@ const Slide = ({
       }
     }
   }
-
   return (
-    <>
       <Swiper
         autoplay
         onSlideChangeTransitionEnd={onSlideChangeEnd}
@@ -86,29 +77,23 @@ const Slide = ({
               }
             : {}
         }
-        navigation={{
-          nextEl: nextRef.current,
-          prevEl: prevRef.current,
-        }}
+        navigation={{nextEl: nextRef.current, prevEl: prevRef.current}}
       >
         {children}
         <div
-          className="absolute left-0 top-[40%] cursor-pointer z-20 p-[2px] bg-primaryBg opacity-80 rounded-lg text-white font-semibold"
-          ref={prevRef}
-        >
+          className="absolute left-0 top-[40%] cursor-pointer z-30 p-[2px] bg-primaryBg opacity-80 rounded-lg text-white font-semibold"
+          ref={prevRef}>
           <MdKeyboardArrowLeft size={30} />
         </div>
         <div
-          className="absolute right-0 top-[40%] z-20 cursor-pointer p-[2px] bg-primaryBg opacity-80 rounded-lg text-white "
-          ref={nextRef}
-        >
+          className="absolute right-0 top-[40%] z-30 cursor-pointer p-[2px] bg-primaryBg opacity-80 rounded-lg text-white "
+          ref={nextRef} >
           <MdKeyboardArrowRight size={30} />
         </div>
         {isSlideActive && (
-          <div className={`absolute bottom-0 z-10 right-0 w-[60px] md:w-[100px] h-full bg-gradient-to-r from-transparent  ${hasDarkBg ? "to-primaryBgBorder" : "to-primaryBg"}`} ></div>
+          <div className={`absolute bottom-0 z-10 -right-[1px] w-[60px] md:w-[100px] h-full bg-gradient-to-r from-transparent  ${hasDarkBg ? "to-primaryBgBorder" : "to-primaryBg"}`} ></div>
         )}
       </Swiper>
-    </>
   );
 };
 

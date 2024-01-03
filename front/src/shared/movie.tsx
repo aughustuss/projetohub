@@ -11,23 +11,18 @@ interface MovieProps {
   onGrid?: boolean
 }
 
-const Movie = ({
-  movie,
-  onGrid
-}: MovieProps) => {
-
+const Movie = ({movie,onGrid}: MovieProps) => {
   const tmdbImagePath = import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH;
   const {addMovie, checkIfMovieExistsInFavorites} = React.useContext(FavoritesMoviesContext)
   const [movieExists, setMovieExists] = React.useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
+
   const handleModalOpen = () => {
     const mExists = checkIfMovieExistsInFavorites(movie.id);
     setMovieExists(mExists);
     setIsModalOpen(!isModalOpen);
   }
-
   return (
-    <>
        <div className={`${onGrid ? "w-full" : "w-[230px]"} flex flex-col gap-y-2 h-auto cursor-pointer hover:shadow-lg hover:shadow-black/40 transition duration-300 relative`}>
         <div className="h-[350px] w-full relative">
           <img
@@ -76,10 +71,7 @@ const Movie = ({
               </div>
             </div>
             <div className="flex flex-col sm:flex-row gap-1 w-full px-2 text-xs">
-                {/* <a href={`/movie/${movie.id}`} className="w-full bg-primaryBgBorder px-4 py-2 rounded-lg font-black text-center hover:bg-primaryBgBorder/70 transition duration-300 flex flex-col items-center justify-center">Ver mais</a> */}
                 <Link bgNotPrimary fullWidth to={`/movie/${movie.id}`} onlyBorder={false}>Ver mais</Link>
-                {/* <button onClick={() => addMovie(movie)} className="w-full border-primaryBgBorder border 
-                px-4 py-2 rounded-lg font-black hover:bg-primaryBgBorder transition duration-300">Adicionar à favoritos</button> */}
                 {!movieExists ? (
                   <Button fullWidth small={false} green={false} onlyBorder onClick={() => addMovie(movie)} type="button">Favoritar</Button>
                 ) : (
@@ -89,8 +81,6 @@ const Movie = ({
           </div>
         )}
       </div>
-    </>
   );
 };
-
 export default Movie;

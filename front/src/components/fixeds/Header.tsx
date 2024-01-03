@@ -23,11 +23,9 @@ const Header = ({ isOnTop, showNav }: HeaderProps) => {
       return navigate(`/searchedMovies?movieName=${searchParam}`);
     }
   };
-
   const handleGo = () => {
     return navigate(`/searchedMovies?movieName=${searchParam}`);
   };
-
   if (searchParam.length > 0) {
     handleLastSearchedTitle(searchParam);
   }
@@ -37,8 +35,7 @@ const Header = ({ isOnTop, showNav }: HeaderProps) => {
     <>
       {showNav && (
         <nav className="h-[80px] mt-0 md:mt-[10px] w-full fixed top-0  text-newWhite z-50">
-          <div
-            className={` ${
+          <div className={` ${
               isOnTop
                 ? !isToggled
                   ? "bg-transparent"
@@ -46,11 +43,8 @@ const Header = ({ isOnTop, showNav }: HeaderProps) => {
                 : "bg-primary/90"
             } transition-all duration-300 flex justify-between items-center h-full flex-row w-full px-6 md:w-[85%] md:rounded-lg mx-auto`}
           >
-            <a
-              href="/"
-              className={`${
-                isOnTop ? "text-primary" : "text-newWhite"
-              } text-smallDevicesTitle font-title font-black md:text-subTitle lg:text-title xl:text-navTitle cursor-pointer`}
+            <a href="/" className={`${isOnTop ? "text-primary" : "text-newWhite"} text-smallDevicesTitle font-title font-black md:text-subTitle
+             lg:text-title xl:text-navTitle cursor-pointer`}
             >
               HubFilmes
             </a>
@@ -79,12 +73,8 @@ const Header = ({ isOnTop, showNav }: HeaderProps) => {
               {isAboveLG ? (
                 <Linksmapped isAboveLG={isAboveLG} isOnTop={isOnTop} />
               ) : (
-                <button
-                  className="text-iconSize active:scale-90 transition duration-300"
-                  onClick={() => handleToggle()}
-                >
-                  {" "}
-                  <IoMenu />{" "}
+                <button className="text-iconSize active:scale-90 transition duration-300" onClick={() => handleToggle()}>
+                  <IoMenu />
                 </button>
               )}
             </div>

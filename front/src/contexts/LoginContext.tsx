@@ -35,7 +35,7 @@ const LoginContextProvider: React.FC<ChildrenPropsModel> = ({ children }) => {
         } catch (error) {
           console.error("Erro ao obter item do armazenamento:", error);
         } finally {
-          setLoading(false); // Indica que a verificação está completa
+          setLoading(false);
         }
       };
   

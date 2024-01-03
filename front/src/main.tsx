@@ -9,16 +9,16 @@ import { WatchedListContextProvider } from "contexts/WatchedListContext.tsx";
 import { LoginContextProvider } from "contexts/LoginContext.tsx";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <LoginContextProvider>
-      <LastTitleContextProvider>
-        <WatchedListContextProvider>
-          <FavoritesMoviesContextProvider>
-            <SideBarContextProvider>
-              <App />
-            </SideBarContextProvider>
-          </FavoritesMoviesContextProvider>
-        </WatchedListContextProvider>
-      </LastTitleContextProvider>
-    </LoginContextProvider>
+        <LoginContextProvider>
+          <LastTitleContextProvider>
+            <WatchedListContextProvider>
+              <FavoritesMoviesContextProvider>
+                <SideBarContextProvider>
+                  <App />
+                </SideBarContextProvider>
+              </FavoritesMoviesContextProvider>
+            </WatchedListContextProvider>
+          </LastTitleContextProvider>
+        </LoginContextProvider>
   </React.StrictMode>
 );

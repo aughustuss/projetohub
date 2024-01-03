@@ -33,6 +33,7 @@ const Trending = () => {
         {!isLoading && trendingMovies ? (
           <>
             <MoviesList
+              hasMovies
               grid={false}
               extraItems={false}
               movies={trendingMovies}

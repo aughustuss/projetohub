@@ -1,7 +1,5 @@
 import React from "react";
-import {
-  ChildrenPropsModel,
-} from "models/contexts/ContextModels";
+import { ChildrenPropsModel } from "models/contexts/ContextModels";
 import { MovieModel } from "models/entities/Movie";
 
 interface FavoritesMoviesContextModel {
@@ -10,9 +8,9 @@ interface FavoritesMoviesContextModel {
   userFavoriteList: MovieModel[];
   checkIfMovieExistsInFavorites: (val: number) => boolean;
   movieAlreadyAdded: boolean;
-  setUserFavoriteList: React.Dispatch<React.SetStateAction<MovieModel[]>>
-  addMovie: (val: MovieModel) => void
-  removeMovie: (val: number) => void
+  setUserFavoriteList: React.Dispatch<React.SetStateAction<MovieModel[]>>;
+  addMovie: (val: MovieModel) => void;
+  removeMovie: (val: number) => void;
   clearMovies: () => void;
 }
 
@@ -26,7 +24,7 @@ export const FavoritesMoviesContext =
     setUserFavoriteList: () => {},
     removeMovie: () => {},
     addMovie: () => {},
-    clearMovies: () => {}
+    clearMovies: () => {},
   });
 
 const FavoritesMoviesContextProvider: React.FC<ChildrenPropsModel> = ({
@@ -34,15 +32,19 @@ const FavoritesMoviesContextProvider: React.FC<ChildrenPropsModel> = ({
 }) => {
   const [movies, setMovies] = React.useState<MovieModel[]>([]);
   const [recentlyAdded, setRecentlyAdded] = React.useState<MovieModel[]>([]);
-  const [userFavoriteList, setUserFavoriteList] = React.useState<MovieModel[]>([]);
-  const [movieAlreadyAdded, setMovieAlreadyAdded] = React.useState<boolean>(false);
+  const [userFavoriteList, setUserFavoriteList] = React.useState<MovieModel[]>(
+    []
+  );
+  const [movieAlreadyAdded, setMovieAlreadyAdded] =
+    React.useState<boolean>(false);
 
   React.useEffect(() => {
     if (movies.length > 0) {
       const twoDaysAgo = new Date();
       twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
       const recentlyAddedMovies = movies.filter(
-        (movie: MovieModel) => movie.addedDate && new Date(movie.addedDate) >= twoDaysAgo
+        (movie: MovieModel) =>
+          movie.addedDate && new Date(movie.addedDate) >= twoDaysAgo
       );
       setRecentlyAdded(recentlyAddedMovies);
       setUserFavoriteList(movies);
@@ -61,10 +63,6 @@ const FavoritesMoviesContextProvider: React.FC<ChildrenPropsModel> = ({
     return false;
   };
 
-  React.useEffect(() => {
-    getMovies();
-  }, []);
-
   const getMovies = () => {
     const moviesInStorage = localStorage.getItem("userFavoriteMovies");
     if (moviesInStorage) {
@@ -72,8 +70,11 @@ const FavoritesMoviesContextProvider: React.FC<ChildrenPropsModel> = ({
     }
   };
 
+  React.useEffect(() => {
+    getMovies();
+  }, []);
+
   const addMovie = (movie: MovieModel) => {
-    
     setMovies((prevMovies) => {
       const movieExists = prevMovies.some(
         (newMovie) => newMovie.id === movie.id
@@ -107,11 +108,21 @@ const FavoritesMoviesContextProvider: React.FC<ChildrenPropsModel> = ({
     setUserFavoriteList([]);
     setMovies([]);
     localStorage.removeItem("userFavoriteMovies");
-  }
+  };
 
   return (
     <FavoritesMoviesContext.Provider
-      value={{ movies, addMovie, removeMovie, recentlyAdded, userFavoriteList, setUserFavoriteList, checkIfMovieExistsInFavorites, movieAlreadyAdded , clearMovies}}
+      value={{
+        movies,
+        addMovie,
+        removeMovie,
+        recentlyAdded,
+        userFavoriteList,
+        setUserFavoriteList,
+        checkIfMovieExistsInFavorites,
+        movieAlreadyAdded,
+        clearMovies,
+      }}
     >
       {children}
     </FavoritesMoviesContext.Provider>

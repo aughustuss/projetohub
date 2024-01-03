@@ -11,14 +11,15 @@ interface MovieListProps {
   movies: MovieModel[];
   grid: boolean;
   extraItems: boolean;
+  hasMovies: boolean;
   hasDarkBg?: boolean;
 }
-const MoviesList = ({ movies, grid, extraItems, hasDarkBg }: MovieListProps) => {
+const MoviesList = ({ movies, grid, extraItems, hasDarkBg, hasMovies }: MovieListProps) => {
   const { removeMovie, clearMovies } = React.useContext(FavoritesMoviesContext);
   return (
     <>
       {!grid ? (
-        <Slide hasDarkBg={hasDarkBg} scrollBar modules={[Pagination, Scrollbar, Navigation]}>
+        <Slide movies={hasMovies} hasDarkBg={hasDarkBg} scrollBar modules={[Pagination, Scrollbar, Navigation]}>
           {movies.map((movie) => (
             <SwiperSlide className="py-10" key={movie.id}>
               <div className="flex flex-col gap-y-2">
@@ -52,7 +53,9 @@ const MoviesList = ({ movies, grid, extraItems, hasDarkBg }: MovieListProps) => 
           ))}
         </Slide>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 md:gap-3 w-full">
+        <div 
+        className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 
+        gap-1 md:gap-3 w-full">
           {movies.map((movie) => (
             <div key={movie.id} className="flex flex-col gap-y-2">
               <Movie movie={movie} onGrid={grid} />

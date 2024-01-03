@@ -41,10 +41,11 @@ const Similar = ({
             <>
               {similarMovies.length > 0 ? (
                 <MoviesList
+                  hasMovies
                   grid={false}
                   extraItems={false}
                   movies={similarMovies.slice(0, 10)}
-                  hasDarkBg
+                  hasDarkBg={!categorySimilar}
                 />
               ) : (
                 <div className="flex flex-col justify-center items-center w-full h-full text-xs italic text-bodyColor">

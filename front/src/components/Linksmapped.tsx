@@ -16,6 +16,7 @@ const LinksMapped = ({ isOnTop, isAboveLG }: LinksMappedProps) => {
     React.useState<boolean>(false);
 
   const navLinks = useNavLinks();
+  
   const { isLoggedIn, logout } = React.useContext(LoginContext);
   const handleCategoriesMenu = () => {
     setCategoriesMenuOpen(!categoriesMenuOpen);

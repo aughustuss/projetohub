@@ -1,4 +1,9 @@
-import React, { ChangeEventHandler, HTMLInputTypeAttribute, KeyboardEventHandler, MouseEventHandler } from "react";
+import React, {
+  ChangeEventHandler,
+  HTMLInputTypeAttribute,
+  KeyboardEventHandler,
+  MouseEventHandler,
+} from "react";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 
 interface InputProps {
@@ -41,36 +46,48 @@ const Input = ({
   };
 
   return (
-      <div className={`gap-y-1 relative flex flex-row items-center w-full`}>
-        <label htmlFor="input">{label}</label>
-        <input
-          onKeyDown={onKeyDown}
-          type={showPassword && password ? "password" : type}
-          placeholder={placeholder}
-          value={value}
-          onChange={onChange}
-          className={`${height ? `h-[${height}px]` : "py-2"} ${left ? "pl-8 pr-2" : "pl-2 pr-8"} py-2 rounded-lg text-sm text-newBlack w-full shadow-md ${transparent ? "bg-transparent border border-primaryBgBorder text-newWhite" : "bg-newWhite"}`}
-        />
-        {hasText && withIcon && (
-          <>
-            {!password ? (
-              <button
-                onClick={onClick}
-                className={`${left ? "left-1" : "right-1"} absolute text-iconSize transition-all duration-300 text-black`}
-              >
-                <div className={`text-xs ${left ? "pl-1" : "pr-1"}`}>{icon && icon}</div>
-              </button>
-            ) : (
-              <button
-                onClick={handleTypeChange}
-                className="absolute right-1 text-iconSize transition-all duration-300 text-black"
-              >
-                <div className="text-sm pr-1">{showPassword ? <IoEye /> : <IoEyeOff />}</div>
-              </button>
-            )}
-          </>
-        )}
-      </div>
+    <div className={`gap-y-1 relative flex flex-row items-center w-full`}>
+      <label htmlFor="input">{label}</label>
+      <input
+        onKeyDown={onKeyDown}
+        type={showPassword && password ? "password" : type}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        className={`${height ? `h-[${height}px]` : "py-2"} ${
+          left ? "pl-8 pr-2" : "pl-2 pr-8"
+        } py-2 rounded-lg text-sm text-newBlack w-full shadow-md ${
+          transparent
+            ? "bg-transparent border border-primaryBgBorder text-newWhite"
+            : "bg-newWhite"
+        }`}
+      />
+      {hasText && withIcon && (
+        <>
+          {!password ? (
+            <button
+              onClick={onClick}
+              className={`${
+                left ? "left-1" : "right-1"
+              } absolute text-iconSize transition-all duration-300 text-black`}
+            >
+              <div className={`text-xs ${left ? "pl-1" : "pr-1"}`}>
+                {icon && icon}
+              </div>
+            </button>
+          ) : (
+            <button
+              onClick={handleTypeChange}
+              className="absolute right-1 text-iconSize transition-all duration-300 text-black"
+            >
+              <div className="text-sm pr-1">
+                {showPassword ? <IoEye /> : <IoEyeOff />}
+              </div>
+            </button>
+          )}
+        </>
+      )}
+    </div>
   );
 };
 
