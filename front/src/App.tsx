@@ -7,8 +7,7 @@ import Sidebar from "components/fixeds/Sidebar";
 import React from "react";
 const GenreMovies = React.lazy(() => import("views/GenreMovies"));
 const Cadastro = React.lazy(() => import("views/Cadastro"));
-const Trailer = React.lazy(() => import("views/Trailer"));
-// const Cinefilos = React.lazy(() => import("views/Cinefilos"));
+const VideoTrailer = React.lazy(() => import("views/VideoTrailer"));
 import ProtectedRoute from "components/ProtectedRoute";
 import LoginContext from "contexts/LoginContext";
 import Loading from "views/Loading";
@@ -18,12 +17,15 @@ const MoviePage = React.lazy(() => import("views/Movie"));
 const ChatPage = React.lazy(() => import("views/Chat"));
 const SearchedMoviePage = React.lazy(() => import("views/SearchedMovies"));
 const ProfilePage = React.lazy(() => import("views/Profile"));
-const CinefilosPage = React.lazy(() => import("views/Cinefilos"));
+const LoadingPage = React.lazy(() => import("views/Loading"));
+const Cinefilos = React.lazy(() => import("views/Cinefilos"));
+
 function App() {
   const { isLoggedIn, loading } = React.useContext(LoginContext);
   const location = window.location;
   const [isOnTop, setIsOnTop] = React.useState<boolean>(true);
-  const [showNavAndFooter, setShowNavAndFooter] = React.useState<boolean>(false);
+  const [showNavAndFooter, setShowNavAndFooter] =
+    React.useState<boolean>(false);
 
   React.useEffect(() => {
     if (location.pathname === "/login") setShowNavAndFooter(false);
@@ -49,7 +51,7 @@ function App() {
     return <Loading big />;
   }
   return (
-    <React.Suspense fallback={<Loading big />}>
+    <React.Suspense fallback={<LoadingPage big />}>
       <BrowserRouter>
         <div className="font-body">
           <Header showNav={showNavAndFooter} isOnTop={isOnTop} />
@@ -59,21 +61,37 @@ function App() {
               <Route index path="/" Component={HomePage} />
               <Route path="/movie/:movieId" Component={MoviePage} />
               <Route path="/genre/:movieGenre" Component={GenreMovies} />
+              <Route path="/chat" Component={ChatPage} />
               <Route path="/searchedMovies" Component={SearchedMoviePage} />
               <Route path="/login" Component={LoginPage} />
               <Route path="/cadastro" Component={Cadastro} />
-              <Route path="/trailer" Component={Trailer} />
-              <Route path="/searchedMovies" Component={SearchedMoviePage} />
-              <Route path="/login" Component={LoginPage} />
-              <Route path="/cinefilo" Component={CinefilosPage} />
+              <Route path="/profile" Component={ProfilePage} />
+              <Route path="/trailer/:movieName" element={<VideoTrailer />} />
+              <Route path="/cinefilos" Component={Cinefilos} />
               <Route
                 path="/chat"
                 element={
-                  <ProtectedRoute isAccessible={isLoggedIn} redirectPath="/login"> <ChatPage /></ProtectedRoute>}/>
+                  <ProtectedRoute
+                    isAccessible={isLoggedIn}
+                    redirectPath="/login"
+                  >
+                    <ChatPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/searchedMovies" Component={SearchedMoviePage} />
+              <Route path="/login" Component={LoginPage} />
               <Route
                 path="/profile"
                 element={
-                  <ProtectedRoute isAccessible={isLoggedIn} redirectPath="/login" ><ProfilePage /> </ProtectedRoute>}/>
+                  <ProtectedRoute
+                    isAccessible={isLoggedIn}
+                    redirectPath="/login"
+                  >
+                    <ProfilePage />
+                  </ProtectedRoute>
+                }
+              />
             </Routes>
           </div>
           <Footer showFooter={showNavAndFooter} />

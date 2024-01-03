@@ -6,16 +6,10 @@ import ContextoDosFavoritos from "../contexts/Favoritos";
 
 const FavoritesSlider: React.FC = () => {
   const { favoritos } = useContext(ContextoDosFavoritos);
-  console.log(favoritos);
-  // const [favorites, setFavorites] = useState<Movie[]>([]);
-  // const addFavorite = (movie: Movie) => {
-  //   console.log(movie)
-  //   setFavorites((prevFavorites) => [...prevFavorites, movie]);
-  // };
 
   const sliderSettings = {
     dots: false,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 2,
@@ -25,20 +19,22 @@ const FavoritesSlider: React.FC = () => {
         settings: {
           slidesToShow: 4,
           slidesToScroll: 1,
-          infinite: true,
+          infinite: false,
         },
       },
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: 4,
+          slidesToShow: 1,
           slidesToScroll: 1,
-          infinite: true,
+          infinite: false,
         },
       },
     ],
     arrows: false,
   };
+  
+
 
   return (
     <div className="container w-[1024px] mx-auto relative">

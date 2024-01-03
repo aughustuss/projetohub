@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import Input from '../components/input';
-import { useNavigate } from 'react-router-dom';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const [isEmailValid, setIsEmailValid] = useState<boolean>(true);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
+  };
+
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
   };
 
   const isValidEmail = (value: string): boolean => {
@@ -18,16 +24,22 @@ const LoginPage: React.FC = () => {
 
   const handleLoginClick = () => {
     if (isValidEmail(email)) {
-      navigate('/home');
-      login(email);
+      const autenticacaoBemSucedida = true;
+  
+      if (autenticacaoBemSucedida) {
+        setIsAuthenticated(true);
+        navigate('/home');
+      } else {
+        console.log('Falha na autenticação');
+      }
     } else {
       setIsEmailValid(false);
     }
   };
 
-  const login = (email: string) => {
-    console.log(`${email}`);
-  };
+  if (isAuthenticated) {
+    return <Navigate to="/home" />;
+  }
 
   return (
     <div className="flex items-center justify-center h-screen">
@@ -52,6 +64,8 @@ const LoginPage: React.FC = () => {
             hasText
             left
             height={40}
+            value={password}
+            onChange={handlePasswordChange}
           />
         </div>
         <p className="font-bold font-title text-white cursor-pointer mt-2">

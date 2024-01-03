@@ -1,29 +1,15 @@
-import React, { useState } from 'react';
-import Input from '../components/input';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const CampoPesquisa: React.FC = () => {
-    const [valorInput, setValorInput] = useState<string>('');
-
-    
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValorInput(event.target.value);
-    };
-
-    return (
-        <div className="w-full h-[60px] bg-black flex items-center justify-center">
-            <div className="w-[400px] gap-[5px]">
-                <Input
-                    type="text"
-                    placeholder="Pesquise um Filme"
-                    hasText
-                    left
-                    height={40}
-                    value={valorInput}  
-                    onChange={handleInputChange}  
-                />
-            </div>
-        </div>
-    );
-}
+  return (
+    <div className="w-full h-[60px] text-[20px] bg-black flex items-center justify-center">
+      <div >
+        <Link className="pr-[20px]" to="/home">Home</Link>
+        <Link to="/filmes">Filmes</Link>
+      </div>
+    </div>
+  );
+};
 
 export default CampoPesquisa;

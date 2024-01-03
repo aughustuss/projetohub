@@ -1,6 +1,8 @@
 import axios from "axios"
 
 const bearerToken = `Bearer ${import.meta.env.VITE_THE_MOVIE_DB_API_KEY}`;
+const youtubeApiKey = `${import.meta.env.VITE_API_YOUTUBE}`; 
+
 
 export const getMovieByIdService = async (id: string) => {
     return await axios.get(`https://api.themoviedb.org/3/movie/${id}?language=pt-BR`, {
@@ -65,3 +67,29 @@ export const getTrendingMovies = async () => {
         }
     })
 }
+
+
+  export const getVideoIdFromTitle = async (movieTitle: string) => {
+    try {
+      const response = await axios.get(
+        `https://www.googleapis.com/youtube/v3/search?q=${movieTitle}&key=${youtubeApiKey}&part=snippet&type=video`
+      );
+  
+      if (response.status === 200) {
+        const videos = response.data.items;
+  
+        if (videos.length > 0) {
+          return videos[0].id.videoId;
+        } else {
+          console.error('Nenhum vídeo encontrado para o título fornecido.');
+          return null;
+        }
+      } else {
+        console.error(`Erro na solicitação ao YouTube: ${response.status}`);
+        return null;
+      }
+    } catch (error) {
+      console.error('Erro na solicitação ao YouTube:', (error as Error).message);
+      return null;
+    }
+  };
