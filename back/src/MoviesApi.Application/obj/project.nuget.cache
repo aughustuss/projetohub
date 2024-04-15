@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "rcM+Mjjtbu1fBLjmlnynv+utG4NrZpzVpoXJJlosEbQ0gDJIpwtwPrS60iTz8q7ODTUiQlzMHFQ8OPsD4Jmscw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Employee\\projetofronthub\\back\\src\\MoviesApi.Application\\MoviesApi.Application.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Employee\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
+    "C:\\Users\\Employee\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\8.0.0\\microsoft.extensions.dependencyinjection.8.0.0.nupkg.sha512",
+    "C:\\Users\\Employee\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.1\\microsoft.extensions.dependencyinjection.abstractions.8.0.1.nupkg.sha512",
+    "C:\\Users\\Employee\\.nuget\\packages\\microsoft.extensions.options\\6.0.0\\microsoft.extensions.options.6.0.0.nupkg.sha512",
+    "C:\\Users\\Employee\\.nuget\\packages\\microsoft.extensions.primitives\\6.0.0\\microsoft.extensions.primitives.6.0.0.nupkg.sha512",
+    "C:\\Users\\Employee\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

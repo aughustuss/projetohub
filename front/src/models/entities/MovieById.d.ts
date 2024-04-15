@@ -17,12 +17,12 @@ export interface MovieByIdModel {
     overview: string;
     popularity: number;
     poster_path: string;
-    production_companies: Array<MovieByIdCompanies>;
-    production_countries: Array<MovieByIdCountries>[];
+    production_companies: Array<MovieByIdCompaniesModel>;
+    production_countries: Array<MovieByIdCountriesModel>[];
     release_date: string;
     revenue: number;
     runtime: number;
-    spoken_languages: Array<MovieByIdSpokenLanguages>[];
+    spoken_languages: Array<MovieByIdSpokenLanguagesModel>[];
     status: string;
     tagline: string;
     title: string;

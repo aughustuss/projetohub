@@ -19,7 +19,7 @@ const useNavLinks = () => {
     },
     {
       linkText: 'Cinéfilos',
-      linkTo: '#',
+      linkTo: '/cinefilos',
       show: isLoggedIn,
     },
     {
