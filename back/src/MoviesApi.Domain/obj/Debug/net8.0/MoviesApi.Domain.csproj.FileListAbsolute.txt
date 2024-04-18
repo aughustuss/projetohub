@@ -1,0 +1,13 @@
+C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.Domain\bin\Debug\net8.0\MoviesApi.Domain.deps.json
+C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.Domain\bin\Debug\net8.0\MoviesApi.Domain.dll
+C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.Domain\bin\Debug\net8.0\MoviesApi.Domain.pdb
+C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.Domain\obj\Debug\net8.0\MoviesApi.Domain.csproj.AssemblyReference.cache
+C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.Domain\obj\Debug\net8.0\MoviesApi.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.Domain\obj\Debug\net8.0\MoviesApi.Domain.AssemblyInfoInputs.cache
+C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.Domain\obj\Debug\net8.0\MoviesApi.Domain.AssemblyInfo.cs
+C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.Domain\obj\Debug\net8.0\MoviesApi.Domain.csproj.CoreCompileInputs.cache
+C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.Domain\obj\Debug\net8.0\MoviesApi.Domain.sourcelink.json
+C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.Domain\obj\Debug\net8.0\MoviesApi.Domain.dll
+C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.Domain\obj\Debug\net8.0\refint\MoviesApi.Domain.dll
+C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.Domain\obj\Debug\net8.0\MoviesApi.Domain.pdb
+C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.Domain\obj\Debug\net8.0\ref\MoviesApi.Domain.dll

@@ -1,4 +1,5 @@
-﻿using MoviesApi.Application.Dtos.Response;
+﻿using MoviesApi.Application.Dtos.Request;
+using MoviesApi.Application.Dtos.Response;
 using MoviesApi.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,8 @@ namespace MoviesApi.Application.Interfaces
 {
     public interface IUserService
     {
-        Task<User> Get(int id);
-        Task<List<User>> GetAll();
+        Task<UserResponseDto> GetByIdAsync(int input);
+        Task<List<UserResponseDto>> GetAllAsync();
+        Task Add(UserRequestDto input);
     }
 }

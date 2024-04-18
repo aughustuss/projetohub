@@ -9,7 +9,10 @@ namespace MoviesApi.Domain.Interfaces.Repositories
 {
     public interface IUserRepository
     {
-        Task<User> Get(int id);
-        Task<List<User>> GetAll();
+        Task<User> GetByIdAsync(int id);
+        Task<List<User>> GetAllAsync();
+        Task Add(User user);
+
+        Task<bool> UserExists(string email);
     }
 }

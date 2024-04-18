@@ -1,8 +1,8 @@
 {
   "Version": 1,
-  "Hash": "pyaMSCEWRZ4nvKCja2XnniyJFEBxfxA7VVvbHvFd6MQ=",
-  "Source": "api",
-  "BasePath": "_content/api",
+  "Hash": "f3m1YSv74p1ebfpYPP7pw8eMs47zPQO3ZwQlwWtr2jo=",
+  "Source": "MoviesApi",
+  "BasePath": "_content/MoviesApi",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],

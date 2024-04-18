@@ -1,4 +1,5 @@
-﻿using api.Enum;
+﻿using MoviesApi.Domain.Entities;
+using MoviesApi.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +15,10 @@ namespace MoviesApi.Application.Dtos.Response
         public string SurName { get; set; } = string.Empty;
 
         public string Email { get; set; } = string.Empty;
-
-        public string Token { get; set; } = string.Empty;
-
         public EUser UserType { get; set; }
 
         public DateTime? CreationDate { get; set; }
-
-        public DateTime? DeletionDate { get; set; }
-
+        public ICollection<Movie>? FavoriteMovies { get; } = [];
+        public ICollection<Movie>? WatchedMovies { get; } = [];
     }
 }

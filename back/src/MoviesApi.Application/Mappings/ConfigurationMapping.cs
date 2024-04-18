@@ -15,8 +15,8 @@ namespace MoviesApi.Application.Mappings
     {
         public ConfigurationMapping()
         {
-            CreateMap<User, UserResponseDto>();
-            CreateMap<User, UserRequestDto>();
+            CreateMap<User, UserResponseDto>().ReverseMap();
+            CreateMap<User, UserRequestDto>().ReverseMap();
         }
     }
 }

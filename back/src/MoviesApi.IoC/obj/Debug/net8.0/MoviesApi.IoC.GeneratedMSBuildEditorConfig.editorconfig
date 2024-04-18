@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = MoviesApi.IoC
-build_property.ProjectDir = C:\Users\Employee\projetofronthub\back\src\MoviesApi.IoC\
+build_property.ProjectDir = C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.IoC\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

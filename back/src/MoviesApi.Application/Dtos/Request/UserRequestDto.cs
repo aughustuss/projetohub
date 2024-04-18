@@ -1,4 +1,4 @@
-﻿using api.Enum;
+﻿using MoviesApi.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +9,14 @@ namespace MoviesApi.Application.Dtos.Request
 {
     public class UserRequestDto
     {
-        string FirstName { get; set; } = string.Empty;
+        public string FirstName { get; set; } = string.Empty;
 
-        string SurName { get; set; } = string.Empty;
+        public string SurName { get; set; } = string.Empty;
 
-        string Email { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
 
-        string Password { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
 
-        EUser UserType { get; set; }
+        public EUser UserType { get; set; }
     }
 }

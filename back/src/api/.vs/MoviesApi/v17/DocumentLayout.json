@@ -1,0 +1,319 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\api\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{DE019C55-BF81-4DDD-B0D9-B453C4CD4AC7}|MoviesApi.csproj|c:\\users\\augus\\source\\repos\\projetofronthub\\back\\src\\api\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DE019C55-BF81-4DDD-B0D9-B453C4CD4AC7}|MoviesApi.csproj|solutionrelative:controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DE019C55-BF81-4DDD-B0D9-B453C4CD4AC7}|MoviesApi.csproj|c:\\users\\augus\\source\\repos\\projetofronthub\\back\\src\\api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DE019C55-BF81-4DDD-B0D9-B453C4CD4AC7}|MoviesApi.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{275B065C-BF0A-4487-902D-333A811C7043}|..\\MoviesApi.IoC\\MoviesApi.IoC.csproj|c:\\users\\augus\\source\\repos\\projetofronthub\\back\\src\\moviesapi.ioc\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E544D152-4495-43BC-8D4B-12AA328561CC}|..\\MoviesApi.Infrastructure\\MoviesApi.Infrastructure.csproj|c:\\users\\augus\\source\\repos\\projetofronthub\\back\\src\\moviesapi.infrastructure\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{378652B0-ECEE-4F0B-82A5-4AA67C1217B5}|..\\MoviesApi.Application\\MoviesApi.Application.csproj|c:\\users\\augus\\source\\repos\\projetofronthub\\back\\src\\moviesapi.application\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{684521E3-ED08-42FB-9516-797BD2EDF645}|..\\MoviesApi.Domain\\MoviesApi.Domain.csproj|c:\\users\\augus\\source\\repos\\projetofronthub\\back\\src\\moviesapi.domain\\interfaces\\entities\\iuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{684521E3-ED08-42FB-9516-797BD2EDF645}|..\\MoviesApi.Domain\\MoviesApi.Domain.csproj|c:\\users\\augus\\source\\repos\\projetofronthub\\back\\src\\moviesapi.domain\\entities\\genre.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{684521E3-ED08-42FB-9516-797BD2EDF645}|..\\MoviesApi.Domain\\MoviesApi.Domain.csproj|c:\\users\\augus\\source\\repos\\projetofronthub\\back\\src\\moviesapi.domain\\entities\\movie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{684521E3-ED08-42FB-9516-797BD2EDF645}|..\\MoviesApi.Domain\\MoviesApi.Domain.csproj|c:\\users\\augus\\source\\repos\\projetofronthub\\back\\src\\moviesapi.domain\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E544D152-4495-43BC-8D4B-12AA328561CC}|..\\MoviesApi.Infrastructure\\MoviesApi.Infrastructure.csproj|c:\\users\\augus\\source\\repos\\projetofronthub\\back\\src\\moviesapi.infrastructure\\context\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{684521E3-ED08-42FB-9516-797BD2EDF645}|..\\MoviesApi.Domain\\MoviesApi.Domain.csproj|c:\\users\\augus\\source\\repos\\projetofronthub\\back\\src\\moviesapi.domain\\entities\\moviecompany.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{684521E3-ED08-42FB-9516-797BD2EDF645}|..\\MoviesApi.Domain\\MoviesApi.Domain.csproj|c:\\users\\augus\\source\\repos\\projetofronthub\\back\\src\\moviesapi.domain\\entities\\moviecountry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{684521E3-ED08-42FB-9516-797BD2EDF645}|..\\MoviesApi.Domain\\MoviesApi.Domain.csproj|c:\\users\\augus\\source\\repos\\projetofronthub\\back\\src\\moviesapi.domain\\entities\\moviegenre.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{378652B0-ECEE-4F0B-82A5-4AA67C1217B5}|..\\MoviesApi.Application\\MoviesApi.Application.csproj|c:\\users\\augus\\source\\repos\\projetofronthub\\back\\src\\moviesapi.application\\mappings\\configurationmapping.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{378652B0-ECEE-4F0B-82A5-4AA67C1217B5}|..\\MoviesApi.Application\\MoviesApi.Application.csproj|c:\\users\\augus\\source\\repos\\projetofronthub\\back\\src\\moviesapi.application\\dtos\\request\\userrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{378652B0-ECEE-4F0B-82A5-4AA67C1217B5}|..\\MoviesApi.Application\\MoviesApi.Application.csproj|c:\\users\\augus\\source\\repos\\projetofronthub\\back\\src\\moviesapi.application\\dtos\\response\\userresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DE019C55-BF81-4DDD-B0D9-B453C4CD4AC7}|MoviesApi.csproj|c:\\users\\augus\\source\\repos\\projetofronthub\\back\\src\\api\\moviesapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{DE019C55-BF81-4DDD-B0D9-B453C4CD4AC7}|MoviesApi.csproj|solutionrelative:moviesapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{275B065C-BF0A-4487-902D-333A811C7043}|..\\MoviesApi.IoC\\MoviesApi.IoC.csproj|c:\\users\\augus\\source\\repos\\projetofronthub\\back\\src\\moviesapi.ioc\\moviesapi.ioc.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 10,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\api\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\api\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-18T19:24:58.035Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "IUser.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Domain\\Interfaces\\Entities\\IUser.cs",
+              "RelativeDocumentMoniker": "..\\MoviesApi.Domain\\Interfaces\\Entities\\IUser.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Domain\\Interfaces\\Entities\\IUser.cs",
+              "RelativeToolTip": "..\\MoviesApi.Domain\\Interfaces\\Entities\\IUser.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-18T19:21:19.965Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Genre.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Domain\\Entities\\Genre.cs",
+              "RelativeDocumentMoniker": "..\\MoviesApi.Domain\\Entities\\Genre.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Domain\\Entities\\Genre.cs",
+              "RelativeToolTip": "..\\MoviesApi.Domain\\Entities\\Genre.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAA6AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-18T18:44:02.075Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Movie.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Domain\\Entities\\Movie.cs",
+              "RelativeDocumentMoniker": "..\\MoviesApi.Domain\\Entities\\Movie.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Domain\\Entities\\Movie.cs",
+              "RelativeToolTip": "..\\MoviesApi.Domain\\Entities\\Movie.cs",
+              "ViewState": "AQIAABMAAAAAAAAAAAAwwBwAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-18T18:44:01.162Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DependencyInjection.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.IoC\\DependencyInjection.cs",
+              "RelativeDocumentMoniker": "..\\MoviesApi.IoC\\DependencyInjection.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.IoC\\DependencyInjection.cs",
+              "RelativeToolTip": "..\\MoviesApi.IoC\\DependencyInjection.cs",
+              "ViewState": "AQIAAAcAAAAAAAAAAAAAABkAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-18T17:23:47.787Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Domain\\Entities\\User.cs",
+              "RelativeDocumentMoniker": "..\\MoviesApi.Domain\\Entities\\User.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Domain\\Entities\\User.cs",
+              "RelativeToolTip": "..\\MoviesApi.Domain\\Entities\\User.cs",
+              "ViewState": "AQIAABAAAAAAAAAAAAAqwBwAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-18T17:18:32.396Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UserService.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Application\\Services\\UserService.cs",
+              "RelativeDocumentMoniker": "..\\MoviesApi.Application\\Services\\UserService.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Application\\Services\\UserService.cs",
+              "RelativeToolTip": "..\\MoviesApi.Application\\Services\\UserService.cs",
+              "ViewState": "AQIAABgAAAAAAAAAAAA1wCQAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-18T14:13:30.941Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UserRepository.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Infrastructure\\Repositories\\UserRepository.cs",
+              "RelativeDocumentMoniker": "..\\MoviesApi.Infrastructure\\Repositories\\UserRepository.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Infrastructure\\Repositories\\UserRepository.cs",
+              "RelativeToolTip": "..\\MoviesApi.Infrastructure\\Repositories\\UserRepository.cs",
+              "ViewState": "AQIAABYAAAAAAAAAAAAYwCIAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-18T14:26:26.625Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\api\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "Controllers\\UserController.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\api\\Controllers\\UserController.cs",
+              "RelativeToolTip": "Controllers\\UserController.cs",
+              "ViewState": "AQIAABIAAAAAAAAAAAA+wCAAAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-18T16:51:40.547Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Infrastructure\\Context\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "..\\MoviesApi.Infrastructure\\Context\\AppDbContext.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Infrastructure\\Context\\AppDbContext.cs",
+              "RelativeToolTip": "..\\MoviesApi.Infrastructure\\Context\\AppDbContext.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-18T13:45:40.461Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "MovieCompany.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Domain\\Entities\\MovieCompany.cs",
+              "RelativeDocumentMoniker": "..\\MoviesApi.Domain\\Entities\\MovieCompany.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Domain\\Entities\\MovieCompany.cs",
+              "RelativeToolTip": "..\\MoviesApi.Domain\\Entities\\MovieCompany.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAA0AAAAjAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-18T18:44:00.256Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "MovieCountry.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Domain\\Entities\\MovieCountry.cs",
+              "RelativeDocumentMoniker": "..\\MoviesApi.Domain\\Entities\\MovieCountry.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Domain\\Entities\\MovieCountry.cs",
+              "RelativeToolTip": "..\\MoviesApi.Domain\\Entities\\MovieCountry.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-18T18:43:59.532Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "MovieGenre.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Domain\\Entities\\MovieGenre.cs",
+              "RelativeDocumentMoniker": "..\\MoviesApi.Domain\\Entities\\MovieGenre.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Domain\\Entities\\MovieGenre.cs",
+              "RelativeToolTip": "..\\MoviesApi.Domain\\Entities\\MovieGenre.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAABEAAAAxAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-18T18:43:58.083Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "UserResponseDto.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Application\\Dtos\\Response\\UserResponseDto.cs",
+              "RelativeDocumentMoniker": "..\\MoviesApi.Application\\Dtos\\Response\\UserResponseDto.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Application\\Dtos\\Response\\UserResponseDto.cs",
+              "RelativeToolTip": "..\\MoviesApi.Application\\Dtos\\Response\\UserResponseDto.cs",
+              "ViewState": "AQIAAAoAAAAAAAAAAAAAABQAAABAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-18T17:17:46.251Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "ConfigurationMapping.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Application\\Mappings\\ConfigurationMapping.cs",
+              "RelativeDocumentMoniker": "..\\MoviesApi.Application\\Mappings\\ConfigurationMapping.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Application\\Mappings\\ConfigurationMapping.cs",
+              "RelativeToolTip": "..\\MoviesApi.Application\\Mappings\\ConfigurationMapping.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAABEAAAA6AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-18T17:32:17.861Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "UserRequestDto.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Application\\Dtos\\Request\\UserRequestDto.cs",
+              "RelativeDocumentMoniker": "..\\MoviesApi.Application\\Dtos\\Request\\UserRequestDto.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Application\\Dtos\\Request\\UserRequestDto.cs",
+              "RelativeToolTip": "..\\MoviesApi.Application\\Dtos\\Request\\UserRequestDto.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAABMAAAArAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-18T17:28:28.188Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "MoviesApi.IoC.csproj",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.IoC\\MoviesApi.IoC.csproj",
+              "RelativeDocumentMoniker": "..\\MoviesApi.IoC\\MoviesApi.IoC.csproj",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.IoC\\MoviesApi.IoC.csproj",
+              "RelativeToolTip": "..\\MoviesApi.IoC\\MoviesApi.IoC.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-04-18T13:38:42.34Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "MoviesApi.csproj",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\api\\MoviesApi.csproj",
+              "RelativeDocumentMoniker": "MoviesApi.csproj",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\api\\MoviesApi.csproj",
+              "RelativeToolTip": "MoviesApi.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAhAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-04-18T13:38:47.097Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

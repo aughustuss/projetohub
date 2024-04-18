@@ -1,0 +1,16 @@
+C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.Application\bin\Debug\net8.0\MoviesApi.Application.deps.json
+C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.Application\bin\Debug\net8.0\MoviesApi.Application.dll
+C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.Application\bin\Debug\net8.0\MoviesApi.Application.pdb
+C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.Application\bin\Debug\net8.0\MoviesApi.Domain.dll
+C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.Application\bin\Debug\net8.0\MoviesApi.Domain.pdb
+C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.Application\obj\Debug\net8.0\MoviesApi.Application.csproj.AssemblyReference.cache
+C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.Application\obj\Debug\net8.0\MoviesApi.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.Application\obj\Debug\net8.0\MoviesApi.Application.AssemblyInfoInputs.cache
+C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.Application\obj\Debug\net8.0\MoviesApi.Application.AssemblyInfo.cs
+C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.Application\obj\Debug\net8.0\MoviesApi.Application.csproj.CoreCompileInputs.cache
+C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.Application\obj\Debug\net8.0\MoviesApi.Application.sourcelink.json
+C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.Application\obj\Debug\net8.0\MoviesAp.F5E91B84.Up2Date
+C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.Application\obj\Debug\net8.0\MoviesApi.Application.dll
+C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.Application\obj\Debug\net8.0\refint\MoviesApi.Application.dll
+C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.Application\obj\Debug\net8.0\MoviesApi.Application.pdb
+C:\Users\augus\source\repos\projetofronthub\back\src\MoviesApi.Application\obj\Debug\net8.0\ref\MoviesApi.Application.dll

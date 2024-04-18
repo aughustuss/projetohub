@@ -9,7 +9,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.ConfigureInjections(builder.Configuration);
-builder.Services.AddAutoMapper(typeof(ConfigurationMapping));
 
 var app = builder.Build();
 

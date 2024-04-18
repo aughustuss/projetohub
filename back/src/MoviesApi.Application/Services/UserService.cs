@@ -1,4 +1,6 @@
-﻿using MoviesApi.Application.Dtos.Response;
+﻿using AutoMapper;
+using MoviesApi.Application.Dtos.Request;
+using MoviesApi.Application.Dtos.Response;
 using MoviesApi.Application.Interfaces;
 using MoviesApi.Domain.Entities;
 using MoviesApi.Domain.Interfaces.Repositories;
@@ -13,19 +15,31 @@ namespace MoviesApi.Application.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        public UserService(IUserRepository userRepository)
+        private readonly IMapper _mapper;
+        public UserService(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
+            _mapper = mapper;
         }
 
-        public Task<User> Get(int id)
+        public async Task Add(UserRequestDto input)
         {
-            throw new NotImplementedException();
+            var user = _mapper.Map<User>(input);
+            user.CreationDate = DateTime.UtcNow;
+            user.Password = user.HashPassword(input.Password);
+            await _userRepository.Add(user);
         }
 
-        public Task<List<User>> GetAll()
+        public async Task<UserResponseDto> GetByIdAsync(int input)
         {
-            throw new NotImplementedException();
+            var user = await _userRepository.GetByIdAsync(input);
+            return _mapper.Map<UserResponseDto>(user);
+        }
+
+        public async Task<List<UserResponseDto>> GetAllAsync()
+        {
+            var users = await _userRepository.GetAllAsync();
+            return _mapper.Map<List<UserResponseDto>>(users);
         }
     }
 }

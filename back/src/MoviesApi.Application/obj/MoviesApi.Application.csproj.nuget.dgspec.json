@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Employee\\projetofronthub\\back\\src\\MoviesApi.Application\\MoviesApi.Application.csproj": {}
+    "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Application\\MoviesApi.Application.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Employee\\projetofronthub\\back\\src\\MoviesApi.Application\\MoviesApi.Application.csproj": {
+    "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Application\\MoviesApi.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Employee\\projetofronthub\\back\\src\\MoviesApi.Application\\MoviesApi.Application.csproj",
+        "projectUniqueName": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Application\\MoviesApi.Application.csproj",
         "projectName": "MoviesApi.Application",
-        "projectPath": "C:\\Users\\Employee\\projetofronthub\\back\\src\\MoviesApi.Application\\MoviesApi.Application.csproj",
-        "packagesPath": "C:\\Users\\Employee\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Employee\\projetofronthub\\back\\src\\MoviesApi.Application\\obj\\",
+        "projectPath": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Application\\MoviesApi.Application.csproj",
+        "packagesPath": "C:\\Users\\augus\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Employee\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\augus\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,8 +28,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Employee\\projetofronthub\\back\\src\\MoviesApi.Domain\\MoviesApi.Domain.csproj": {
-                "projectPath": "C:\\Users\\Employee\\projetofronthub\\back\\src\\MoviesApi.Domain\\MoviesApi.Domain.csproj"
+              "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Domain\\MoviesApi.Domain.csproj": {
+                "projectPath": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Domain\\MoviesApi.Domain.csproj"
               }
             }
           }
@@ -38,6 +38,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -73,21 +78,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Employee\\projetofronthub\\back\\src\\MoviesApi.Domain\\MoviesApi.Domain.csproj": {
+    "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Domain\\MoviesApi.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Employee\\projetofronthub\\back\\src\\MoviesApi.Domain\\MoviesApi.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Domain\\MoviesApi.Domain.csproj",
         "projectName": "MoviesApi.Domain",
-        "projectPath": "C:\\Users\\Employee\\projetofronthub\\back\\src\\MoviesApi.Domain\\MoviesApi.Domain.csproj",
-        "packagesPath": "C:\\Users\\Employee\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Employee\\projetofronthub\\back\\src\\MoviesApi.Domain\\obj\\",
+        "projectPath": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Domain\\MoviesApi.Domain.csproj",
+        "packagesPath": "C:\\Users\\augus\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\augus\\source\\repos\\projetofronthub\\back\\src\\MoviesApi.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Employee\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\augus\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -107,12 +112,21 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Identity": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
             "Microsoft.Extensions.DependencyInjection": {
               "target": "Package",
               "version": "[8.0.0, )"
@@ -138,7 +152,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
