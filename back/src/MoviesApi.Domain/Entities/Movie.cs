@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MoviesApi.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MoviesApi.Domain.Entities
 {
@@ -12,38 +8,35 @@ namespace MoviesApi.Domain.Entities
         [Key]
         public int Id { get; set; }
         public bool IsAdult { get; set; } = false;
-        public DateTime AddedDate { get; set; }
         public string? BackdropPath { get; set; } = null;
         public double Budget { get; set; }
-        public string? Homepage { get; set; } = string.Empty;
-        public string? ImdbId { get; set; } = string.Empty;
-        public string? OriginalLanguage { get; set; } = string.Empty;
+        public string? Homepage { get; set; }
+        public string? ImdbId { get; set; }
+        public string? OriginalLanguage { get; set; }
         public string OriginalTitle { get; set; } = string.Empty;
         public string Overview { get; set; } = string.Empty;
-        public double? Popularity { get; set; }
-        public string? PosterPath { get; set; } = string.Empty;
-        public List<Company>?Companies { get; } = [];
-        public List<MovieCompany>? MovieCompanies { get; } = [];
-        public List<Country>? Countries { get; } = [];
-        public List<MovieCountry>? MovieCountries { get; } = [];
-        public List<Genre> Genres { get; } = [];
-        public List<MovieGenre> MovieGenres { get; } = [];
-        
-        public int? UserWithFavoriteListId {  get; set; }
-        public User? UserWithFavoriteList {  get; set; }
-        public int? UserWithWatchedListId { get; set; }
-        public User? UserWithWatchedList { get; set; }
-        public int CreatorUserId { get; set; }
-        public User CreatorUser { get; set; } = null!;
-        public string ReleaseDate { get; set; } = string.Empty;
+        public string? PosterPath { get; set; }
+        public DateTime ReleaseDate { get; set; }
         public double Revenue { get; set; }
         public double Runtime {  get; set; }
-        public string Status { get; set; } = string.Empty;
+        public EMovieStatus Status { get; set; }
         public string Tagline { get; set; } = string.Empty;
         public string Title { get; set; } = string.Empty;
         public bool HasVideo { get; set; } = false;
+        public double? Popularity { get; set; }
         public double? VoteAverage { get; set; }
         public int? VoteCount {  get; set; }
-        
+
+        public int CreatorUserId { get; set; }
+        public User CreatorUser { get; set; } = null!;
+
+        public ICollection<Comment> Comments { get; } = new List<Comment>();
+        public ICollection<Rate> Rates { get; } = new List<Rate>();
+
+        public List<EGenre> Genres { get; set; } = [];
+        public List<ELanguage> Languages { get; set; } = [];
+        public List<Company> Companies { get; } = [];
+        public List<User> InUsersFavoriteList { get; } = [];
+        public List<User> InUsersWatchedList { get; } = [];
     }
 }

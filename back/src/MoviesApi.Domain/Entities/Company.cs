@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MoviesApi.Domain.Entities
 {
@@ -14,7 +9,6 @@ namespace MoviesApi.Domain.Entities
         public string LogoPath { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public string OriginalCountry {  get; set; } = string.Empty;
-        public List<Movie>? Movies { get; } = [];
-        public List<Company>? MovieCompanies { get; } = [];
+        public List<Movie> Movies { get; } = [];
     }
 }

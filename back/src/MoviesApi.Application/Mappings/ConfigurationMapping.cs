@@ -2,12 +2,6 @@
 using MoviesApi.Application.Dtos.Request;
 using MoviesApi.Application.Dtos.Response;
 using MoviesApi.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 
 namespace MoviesApi.Application.Mappings
 {
@@ -15,8 +9,26 @@ namespace MoviesApi.Application.Mappings
     {
         public ConfigurationMapping()
         {
-            CreateMap<User, UserResponseDto>().ReverseMap();
-            CreateMap<User, UserRequestDto>().ReverseMap();
+            CreateMap<User, UserInfoDto>().ReverseMap();
+            CreateMap<User, UserCreateDto>().ReverseMap();
+            CreateMap<User, UserLoginDto>().ReverseMap();
+            CreateMap<User, UserTokenDto>().ReverseMap();
+            CreateMap<User, UserShortInfo>().ReverseMap();
+
+            CreateMap<Company, CompanyDto>().ReverseMap();
+            CreateMap<Company, CompanyGetDto>().ReverseMap();
+
+            CreateMap<Comment, CommentCreateDto>().ReverseMap();
+            CreateMap<Comment, CommentInfoDto>().ReverseMap();
+
+            CreateMap<Rate, RateCreateDto>().ReverseMap();
+
+            CreateMap<Movie, MovieInfoToWatchedListDto>().ReverseMap();
+            CreateMap<Movie, MovieGetDto>().ReverseMap();
+            CreateMap<Movie, MovieInfoDto>().ReverseMap();
+            CreateMap<Movie, MovieCreateDto>().ReverseMap();
+            CreateMap<Movie, MovieInfoByIdDto>().ReverseMap();
+            CreateMap<Movie, MovieInfoToSearchBoxDto>().ReverseMap();
         }
     }
 }
