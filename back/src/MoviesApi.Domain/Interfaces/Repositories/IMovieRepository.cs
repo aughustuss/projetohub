@@ -8,21 +8,19 @@ namespace MoviesApi.Domain.Interfaces.Repositories
         Task CreateMovieAsync(Movie input);
 
         Task UpdateMovieAsync(Movie input);
-        Task DeleteAsync(int input);
+        Task DeleteAsync(Movie input);
 
         Task<Movie> GetMovieByIdAsync(int input);
         Task<Movie> GetAllMovieInfosByIdAsync(int input);
 
         Task<List<Movie>> GetMoviesByNameAsync(string input);
         Task<List<Movie>> GetMoviesByNameToSearchBoxAsync(string input);
-        Task<List<Movie>> GetMoviesByGenreAsync(EGenre input);
+        Task<List<Movie>> GetMoviesByGenreAsync(EGenre genre, int page);
         Task<List<Movie>> GetTrendingMoviesAsync();
         Task<List<Movie>> GetUpcomingMoviesAsync();
         Task<List<Movie>> GetPopularMoviesAsync();
         Task<List<Movie>> GetAllAsync();
 
         Task UpdateMovieVotesAsync(Movie input);
-        Task<bool> CheckIfMovieExistsAsync(string input);
-        Task<bool> CheckIfMoviesExistsByIdAsync(int input);
     }
 }

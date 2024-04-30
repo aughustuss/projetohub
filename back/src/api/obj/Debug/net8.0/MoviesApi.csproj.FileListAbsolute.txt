@@ -293,3 +293,6 @@ C:\Users\User\source\repos\projetohub\back\src\api\obj\Debug\net8.0\MoviesApi.cs
 C:\Users\User\source\repos\projetohub\back\src\api\obj\Debug\net8.0\MoviesApi.genruntimeconfig.cache
 C:\Users\User\source\repos\projetohub\back\src\api\obj\Debug\net8.0\ref\MoviesApi.dll
 C:\Users\User\source\repos\projetohub\back\src\api\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\User\source\repos\projetohub\back\src\api\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
+C:\Users\User\source\repos\projetohub\back\src\api\bin\Debug\net8.0\MailKit.dll
+C:\Users\User\source\repos\projetohub\back\src\api\bin\Debug\net8.0\MimeKit.dll

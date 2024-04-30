@@ -18,5 +18,6 @@ namespace MoviesApi.Infrastructure.Repositories
             _dbContext.UsersFavoriteMovies.Add(input);
             await _dbContext.SaveChangesAsync();
         }
+
     }
 }

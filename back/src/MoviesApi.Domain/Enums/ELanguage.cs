@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Reflection;
 
 namespace MoviesApi.Domain.Enums
 {
@@ -34,5 +35,17 @@ namespace MoviesApi.Domain.Enums
         Turco,
         [Description("Sueco")]
         Sueco
+    }
+
+    public class LanguageHelper()
+    {
+        public static string GetLanguageDescription(Enum language)
+        {
+            FieldInfo value = language.GetType().GetField(language.ToString());
+
+            DescriptionAttribute description = (DescriptionAttribute)value.GetCustomAttribute(typeof(DescriptionAttribute), false);
+
+            return description == null ? language.ToString() : description.Description;
+        }
     }
 }

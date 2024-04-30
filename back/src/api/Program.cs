@@ -52,6 +52,8 @@ app.UseHttpsRedirection();
 
 app.UseMiddleware<Token>();
 
+app.UseCors("hub_movies_cors_origin");
+
 app.UseAuthentication();
 
 app.UseAuthorization();

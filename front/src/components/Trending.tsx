@@ -1,23 +1,23 @@
 import { MovieModel } from "models/entities/Movie";
 import Title from "./Title";
 import React, { useEffect } from "react";
-import { getTrendingMovies } from "services/GetMoviesService";
+import { getPopularMoviesService } from "services/Services";
 import Loading from "views/Loading";
 import MoviesList from "./MoviesList";
 
 const Trending = () => {
   const [trendingMovies, setTrendingMovies] = React.useState<MovieModel[]>([]);
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [isLoading, setLoading] = React.useState<boolean>(false);
   useEffect(() => {
     Promise.resolve(
-      getTrendingMovies()
+      getPopularMoviesService()
         .then((res) => {
-          setTrendingMovies(res.data.results);
-          setIsLoading(false);
+          setTrendingMovies(res.data);
+          setLoading(false);
         })
         .catch((err) => {
           console.log(err);
-          setIsLoading(false);
+          setLoading(false);
         })
     );
   }, []);
@@ -27,7 +27,7 @@ const Trending = () => {
         <Title
           bold
           center={false}
-          green={false}
+          black
           message="Os mais populares no momento"
         />
         {!isLoading && trendingMovies ? (

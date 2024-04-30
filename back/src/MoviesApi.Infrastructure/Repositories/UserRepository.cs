@@ -41,7 +41,7 @@ namespace MoviesApi.Infrastructure.Repositories
 
         }
 
-        public async Task<bool> UserExists(string input)
+        private async Task<bool> UserExists(string input)
         {
             return await _dbContext.Users.AnyAsync(u => u.Email == input);
         }
@@ -82,8 +82,10 @@ namespace MoviesApi.Infrastructure.Repositories
 
         public async Task<User> GetAllUserInfosByIdAsync(int input)
         {
-            var user = await _dbContext.Users.Include(u => u.FavoriteMovies).Include(u => u.WatchedMovies).Where(u => u.Id == input).FirstOrDefaultAsync();
+            var user = await _dbContext.Users.Include(u => u.FavoriteMovies).ThenInclude(m => m.InUsersFavoriteList).Include(u => u.WatchedMovies).Include(u => u.Rates).Include(u => u.Friends).Where(u => u.Id == input).FirstOrDefaultAsync();
+            //var text = await _dbContext.UsersFavoriteMovies.Where(u => u.UserId == input && user.FavoriteMovies.Any(m => m.Id == u.MovieId)).ToListAsync();
             return user ?? throw new EntityNotFoundException($"Usuário com o id {input} não foi encontrado.");
         }
+
     }
 }

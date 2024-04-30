@@ -8,8 +8,7 @@ namespace MoviesApi.Application.Dtos.Response
         public int Id { get; set; }
         public bool IsAdult { get; set; }
         public string BackdropPath { get; set; } = string.Empty;
-        public List<EGenre> Genres { get; } = [];
-        public List<string> GenreName { get { return Genres.Select(g => GenreHelper.GetGenreDescription(g)).ToList(); } }
+        public List<string> Genres { get; } = [];
 
         public string OriginalLanguage { get; set; } = string.Empty;
         public string OriginalTitle {  get; set; } = string.Empty;

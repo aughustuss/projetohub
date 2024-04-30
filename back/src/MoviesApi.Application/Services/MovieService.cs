@@ -46,7 +46,9 @@ namespace MoviesApi.Application.Services
 
         public async Task DeleteAsync(int input)
         {
-            await _movieRepository.DeleteAsync(input);
+            var movie = await _movieRepository.GetMovieByIdAsync(input);
+
+            await _movieRepository.DeleteAsync(movie);
         }
 
         public async Task<List<MovieInfoDto>> GetAllAsync()
@@ -55,9 +57,9 @@ namespace MoviesApi.Application.Services
             return _mapper.Map<List<MovieInfoDto>>(movies);
         }
 
-        public async Task<List<MovieInfoDto>> GetMoviesByGenreAsync(EGenre input)
+        public async Task<List<MovieInfoDto>> GetMoviesByGenreAsync(EGenre genre, int page)
         {
-            var movies = await _movieRepository.GetMoviesByGenreAsync(input);
+            var movies = await _movieRepository.GetMoviesByGenreAsync(genre, page);
             return _mapper.Map<List<MovieInfoDto>>(movies);
         }
 

@@ -68,11 +68,11 @@ const Slide = ({children,modules,movies,scrollBar,stretch,hasDarkBg}: SlideProps
                 },
                 1024: {
                   slidesPerView: stretch ? 3 : 4,
-                  spaceBetween: 30,
+                  spaceBetween: 20,
                 },
                 1280: {
                   slidesPerView: stretch ? 4 : 5,
-                  spaceBetween: stretch ? 20 : 30,
+                  spaceBetween: 20,
                 },
               }
             : {}
@@ -91,7 +91,7 @@ const Slide = ({children,modules,movies,scrollBar,stretch,hasDarkBg}: SlideProps
           <MdKeyboardArrowRight size={30} />
         </div>
         {isSlideActive && (
-          <div className={`absolute bottom-0 z-10 -right-[1px] w-[60px] md:w-[100px] h-full bg-gradient-to-r from-transparent  ${hasDarkBg ? "to-primaryBgBorder" : "to-primaryBg"}`} ></div>
+          <div className={`absolute bottom-0 z-10 -right-[1px] w-[60px] md:w-[80px] h-full bg-gradient-to-r from-transparent  ${hasDarkBg ? "to-border" : "to-[#f4f4f4]/40"}`} ></div>
         )}
       </Swiper>
   );

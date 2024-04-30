@@ -5,25 +5,25 @@ import Trending from "components/Trending";
 import LastTitleContext from "contexts/LastSearchedTitle";
 import { MovieModel } from "models/entities/Movie";
 import React from "react";
-import { getMoviesBasedOnItsGenreService, getMoviesBasedOnItsTitleService } from "services/GetMoviesService";
+import { getMoviesBasedOnItsGenreService, getMoviesBasedOnItsTitleService } from "services/Services";
 const Home = () => {
   const { lastSearchedTitle } = React.useContext(LastTitleContext);
   const [similarMovies, setSimiliarMovies] = React.useState<MovieModel[]>([]);
   const [categorySimilarMovies, setCategorySimilarMovies] = React.useState<MovieModel[]>([]);
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [isLoading, setLoading] = React.useState<boolean>(false);
 
   React.useEffect(() => {
-    setIsLoading(true);
+    setLoading(true);
     const searchSimilarMovies = async () => {
       Promise.resolve(
         getMoviesBasedOnItsTitleService(lastSearchedTitle)
           .then((response) => {
-            setSimiliarMovies(response.data.results);
-            setIsLoading(false);
+            setSimiliarMovies(response.data);
+            setLoading(false);
           })
           .catch((err) => {
             console.log(err);
-            setIsLoading(false);
+            setLoading(false);
           })
       );
     };
@@ -40,7 +40,7 @@ const Home = () => {
     const mostRepeatedCategory = localStorage.getItem("mostFrequentCategory");
     if(mostRepeatedCategory){
       Promise.resolve(
-        getMoviesBasedOnItsGenreService(1, mostRepeatedCategory).then((res) => setCategorySimilarMovies(res.data.results)).catch((err) => console.log(err))
+        getMoviesBasedOnItsGenreService("1", 1).then((res) => setCategorySimilarMovies(res.data)).catch((err) => console.log(err))
       )
     }
   }, [])

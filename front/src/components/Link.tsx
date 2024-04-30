@@ -26,7 +26,7 @@ const Link = ({
       className={` ${
         fullWidth ? "w-full" : "w-fit"
       } ${
-        small ? "py-2 px-6 text-xs rounded-md" : "px-4 py-2 rounded-lg"
+        small ? "py-2 px-6 text-xs rounded-xl" : "px-4 py-2 rounded-xl"
       } font-bold text-center  transition duration-300 flex ${
         col ? "flex-col" : "flex-row"
       } gap-4 items-center justify-center active:scale-95
@@ -37,9 +37,9 @@ const Link = ({
             : "bg-primaryBg "
           : bgNotPrimary
             ? onlyBorder
-              ? "border border-primaryBgBorder hover:bg-primaryBgBorder"
-              : " bg-primaryBgBorder"
-            : "bg-transparent hover:text-primaryOnHover"
+              ? "border border-border hover:bg-border"
+              : " bg-border text-primaryBlack"
+            : "bg-transparent hover:text-primaryBlack"
       }
       `}
       href={to}

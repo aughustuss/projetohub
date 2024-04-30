@@ -17,12 +17,12 @@ namespace MoviesApi.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<bool> CheckIfMovieExistsAsync(string input)
+        private async Task<bool> CheckIfMovieExistsAsync(string input)
         {
             return await _dbContext.Movies.AnyAsync(m => m.Title == input);
         }
 
-        public async Task<bool> CheckIfMoviesExistsByIdAsync(int input)
+        private async Task<bool> CheckIfMoviesExistsByIdAsync(int input)
         {
             return await _dbContext.Movies.AnyAsync(m => m.Id == input);
         }
@@ -40,14 +40,12 @@ namespace MoviesApi.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int input)
+        public async Task DeleteAsync(Movie input)
         {
-            if (!await CheckIfMoviesExistsByIdAsync(input))
-                throw new EntityNotFoundException($"Filme com o id {input} não encontrado ou já foi excluído");
+            if (!await CheckIfMoviesExistsByIdAsync(input.Id))
+                throw new EntityNotFoundException($"Filme com o id {input.Id} não encontrado ou já foi excluído");
             
-            var movie = await GetMovieByIdAsync(input);
-            
-            _dbContext.Movies.Update(movie);
+            _dbContext.Movies.Remove(input);
             await _dbContext.SaveChangesAsync();
         }
 
@@ -61,9 +59,11 @@ namespace MoviesApi.Infrastructure.Repositories
             return movies;
         }
 
-        public async Task<List<Movie>> GetMoviesByGenreAsync(EGenre input)
+        public async Task<List<Movie>> GetMoviesByGenreAsync(EGenre genre, int page)
         {
-            var movies = await _dbContext.Movies.Where(m => m.Genres.Contains(input)).ToListAsync();
+            int offset = (page - 1) * 20;
+
+            var movies = await _dbContext.Movies.Where(m => m.Genres.Contains(genre)).Skip(offset).Take(20).ToListAsync();
 
             if (movies.Count == 0)
                 throw new EntityNotFoundException("Não há filmes cadastrados para esta categoria.");
@@ -73,7 +73,7 @@ namespace MoviesApi.Infrastructure.Repositories
 
         public async Task<Movie> GetMovieByIdAsync(int input)
         {
-            var movie = await _dbContext.Movies.FirstOrDefaultAsync();
+            var movie = await _dbContext.Movies.FirstOrDefaultAsync(m => m.Id == input);
             return movie ?? throw new EntityNotFoundException($"Filme com o id {input} não encontrado.");
         }
 
@@ -99,7 +99,7 @@ namespace MoviesApi.Infrastructure.Repositories
 
         public async Task<List<Movie>> GetTrendingMoviesAsync()
         {
-            var movies = await _dbContext.Movies.Where(m => m.ReleaseDate >= DateTime.UtcNow.AddDays(-30)).ToListAsync();
+            var movies = await _dbContext.Movies.Where(m => m.ReleaseDate >= DateTime.UtcNow.AddDays(-30)).Take(10).ToListAsync();
 
             if (movies.Count == 0)
                 throw new EntityNotFoundException("Não houveram lançamentos esse mês.");
@@ -110,7 +110,7 @@ namespace MoviesApi.Infrastructure.Repositories
 
         public async Task<List<Movie>> GetUpcomingMoviesAsync()
         {
-            var movies = await _dbContext.Movies.Where(m => m.ReleaseDate >= DateTime.UtcNow.AddDays(15)).ToListAsync();
+            var movies = await _dbContext.Movies.Where(m => m.ReleaseDate >= DateTime.UtcNow.AddDays(15)).Take(10).ToListAsync();
 
             if (movies.Count == 0)
                 throw new EntityNotFoundException("Não há filmes para serem lançados nas próximas semanas.");
@@ -121,11 +121,7 @@ namespace MoviesApi.Infrastructure.Repositories
 
         public async Task<List<Movie>> GetPopularMoviesAsync()
         {
-            var movies = await _dbContext.Movies.Join(_dbContext.Rates, m => m.Id, r => r.MovieId, (movie, rate) => new
-            {
-                Movie = movie,
-                Rate = rate
-            }).Select(mo => mo.Movie).ToListAsync();
+            var movies = await _dbContext.Movies.Where(m => m.VoteAverage > 7).ToListAsync();
 
             if (movies.Count == 0)
                 throw new EntityNotFoundException("Não há filmes cujo a aprovação é acima de 70%");
@@ -150,7 +146,7 @@ namespace MoviesApi.Infrastructure.Repositories
 
         public async Task<Movie> GetAllMovieInfosByIdAsync(int input)
         {
-            var movie = await _dbContext.Movies.Include(m => m.Companies).Include(m => m.Rates).Include(m => m.Comments).ThenInclude(c => c.Author).FirstOrDefaultAsync();
+            var movie = await _dbContext.Movies.Include(m => m.Companies).Include(m => m.Rates).Include(m => m.Comments).ThenInclude(c => c.Author).Where(m => m.Id == input).FirstOrDefaultAsync();
             return movie ?? throw new EntityNotFoundException($"Filme com o id {input} não encontrado.");
         }
     }

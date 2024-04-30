@@ -2,6 +2,7 @@
 using MoviesApi.Application.Dtos.Request;
 using MoviesApi.Application.Interfaces.Services;
 using MoviesApi.Domain.Entities;
+using MoviesApi.Domain.Exceptions;
 using MoviesApi.Domain.Interfaces.Repositories;
 
 namespace MoviesApi.Application.Services
@@ -26,8 +27,14 @@ namespace MoviesApi.Application.Services
         {
             var rate = _mapper.Map<Rate>(input);
             var movie = await _movieRepository.GetMovieByIdAsync(input.MovieId);
+            var author = await _userRepository.GetAllUserInfosByIdAsync(input.AuthorId);
+            var movieAlreadyRated = author.Rates.Any(r => r.MovieId == input.MovieId);
+
+            if (movieAlreadyRated)
+                throw new EntityAlreadyExistsException($"Você já avaliou o filme com id {input.MovieId}."); 
+
+            rate.Author = author;
             rate.Movie = movie;
-            rate.Author = await _userRepository.GetUserByIdAsync(input.AuthorId);
             await _rateRepository.CreateRateAsync(rate);
             await _movieRepository.UpdateMovieVotesAsync(movie);
         }

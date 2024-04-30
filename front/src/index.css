@@ -7,7 +7,8 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: #141a1f;
+  /* background-color: #141a1f; */
+  background-color: #f4f4f4;
   min-height: 100vh;
   height: auto;
 }
@@ -21,6 +22,3 @@ body {
   border-radius: 2px;
 }
 
-.btn {
-  @apply py-2 px-4 w-[200px] text-sm font-bold rounded-md bg-primary;
-}

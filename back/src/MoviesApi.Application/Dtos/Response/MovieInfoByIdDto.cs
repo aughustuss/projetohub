@@ -7,7 +7,7 @@ namespace MoviesApi.Application.Dtos.Response
     public class MovieInfoByIdDto : MovieInfoDto
     {
         public List<CompanyDto>? Companies { get; } = [];
-        public List<ELanguage>? Countries { get; } = [];
+        public List<string>? Languages { get; } = [];
         public List<CommentInfoDto>? Comments { get; } = [];
         public double Budget { get; set; }
         public string? Homepage { get; set; } = string.Empty;

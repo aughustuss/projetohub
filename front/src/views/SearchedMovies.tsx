@@ -2,7 +2,7 @@ import { AllCategories } from "data/Categories";
 import { MovieModel } from "models/entities/Movie";
 import React from "react";
 import { useLocation } from "react-router-dom";
-import { getMoviesBasedOnItsTitleService } from "services/GetMoviesService";
+import { getMoviesBasedOnItsTitleService } from "services/Services";
 import Movie from "shared/Movie";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import Button from "components/Button";
@@ -51,7 +51,7 @@ const SearchedMovies = () => {
   ): MovieModel[] => {
     if (selectedCategories.length > 0) {
       return movies.filter((movie) => {
-        for (const genre of movie.genre_ids) {
+        for (const genre of movie.genres) {
           const categoryId = AllCategories.find(
             (cat) => cat.id === Number(genre)
           );
@@ -71,7 +71,7 @@ const SearchedMovies = () => {
       Promise.resolve(
         getMoviesBasedOnItsTitleService(movieName)
           .then((res) => {
-            const movies = res.data.results;
+            const movies = res.data;
             setCategorizedMovies(movies);
             setFilteredMovies(movies);
             findTheMostRepeatedCategoryService(movies);
@@ -85,9 +85,9 @@ const SearchedMovies = () => {
   return (
     <>
       <main className="pb-[100px] pt-[120px] min-h-screen w-[85%] flex flex-col gap-4 md:flex-row mx-auto">
-        <div className="w-full md:w-[20%] flex flex-col justify-start gap-y-2  text-bodyColor text-sm h-fit  shadow-lg border border-primaryBgBorder p-4 rounded-lg">
-          <div className=" w-full flex flex-col gap-4 border border-primaryBgBorder bg-primaryBg rounded-md h-fit p-4 shadow-lg shadow-black/40">
-            <div className="flex flex-row items-center w-full justify-between ">
+        <div className="w-full md:w-[20%] flex flex-col justify-start gap-y-2  text-bodyColor text-sm h-fit  shadow-lg border border-border p-4 rounded-lg">
+          <div className=" w-full flex flex-col gap-4 border border-border bg-transparent rounded-xl h-fit p-4 ">
+            <div className="flex flex-row text-primaryBlack font-semibold items-center w-full justify-between ">
               Filtrar apenas por{" "}
               <MdKeyboardArrowDown
                 onClick={() => handleFilterOpen(setFilterOpen, isFilterOpen)}
@@ -121,7 +121,6 @@ const SearchedMovies = () => {
                   small
                   type="button"
                   onlyBorder={false}
-                  green
                   fullWidth
                 >
                   Filtrar

@@ -16,7 +16,5 @@ namespace MoviesApi.Domain.Interfaces.Repositories
         Task<List<User>> GetAllUsersAsync();
         Task UpdateUserAsync(User input);
 
-        Task<bool> UserExists(string input);
-
     }
 }

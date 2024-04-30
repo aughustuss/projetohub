@@ -34,17 +34,17 @@ const Header = ({ isOnTop, showNav }: HeaderProps) => {
   return (
     <>
       {showNav && (
-        <nav className="h-[80px] mt-0 md:mt-[10px] w-full fixed top-0  text-newWhite z-50">
+        <nav className="h-[90px] mt-0 md:mt-[10px] w-full fixed top-0 text-newWhite z-50">
           <div className={` ${
               isOnTop
                 ? !isToggled
-                  ? "bg-transparent"
+                  ? "bg-primary"
                   : "bg-primaryBg"
                 : "bg-primary/90"
-            } transition-all duration-300 flex justify-between items-center h-full flex-row w-full px-6 md:w-[85%] md:rounded-lg mx-auto`}
+            } transition-all duration-300 flex justify-between shadow-lg items-center h-full flex-row w-full px-6 md:w-[85%] md:rounded-xl mx-auto`}
           >
-            <a href="/" className={`${isOnTop ? "text-primary" : "text-newWhite"} text-smallDevicesTitle font-title font-black md:text-subTitle
-             lg:text-title xl:text-navTitle cursor-pointer`}
+            <a href="/" className='text-newWhite text-smallDevicesTitle font-title font-black md:text-subTitle
+             lg:text-title xl:text-navTitle cursor-pointer'
             >
               HubFilmes
             </a>
@@ -59,10 +59,11 @@ const Header = ({ isOnTop, showNav }: HeaderProps) => {
                 value={searchParam}
                 withIcon
                 icon={<IoMdClose />}
+                
               />
               {searchParam.length > 0 && (
                 <button
-                  className="border border-primaryBgBorder hover:bg-primaryBgBorder transition duration-300 active:scale-95 h-full px-4 rounded-lg font-semibold text-xs"
+                  className="border border-border hover:bg-border transition duration-300 active:scale-95 h-full px-4 rounded-lg font-semibold text-xs"
                   onClick={() => handleGo()}
                 >
                   Ir
@@ -71,7 +72,7 @@ const Header = ({ isOnTop, showNav }: HeaderProps) => {
             </div>
             <div className="text-links font-bold flex flex-row items-center gap-x-8">
               {isAboveLG ? (
-                <Linksmapped isAboveLG={isAboveLG} isOnTop={isOnTop} />
+                <Linksmapped isAboveLG={isAboveLG}/>
               ) : (
                 <button className="text-iconSize active:scale-90 transition duration-300" onClick={() => handleToggle()}>
                   <IoMenu />

@@ -153,12 +153,12 @@ namespace MoviesApi.Controllers
             }
         }
 
-        [HttpGet("movieByGenre/{input}")]
-        public async Task<IActionResult> GetByGenre(EGenre input)
+        [HttpGet("movieByGenre/{genre}/{page}")]
+        public async Task<IActionResult> GetByGenre(EGenre genre, int page)
         {
             try
             {
-                var response = await _movieService.GetMoviesByGenreAsync(input);
+                var response = await _movieService.GetMoviesByGenreAsync(genre, page);
                 return Ok(response);
             }
             catch (EntityNotFoundException ex)

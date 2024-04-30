@@ -24,7 +24,7 @@ const useNavLinks = () => {
     },
     {
       linkText: 'Perfil',
-      linkTo: '/profile',
+      linkTo: '/account',
       show: isLoggedIn,
     },
     {
@@ -38,7 +38,7 @@ const useNavLinks = () => {
       show: !isLoggedIn,
     },
     {
-      linkTo: '/profile',
+      linkTo: '/account',
       linkText: 'Favoritos',
       linkIcon: BiSolidHeart,
       show: isLoggedIn,

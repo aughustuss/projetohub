@@ -13,9 +13,8 @@ const Movie = () => {
   ];
   return (
     <>
-      <main className="flex flex-col gap-y-6">
-      <MovieInfo movieId={movieId} />
-      <CommentSection comments={comments}/>
+      <main className="flex flex-col gap-y-6 min-h-screen">
+        <MovieInfo movieId={movieId} />
       </main>
     </>
   )

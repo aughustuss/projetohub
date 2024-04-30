@@ -36,7 +36,9 @@ namespace MoviesApi.Domain.Entities
         public List<EGenre> Genres { get; set; } = [];
         public List<ELanguage> Languages { get; set; } = [];
         public List<Company> Companies { get; } = [];
+
         public List<User> InUsersFavoriteList { get; } = [];
+
         public List<User> InUsersWatchedList { get; } = [];
     }
 }

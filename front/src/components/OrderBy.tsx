@@ -80,11 +80,11 @@ const OrderBy = ({
     <div
       className={` ${
         fullWidth ? "w-full" : "w-fit"
-      } self-end cursor-pointer hover:shadow-md transition duration-300`}
+      } self-start cursor-pointer transition duration-300`}
     >
       <div
         onClick={openSelectOptions}
-        className={`border border-primaryBgBorder rounded-md shadow-lg shadow-black/40  h-fit p-4  text-body relative ${
+        className={`border border-border rounded-xl h-fit p-4 text-body text-primaryBlack font-semibold relative ${
           fullWidth ? "w-full" : "w-[200px]"
         } `}
       >
@@ -98,21 +98,21 @@ const OrderBy = ({
             />
           </p>
           {selectedOption.value !== "none" && (
-            <p className="text-xs text-bodyColor pl-2"> {selectedOption.label} </p>
+            <p className="text-xs text-bodyColor"> {selectedOption.label} </p>
           )}
         </div>
         {/* Ordenação */}
         {absolute && absolute ? (
           <div>
             {selectOptionsMenu && (
-              <div className="absolute cursor-pointer z-20 w-full top-full left-0 text-start mt-2 bg-primaryBgBorder rounded-md py-2">
+              <div className="absolute cursor-pointer z-20 w-full top-full left-0 text-start mt-2 bg-newWhite rounded-md py-2">
                 {options
                   .slice(1, options.length)
                   .map((option: SelectOptions) => (
                     <button
                       key={option.value}
                       onClick={() => handleOptionChange(option)}
-                      className="hover:bg-primaryBg py-2 px-4 w-full text-start"
+                      className="hover:bg-border py-2 px-4 w-full text-start"
                     >
                       {option.label}
                     </button>
@@ -129,7 +129,7 @@ const OrderBy = ({
                   .map((option: SelectOptions) => (
                     <button
                       onClick={() => handleOptionChange(option)}
-                      className="hover:bg-primaryBgBorder p-2 rounded-lg transition duration-300 w-full text-start"
+                      className="hover:bg-border p-2 rounded-lg transition duration-300 w-full text-start"
                     >
                       {option.label}
                     </button>

@@ -50,7 +50,7 @@ const Chat = () => {
   return (
     <>
       <main className="h-screen flex flex-col items-center justify-center md:flex-row w-full px-4 md:w-[90%] md:px-0 mx-auto pt-[120px] mb-[60px]">
-        {/* <section className="w-full md:w-1/4 border-r border-primaryBgBorder flex flex-col gap-y-6 p-4 ">
+        {/* <section className="w-full md:w-1/4 border-r border-border flex flex-col gap-y-6 p-4 ">
           <Input
             placeholder="Busque por um chat"
             onClick={() => setSearchChatParam("")}

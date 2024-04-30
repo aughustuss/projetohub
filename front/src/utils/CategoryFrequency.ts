@@ -1,33 +1,31 @@
 import { AllCategories } from "data/Categories";
 import { MovieModel } from "models/entities/Movie";
 
-export const findTheMostRepeatedCategory = (movies: MovieModel[], localStorageName: string) => {
+export const findTheMostRepeatedCategory = (movies: MovieModel[], localStorageName?: string) => {
     const categoryCount = new Map<number, number>();
     for (const movie of movies) {
-      for (const genre of movie.genre_ids) {
-        const categoryId = AllCategories.find(
-          (cat) => cat.id === Number(genre)
+      for (const genre of movie.genres) {
+        const category = AllCategories.find(
+          (cat) => cat.name === genre
         );
-        if (categoryId) {
+        if (category) {
           categoryCount.set(
-            categoryId.id,
-            (categoryCount.get(categoryId.id) || 0) + 1
+            category.id,
+            (categoryCount.get(category.id) || 0) + 1
           );
         }
       }
     }
 
-    let mostFrequentCategoryCount = 0;
+    let mostFrequentCategory = 0;
     let maxCount = 0;
     for (const [categoryId, count] of categoryCount.entries()) {
       if (count > maxCount) {
-        mostFrequentCategoryCount = categoryId;
+        mostFrequentCategory = categoryId;
         maxCount = count;
       }
     }
-    localStorage.setItem(
-      localStorageName,
-      JSON.stringify(mostFrequentCategoryCount)
-    );
-    return mostFrequentCategoryCount;
+    if(localStorageName)
+      localStorage.setItem(localStorageName, JSON.stringify(mostFrequentCategory));
+    return mostFrequentCategory;
   };

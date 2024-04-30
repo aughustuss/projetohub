@@ -1,12 +1,14 @@
 import { ChildrenPropsModel } from "models/contexts/ContextModels";
+import { LoginData } from "models/requests/LoginRequest";
 import React from "react";
+import { loginService } from "services/Services";
 import Loading from "views/Loading";
 
 interface LoginContextProps {
-    login: (email: string) => void;
+    login: (data: LoginData) => void;
     logout: () => void;
     isLoggedIn: boolean;
-    user: string;
+    token: string;
     loading: boolean;
 }
 
@@ -14,22 +16,22 @@ const LoginContext = React.createContext<LoginContextProps>({
     isLoggedIn: false,
     login: () => {},
     logout: () => {},
-    user: "",
+    token: "",
     loading: false,
 })
 
 const LoginContextProvider: React.FC<ChildrenPropsModel> = ({ children }) => {
     const [loading, setLoading] = React.useState<boolean>(true);
     const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(false);
-    const [user, setUser] = React.useState<string>("");
+    const [token, setToken] = React.useState<string>("");
   
     React.useEffect(() => {
       const getItemFromStorage = async () => {
         try {
-          const userEmail = await localStorage.getItem("user");
+          const token = await localStorage.getItem("userToken");
   
-          if (userEmail) {
-            setUser(userEmail);
+          if (token) {
+            setToken(JSON.parse(token));
             setIsLoggedIn(true);
           }
         } catch (error) {
@@ -42,13 +44,17 @@ const LoginContextProvider: React.FC<ChildrenPropsModel> = ({ children }) => {
       getItemFromStorage();
     }, []);
   
-    const login = (email: string) => {
-      setIsLoggedIn(true);
-      localStorage.setItem("user", email);
+    const login = async (data: LoginData) => {
+      try{
+        const res = await loginService(data);
+        localStorage.setItem("userToken", JSON.stringify(res.data.token));
+      } catch (error) {
+        throw new Error();
+      }
     };
   
     const logout = () => {
-      localStorage.removeItem("user");
+      localStorage.removeItem("userToken");
       setIsLoggedIn(false);
     };
   
@@ -57,7 +63,7 @@ const LoginContextProvider: React.FC<ChildrenPropsModel> = ({ children }) => {
     }
   
     return (
-      <LoginContext.Provider value={{ login, logout, isLoggedIn, user, loading }}>
+      <LoginContext.Provider value={{ login, logout, isLoggedIn, token, loading }}>
         {children}
       </LoginContext.Provider>
     );

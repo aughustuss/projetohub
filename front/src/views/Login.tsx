@@ -1,79 +1,140 @@
-import React, { useState } from "react";
+import React from "react";
 import Input from "components/Input";
-import { useNavigate } from "react-router-dom";
-import { IoEye, IoPerson } from "react-icons/io5";
+import { IoEye } from "react-icons/io5";
 import LoginContext from "contexts/LoginContext";
+import Title from "components/Title";
+import Button from "components/Button";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import Error from "components/Error";
+import { LoginData } from "models/requests/LoginRequest";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage: React.FC = () => {
-  const [email, setEmail] = useState<string>("");
-  const [isEmailValid, setIsEmailValid] = useState<boolean>(true);
-  const navigate = useNavigate();
-  const { login } = React.useContext(LoginContext);
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
+	const [isLoading, setLoading] = React.useState<boolean>(false);
+	const [wrongPasswordOrEmail, setWrongPasswordOrEmail] = React.useState<boolean>(false);
 
-  const handleLoginClick = () => {
-    if (isValidEmail(email)) {
-      login(email);
-      navigate("/profile");
-    } else {
-      setIsEmailValid(false);
-    }
-  };
+	const { login } = React.useContext(LoginContext);
+	const navigate = useNavigate();
+	const {
+		handleSubmit,
+		control,
+		formState: { errors },
+	} = useForm<LoginData>({
+		defaultValues: {
+			email: "",
+			password: "",
+		},
+	});
 
-  const isValidEmail = (value: string): boolean => {
-    return value.includes("@");
-  };
+	const onSubmit: SubmitHandler<LoginData> = async (data) => {
+		setLoading(true);
+		try {
+			await login(data);
+			setWrongPasswordOrEmail(false);
+			setLoading(false);
+			navigate("/account");
+		} catch (err) {
+			setWrongPasswordOrEmail(true);
+			setLoading(false);
+		}
+	};
 
-  return (
-    <div className="flex items-center justify-center h-screen">
-      <main className="bg-[#0D9E00] rounded-lg w-3/4 md:w-1/3 lg:w-1/3 xl:w-1/2 h-2/4 md:h-[400px] lg:h-[400px] xl:h-[400px] flex flex-col items-center justify-start gap-4 mx-auto">
-        <h1 className="text-center text-3xl font-bold font-title mt-[40px] mb-[30px]">
-          FAÇA LOGIN
-        </h1>
-        <div className="w-full md:w-[200px] lg:w-[200px] xl:w-[400px]">
-          <Input
-            type="text"
-            placeholder="E-Mail"
-            icon={<IoPerson />}
-            withIcon={true}
-            hasText
-            left
-            height={40}
-            value={email}
-            onChange={handleEmailChange}
-          />
-          {!isEmailValid && (
-            <p className="text-black font-bold text-sm mt-1">
-              Endereço de e-mail inválido
-            </p>
-          )}
-        </div>
-        <div className="w-full md:w-[200px] lg:w-[200px] xl:w-[400px]">
-          <Input
-            type="password"
-            placeholder="Senha"
-            icon={<IoEye />}
-            withIcon={true}
-            hasText
-            left
-            height={40}
-          />
-        </div>
-        <p className="font-bold font-title text-white cursor-pointer mt-2">
-          Não tem conta.{" "}
-          <span className="text-black font-bold">Criar conta</span>
-        </p>
-        <button
-          className="mt-[10px] h-[45px] w-[217px] font-bold font-title text-black bg-transparent border-2 rounded-2xl border-black hover:border-white hover:text-white"
-          onClick={handleLoginClick}
-        >
-          Login
-        </button>
-      </main>
-    </div>
-  );
+	return (
+		<main className="flex items-center justify-center h-screen">
+			<form
+				onSubmit={handleSubmit(onSubmit)}
+				className=" rounded-lg w-[80%] md:w-2/3 lg:w-1/3 xl:w-1/4 h-fit flex flex-col items-center gap-y-6"
+			>
+				<Title black bold message="Faça seu login" center fullWidth />
+				{ wrongPasswordOrEmail && <Error>Email ou senha inválidos.</Error>}
+				<div className="w-full flex flex-col gap-y-3">
+					<Controller
+						name="email"
+						control={control}
+						defaultValue=""
+						rules={{
+							required: {
+								value: true,
+								message: "Campo obrigatório",
+							},
+							pattern: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+						}}
+						render={({ field: { name, value, onChange } }) => (
+							<>
+								<Input
+									id={name}
+									label="Digite seu email"
+									type="text"
+									placeholder="E-Mail"
+									hasText
+									height={40}
+									value={value}
+									onChange={onChange}
+								/>
+								<Error>
+									{errors.email &&
+										(errors.email.type == "required"
+											? errors.email.message
+											: "Email inválido")}
+								</Error>
+							</>
+						)}
+					></Controller>
+					<Controller
+						name="password"
+						control={control}
+						defaultValue=""
+						rules={{
+							required: {
+								value: true,
+								message: "Campo obrigatório",
+							},
+						}}
+						render={({ field: { name, onChange, value } }) => (
+							<>
+								<Input
+									id={name}
+									onChange={onChange}
+									value={value}
+									password
+									label="Digite sua senha"
+									placeholder="Senha"
+									icon={<IoEye />}
+									hasText
+									height={40}
+								/>
+								<Error>
+									{errors.password &&
+										(errors.password.type == "required"
+											? errors.password.message
+											: "Senha inválida")}
+								</Error>
+							</>
+						)}
+					></Controller>
+				</div>
+				<div className="text-sm text-bodyColor gap-2 flex flex-row items-center flex-wrap">
+					<span>Não possui uma conta?</span>
+					<a
+						href="/register"
+						className="font-bold text-primaryBlack underline"
+					>
+						Clique aqui para criar uma!
+					</a>
+				</div>
+				<Button
+					onlyBorder={false}
+					small={false}
+					fullWidth
+					loading={isLoading}
+					disabled={isLoading}
+					type="submit"
+				>
+					Login
+				</Button>
+			</form>
+		</main>
+	);
 };
 
 export default LoginPage;

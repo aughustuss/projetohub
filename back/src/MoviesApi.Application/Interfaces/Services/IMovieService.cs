@@ -14,7 +14,7 @@ namespace MoviesApi.Application.Interfaces.Services
 
         Task<List<MovieInfoToSearchBoxDto>> GetMoviesByNameToSearchBoxAsync(string input);
         Task<List<MovieInfoDto>> GetMoviesByNameAsync(string input);
-        Task<List<MovieInfoDto>> GetMoviesByGenreAsync(EGenre input);
+        Task<List<MovieInfoDto>> GetMoviesByGenreAsync(EGenre genre, int page);
         Task<List<MovieInfoDto>> GetAllAsync();
         Task<List<MovieInfoDto>> GetTrendingMoviesAsync();
         Task<List<MovieInfoDto>> GetUpcomingMoviesAsync();

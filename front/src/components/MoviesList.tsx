@@ -5,21 +5,29 @@ import { Navigation, Pagination, Scrollbar } from "swiper/modules";
 import { SwiperSlide } from "swiper/react";
 import Button from "./Button";
 import { IoMdClose } from "react-icons/io";
-import FavoritesMoviesContext from "contexts/FavoritesMoviesContext";
-import React from "react";
+import { removeFromFavoriteListService } from "services/Services";
 interface MovieListProps {
   movies: MovieModel[];
   grid: boolean;
   extraItems: boolean;
   hasMovies: boolean;
   hasDarkBg?: boolean;
+  stretch?: boolean;
 }
-const MoviesList = ({ movies, grid, extraItems, hasDarkBg, hasMovies }: MovieListProps) => {
-  const { removeMovie, clearMovies } = React.useContext(FavoritesMoviesContext);
+const MoviesList = ({ movies, grid, extraItems, hasDarkBg, hasMovies, stretch }: MovieListProps) => {
+  const removeMovieFromFavoriteList = async (id : string) => {
+    await removeFromFavoriteListService(id)
+    .then((res) => {
+      console.log(res);
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
+
   return (
     <>
       {!grid ? (
-        <Slide movies={hasMovies} hasDarkBg={hasDarkBg} scrollBar modules={[Pagination, Scrollbar, Navigation]}>
+        <Slide stretch={stretch} movies={hasMovies} hasDarkBg={hasDarkBg} scrollBar modules={[Pagination, Scrollbar, Navigation]}>
           {movies.map((movie) => (
             <SwiperSlide className="py-10" key={movie.id}>
               <div className="flex flex-col gap-y-2">
@@ -32,14 +40,7 @@ const MoviesList = ({ movies, grid, extraItems, hasDarkBg, hasMovies }: MovieLis
                         new Date(movie.addedDate).toLocaleDateString("pt-BR")}
                     </p>
                     <Button
-                      onClick={() => {
-                        if (movies.length < 2) {
-                          clearMovies();
-                        } else {
-                          removeMovie(movie.id);
-                        }
-                      }}
-                      green={false}
+                      onClick={() => removeMovieFromFavoriteList(movie.id.toString())}
                       onlyBorder
                       small
                       fullWidth
@@ -67,15 +68,8 @@ const MoviesList = ({ movies, grid, extraItems, hasDarkBg, hasMovies }: MovieLis
                       new Date(movie.addedDate).toLocaleDateString("pt-BR")}
                   </p>
                   <Button
-                    onClick={() => {
-                      if (movies.length < 2) {
-                        clearMovies();
-                      } else {
-                        removeMovie(movie.id);
-                      }
-                    }}
-                    green={false}
-                    onlyBorder
+                    onClick={() => removeMovieFromFavoriteList(movie.id.toString())}
+                    onlyBorder={false}
                     small
                     fullWidth
                   >

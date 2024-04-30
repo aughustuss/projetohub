@@ -20,7 +20,7 @@ const Similar = ({
         <Title
           bold
           center={false}
-          green={false}
+          black
           message={
             !categorySimilar
               ? `Filmes que são relavantes à sua ultima busca sobre ${
@@ -34,7 +34,7 @@ const Similar = ({
         <div
           className={`${
             !categorySimilar &&
-            "px-4 md:px-[30px] rounded-lg bg-primaryBgBorder h-full w-full"
+            "px-4 md:px-[30px] rounded-lg bg-border h-full w-full"
           }`}
         >
           {!isLoading ? (

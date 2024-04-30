@@ -92,6 +92,7 @@ namespace MoviesApi.Infrastructure.Context
                 .HasMany(e => e.FavoriteMovies)
                 .WithMany(e => e.InUsersFavoriteList)
                 .UsingEntity<UserFavoriteMovie>();
+                
 
             modelBuilder.Entity<Movie>()
                 .HasMany(e => e.InUsersFavoriteList)
