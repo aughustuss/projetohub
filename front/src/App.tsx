@@ -20,86 +20,130 @@ const ProfilePage = React.lazy(() => import("views/Profile"));
 const LoadingPage = React.lazy(() => import("views/Loading"));
 const Cinefilos = React.lazy(() => import("views/Cinephiles"));
 const AccountPage = React.lazy(() => import("views/Account"));
+const MovieRegisterPage = React.lazy(() => import("views/MovieRegister"));
+const CompanyRegisterPage = React.lazy(() => import("views/CompanyRegister"));
 
 function App() {
-  const { isLoggedIn, loading } = React.useContext(LoginContext);
-  const location = window.location;
-  const [isOnTop, setIsOnTop] = React.useState<boolean>(true);
-  const [showNavAndFooter, setShowNavAndFooter] =
-    React.useState<boolean>(false);
+	const { isLoggedIn, loading } = React.useContext(LoginContext);
 
-  React.useEffect(() => {
-    if (location.pathname === "/login" || location.pathname === "/register") setShowNavAndFooter(false);
-    else setShowNavAndFooter(true);
-  }, [location.pathname]);
+	const location = window.location;
+	const [isOnTop, setIsOnTop] = React.useState<boolean>(true);
+	const [showNavAndFooter, setShowNavAndFooter] =
+		React.useState<boolean>(false);
 
-  React.useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY === 0) {
-        setIsOnTop(true);
-      } else if (window.scrollY > 25) {
-        setIsOnTop(false);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+	React.useEffect(() => {
+		if (location.pathname === "/login" || location.pathname === "/register")
+			setShowNavAndFooter(false);
+		else setShowNavAndFooter(true);
+	}, [location.pathname]);
 
-  if (loading) {
-    return <Loading big />;
-  }
-  return (
-    <React.Suspense fallback={<LoadingPage big />}>
-      <BrowserRouter>
-        <div className="font-body">
-          <Header showNav={showNavAndFooter} isOnTop={isOnTop} />
-          <Sidebar />
-          <div className="text-newWhite">
-            <Routes>
-              <Route index path="/" Component={HomePage} />
-              <Route path="/movie/:movieId" Component={MoviePage} />
-              <Route path="/genre/:movieGenre" Component={GenreMovies} />
-              <Route path="/chat" Component={ChatPage} />
-              <Route path="/searchedMovies" Component={SearchedMoviePage} />
-              <Route path="/login" Component={LoginPage} />
-              <Route path="/register" Component={Cadastro} />
-              <Route path="/profile/:userId" Component={ProfilePage} />
-              <Route path="/account" Component={AccountPage} />
-              <Route path="/trailer/:movieName" element={<VideoTrailer />} />
-              <Route path="/cinephiles" Component={Cinefilos} />
-              <Route
-                path="/chat"
-                element={
-                  <ProtectedRoute
-                    isAccessible={isLoggedIn}
-                    redirectPath="/login"
-                  >
-                    <ChatPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route path="/searchedMovies" Component={SearchedMoviePage} />
-              <Route path="/login" Component={LoginPage} />
-              <Route
-                path="/profile"
-                element={
-                  <ProtectedRoute
-                    isAccessible={isLoggedIn}
-                    redirectPath="/login"
-                  >
-                    <ProfilePage />
-                  </ProtectedRoute>
-                }
-              />
-            </Routes>
-          </div>
-          <Footer showFooter={showNavAndFooter} />
-        </div>
-      </BrowserRouter>
-    </React.Suspense>
-  );
+	React.useEffect(() => {
+		const handleScroll = () => {
+			if (window.scrollY === 0) {
+				setIsOnTop(true);
+			} else if (window.scrollY > 25) {
+				setIsOnTop(false);
+			}
+		};
+		window.addEventListener("scroll", handleScroll);
+		return () => {
+			window.removeEventListener("scroll", handleScroll);
+		};
+	}, []);
+
+	if (loading) {
+		return <Loading big />;
+	}
+	return (
+		<React.Suspense fallback={<LoadingPage big />}>
+			<BrowserRouter>
+				<div className="font-body">
+					<Header showNav={showNavAndFooter} isOnTop={isOnTop} />
+					<Sidebar />
+					<div className="text-newWhite">
+						<Routes>
+							<Route index path="/" Component={HomePage} />
+							<Route
+								path="/movie/:movieId"
+								Component={MoviePage}
+							/>
+							<Route
+								path="/genre/:movieGenre"
+								Component={GenreMovies}
+							/>
+							<Route path="/chat" Component={ChatPage} />
+							<Route
+								path="/searchedMovies"
+								Component={SearchedMoviePage}
+							/>
+							<Route path="/login" Component={LoginPage} />
+							<Route path="/register" Component={Cadastro} />
+							<Route
+								path="/profile/:userId"
+								Component={ProfilePage}
+							/>
+							<Route path="/account" Component={AccountPage} />
+							<Route
+								path="/trailer/:movieName"
+								element={<VideoTrailer />}
+							/>
+							<Route path="/cinephiles" Component={Cinefilos} />
+							<Route
+								path="/movieregister"
+								element={
+									<ProtectedRoute
+										isAccessible={isLoggedIn}
+										redirectPath="/login"
+									>
+										<MovieRegisterPage />
+									</ProtectedRoute>
+								}
+							/>
+							<Route
+								path="/companyregister"
+								element={
+									<ProtectedRoute
+										isAccessible={isLoggedIn}
+										redirectPath="/login"
+									>
+										<CompanyRegisterPage />
+									</ProtectedRoute>
+								}
+							/>
+							<Route
+								path="/chat"
+								element={
+									<ProtectedRoute
+										isAccessible={isLoggedIn}
+										redirectPath="/login"
+									>
+										<ChatPage />
+									</ProtectedRoute>
+								}
+							/>
+							<Route
+								path="/searchedMovies"
+								Component={SearchedMoviePage}
+							/>
+							<Route path="/login" Component={LoginPage} />
+							<Route
+								path="/profile"
+								element={
+									<ProtectedRoute
+										isAccessible={isLoggedIn}
+										redirectPath="/login"
+									>
+										<ProfilePage />
+									</ProtectedRoute>
+								}
+							/>
+						</Routes>
+					</div>
+					<Footer showFooter={showNavAndFooter} />
+				</div>
+			</BrowserRouter>
+		</React.Suspense>
+	);
 }
 
 export default App;

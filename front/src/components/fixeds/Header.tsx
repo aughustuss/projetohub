@@ -4,7 +4,7 @@ import SideBarContext from "contexts/SidebarContext";
 import useMediaQuery from "hooks/MediaScreen";
 import Linksmapped from "components/Linksmapped";
 import Input from "components/Input";
-import LastTitleContext from "contexts/LastSearchedTitle";
+import LastTitleContext from "contexts/LastSearchedTitleContext";
 import { useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 interface HeaderProps {
@@ -59,18 +59,18 @@ const Header = ({ isOnTop, showNav }: HeaderProps) => {
                 value={searchParam}
                 withIcon
                 icon={<IoMdClose />}
-                
+                height={40}
               />
               {searchParam.length > 0 && (
                 <button
-                  className="border border-border hover:bg-border transition duration-300 active:scale-95 h-full px-4 rounded-lg font-semibold text-xs"
+                  className="border-2 border-border hover:bg-secondary hover:border-secondary transition duration-300 active:scale-95 h-[40px] px-4 rounded-lg font-semibold text-sm"
                   onClick={() => handleGo()}
                 >
                   Ir
                 </button>
               )}
             </div>
-            <div className="text-links font-bold flex flex-row items-center gap-x-8">
+            <div className="text-links font-bold flex flex-row items-center gap-x-6">
               {isAboveLG ? (
                 <Linksmapped isAboveLG={isAboveLG}/>
               ) : (

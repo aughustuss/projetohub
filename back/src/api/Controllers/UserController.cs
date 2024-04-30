@@ -234,6 +234,32 @@ namespace MoviesApi.Controllers
             }
         }
 
+        [Authorize(Roles = "User, Admin")]
+        [HttpGet("user/rate/{input}")]
+        public async Task<IActionResult> CheckIfUserRatedMovie(int input)
+        {
+            try
+            {
+                var userId = int.Parse(User.FindFirst("Id")!.Value);
+
+                var obj = new MovieGetDto
+                {
+                    MovieId = input,
+                    UserId = userId
+                };
+
+                var response = await _userService.CheckIfUserRatedMovieAsync(obj);
+                return Ok(response);
+
+            } catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost("forgotPassword")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordEmailRequest  input)
         {

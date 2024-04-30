@@ -3,14 +3,20 @@ import { BiSolidHeart, BiSolidChat } from 'react-icons/bi';
 import React from 'react';
 import LoginContext from 'contexts/LoginContext';
 
-const useNavLinks = () => {
-  const { isLoggedIn } = React.useContext(LoginContext);
+const useNavLinks = (isAboveLg: boolean) => {
+
+  const { isLoggedIn, logout,  } = React.useContext(LoginContext);
 
   const navLinks: Array<NavbarLink> = [
     {
       linkText: 'Início',
       linkTo: '/',
       show: true,
+    },
+    {
+      linkText: 'Cadastros',
+      linkTo: "#",
+      show: isLoggedIn
     },
     {
       linkText: 'Filmes',
@@ -31,6 +37,7 @@ const useNavLinks = () => {
       linkText: 'Logout',
       linkTo: '/login',
       show: isLoggedIn,
+      action: () => logout(),
     },
     {
       linkText: 'Login',
@@ -40,13 +47,13 @@ const useNavLinks = () => {
     {
       linkTo: '/account',
       linkText: 'Favoritos',
-      linkIcon: BiSolidHeart,
+      linkIcon: isAboveLg ? BiSolidHeart : undefined,
       show: isLoggedIn,
     },
     {
       linkTo: '/chat',
       linkText: 'Conversas',
-      linkIcon: BiSolidChat,
+      linkIcon: isAboveLg ? BiSolidChat : undefined,
       show: isLoggedIn,
     },
   ];

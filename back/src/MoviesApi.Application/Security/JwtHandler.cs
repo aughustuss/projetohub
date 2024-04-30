@@ -12,7 +12,7 @@ namespace MoviesApi.Application.Security
 {
     public class JwtHandler : IJwtHandler
     {
-        private readonly int _expirationTime = 30;
+        private readonly int _expirationTime = 2;
         private readonly ILogger<JwtHandler> _logger;
         private readonly IConfiguration _configuration;
 
@@ -24,7 +24,7 @@ namespace MoviesApi.Application.Security
 
         public string CreateToken(User user)
         {
-            var expiration = DateTime.UtcNow.AddMinutes(_expirationTime);
+            var expiration = DateTime.UtcNow.AddDays(_expirationTime);
             var token = CreateJwtToken(CreateClaims(user), CreateCredentials(), expiration);
 
             var tokenHandler = new JwtSecurityTokenHandler();

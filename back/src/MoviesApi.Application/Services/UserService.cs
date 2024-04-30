@@ -242,5 +242,16 @@ namespace MoviesApi.Application.Services
 
             await _userRepository.UpdateUserAsync(user);
         }
+
+        public async Task<bool> CheckIfUserRatedMovieAsync(MovieGetDto input)
+        {
+            var user = await _userRepository.GetAllUserInfosByIdAsync(input.UserId);
+
+            var movie = await _movieRepository.GetMovieByIdAsync(input.MovieId);
+
+            var exists = user.FavoriteMovies.Any(m => m.Id == input.MovieId);
+
+            return exists;
+        }
     }
 }

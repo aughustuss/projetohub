@@ -41,7 +41,7 @@ const GenreMovies = () => {
 				getMoviesBasedOnItsGenreService(movieGenre, page).then(
 					(response) => {
 						setMovies(response.data);
-						setPageCount(response.data.length);
+						setPageCount(response.data.length / 20);
 						setLoadingGenreMovies(false);
 					}
 				)

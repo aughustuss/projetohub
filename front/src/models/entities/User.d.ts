@@ -15,9 +15,9 @@ export interface UserProfileModel {
     friends: number;
 }
 
-enum Role {
-    Admin = "Admnistrador",
-    User = "Usuário"
+export enum Role {
+    Admin,
+    User
 }
 
 interface WatchedMovieListModel {

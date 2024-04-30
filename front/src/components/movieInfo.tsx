@@ -4,33 +4,38 @@ import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 ChartJS.register(ArcElement, Tooltip, Legend);
 import {
+	addRateToMovieService,
 	addToFavoriteListService,
+	addToWatchedListService,
+	checkIfUserRatedMovieService,
 	getMovieByIdService,
+	getUserInfoService,
 } from "services/Services";
 import { AiFillStar } from "react-icons/ai";
 import { FaCheck } from "react-icons/fa6";
 import { BsPlus } from "react-icons/bs";
-import { AxiosResponse } from "axios";
 import Loading from "views/Loading";
-import FavoritesMoviesContext from "contexts/FavoritesMoviesContext";
 import Button from "./Button";
-import WatchedListContext from "contexts/WatchedListContext";
 import ErrorMessage from "./ErrorMessage";
 import CommentSection from "./ComentSection";
+import { UserProfileModel } from "models/entities/User";
+import StarRatings from "react-star-ratings";
+import Row from "./Row";
+import { RateCreationModel } from "models/entities/Rate";
 interface MovieInfoProps {
 	movieId?: string;
 }
 const MovieInfo = ({ movieId }: MovieInfoProps) => {
 	const [movieById, setMovieById] = React.useState<MovieByIdModel>();
-	const [movieExists, setMovieExists] = React.useState<boolean>(false);
+	const [movieExistsInWatched, setMovieExistsInWatched] =
+		React.useState<boolean>(false);
 	const [movieExistsInFavorites, setMovieExistsInFavorites] =
 		React.useState<boolean>(false);
-	const { movieAlreadyAdded, checkIfMovieExistsInFavorites } =
-		React.useContext(FavoritesMoviesContext);
-	const { addToWatchedList, checkIfMovieExists, alreadyAdded } =
-		React.useContext(WatchedListContext);
 	const tmdbImagePath = import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH;
 	const [isLoading, setLoading] = React.useState(false);
+
+	const [user, setUser] = React.useState<UserProfileModel>();
+	const [userAlreadyRated, setUserAlreadyRated] = React.useState<boolean>(false);
 	const movieHours =
 		movieById?.runtime && Math.floor(movieById?.runtime / 60);
 	const movieMinutes = movieById?.runtime && movieById?.runtime % 60;
@@ -38,6 +43,8 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 		movieById?.voteAverage && (movieById.voteAverage / 10) * 100;
 	const moviePercentageDisliked =
 		moviePercentageLiked && 100 - moviePercentageLiked;
+
+	const [rate, setRate] = React.useState<number>(0);
 
 	const data = {
 		labels: ["Gostaram", "Não gostaram"],
@@ -53,34 +60,52 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 		],
 	};
 
+	const handleRating = (rate: number) => {
+		setRate(rate);
+	};
+
 	React.useEffect(() => {
-		const mExists = checkIfMovieExists(Number(movieId));
-		const mExistsInF = checkIfMovieExistsInFavorites(Number(movieId));
-		setMovieExists(mExists);
-		setMovieExistsInFavorites(mExistsInF);
-		const fetchMovieById = async () => {
-			setLoading(true);
-			if (movieId) {
-				await getMovieByIdService(movieId)
-					.then((movie: AxiosResponse<MovieByIdModel>) => {
-						setMovieById(movie.data);
-						setLoading(false);
-					})
-					.catch((err: Error) => {
-						console.log(err);
-						setLoading(false);
-					});
-			}
-		};
-		fetchMovieById();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+		setLoading(true);
+		if (movieId) {
+			Promise.all([
+				getUserInfoService(), 
+				getMovieByIdService(movieId),
+				checkIfUserRatedMovieService(movieId)
+			])
+				.then((response) => {
+					const userData: UserProfileModel = response[0].data;
+					setUser(userData);
+
+					if (userData) {
+						const movieInFavorites =
+							userData.favoriteMovies.filter(
+								(movie) => movie.id.toString() === movieId
+							).length > 0;
+						const movieInWatched =
+							userData.watchedMovies.filter(
+								(movie) => movie.id.toString() === movieId
+							).length > 0;
+						setMovieExistsInWatched(movieInWatched);
+						setMovieExistsInFavorites(movieInFavorites);
+					}
+
+					setMovieById(response[1].data);
+					setUserAlreadyRated(response[2].data);
+					setLoading(false);
+				})
+				.catch((error) => {
+					console.log(error);
+					setLoading(false);
+				});
+		}
 	}, [movieId]);
 
-	const addMovieToFavoriteList = (movieId: number) => {
+	const addMovieToFavoriteList = async (movieId: number) => {
 		Promise.resolve(
-			addToFavoriteListService(movieId)
+			await addToFavoriteListService(movieId)
 				.then((response) => {
 					console.log(response);
+					setMovieExistsInFavorites(true);
 				})
 				.catch((error) => {
 					console.log(error);
@@ -88,14 +113,46 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 		);
 	};
 
+	const addMovieToWatchedList = async (movieId: number) => {
+		Promise.resolve(
+			await addToWatchedListService(movieId)
+				.then((response) => {
+					console.log(response);
+					setMovieExistsInWatched(true);
+				})
+				.catch((error) => {
+					console.log(error);
+				})
+		);
+	};
+
+	const addRateToMovie = async () => {
+		if(movieId){
+			const data: RateCreationModel = {
+				creationDate: new Date(),
+				movieId: movieId,
+				vote: rate
+			}
+			Promise.resolve(
+				await addRateToMovieService(data)
+					.then((response) => {
+						console.log(response);
+					})
+					.catch((error) => {
+						console.log(error);
+					})
+			);
+		}
+	};
+
 	if (isLoading) return <Loading big />;
 
 	return (
 		<>
 			{movieId && movieById ? (
-				<main className="w-full h-auto text-newWhite">
+				<main className="w-full h-auto flex flex-col text-newWhite">
 					{/* Banner */}
-					<div className="h-[650px] w-full">
+					<div className="min-h-[650px] h-auto w-full">
 						<div className="h-full w-full relative">
 							<img
 								src={`${tmdbImagePath}${movieById?.backdropPath}`}
@@ -153,12 +210,11 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
                       Marcar como assistido{" "}
                       <FaCheck className="absolute right-2" />
                     </button> */}
-												{!movieExists &&
-												!alreadyAdded ? (
+												{!movieExistsInWatched ? (
 													<Button
 														onClick={() => {
 															if (movieById?.id)
-																addToWatchedList(
+																addMovieToWatchedList(
 																	movieById?.id
 																);
 														}}
@@ -209,19 +265,22 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 													(genre, index: number) => (
 														<div
 															key={index}
-															className="flex flex-row items-center"
+															className="flex flex-row items-center flex-wrap "
 														>
-															<span>{genre}</span>
+															{genre}
 															{index !==
 																movieById.genres
 																	.length -
-																	1 && "/"}
+																	1 && ","}
 														</div>
 													)
 												)}
 											</div>
 											-
-											<div className="text-body">
+											<div className="text-body text-xs">
+												<span className="text-sm">
+													Duração:{" "}
+												</span>
 												{movieHours &&
 													movieHours > 0 &&
 													`${movieHours}h`}{" "}
@@ -264,13 +323,12 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 
 										{/* Grafico de amostragem e outras coisas */}
 
-										<div className="flex flex-col md:flex-row items-start md:items-center gap-6">
+										<div className="flex flex-col items-start md:items-start gap-6">
 											{/* Grafico e titulo */}
-											<div className="flex flex-row-reverse items-center gap-4">
-												<p className="text-smallDevicesTitle font-title font-black max-w-[120px]">
-													Classificação geral do
-													público
-												</p>
+											<p className="text-smallDevicesTitle font-title font-black ">
+												Classificação geral do público
+											</p>
+											<div className="flex flex-row items-center gap-4">
 												<div className="max-h-[80px] max-w-[80px] ">
 													<Doughnut
 														data={data}
@@ -284,19 +342,21 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 														}}
 													/>
 												</div>
-											</div>
-											<div className="flex flex-row text-body gap-2">
-												<p className="flex flex-row items-center gap-x-2">
-													<AiFillStar className="text-yellow-600" />
-													<span>
-														{movieById?.voteAverage}
-													</span>
-												</p>
-												/
-												<p>
-													{movieById?.voteCount} -
-													Votantes
-												</p>
+												<div className="flex flex-row text-body gap-2">
+													<p className="flex flex-row items-center gap-x-2">
+														<AiFillStar className="text-yellow-600" />
+														<span>
+															{
+																movieById?.voteAverage
+															}
+														</span>
+													</p>
+													/
+													<p>
+														{movieById?.voteCount} -
+														Votantes
+													</p>
+												</div>
 											</div>
 										</div>
 										{/* Sinopse */}
@@ -305,6 +365,43 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 												Sinopse
 											</p>
 											<p>{movieById?.overview}</p>
+										</div>
+
+										{/* Avaliação */}
+
+										<div className="flex flex-col gap-y-4">
+											<p className="text-smallDevicesTitle font-title font-black">
+												Deixe a sua avaliação
+											</p>
+											{!userAlreadyRated ? (
+												<Row moreGap baseline>
+													<StarRatings
+														numberOfStars={10}
+														rating={rate}
+														changeRating={handleRating}
+														starRatedColor="rgb(202,138,4)"
+														starHoverColor="rgb(202,138,4)"
+														starDimension="15"
+													/>
+													<p className="text-xs">
+														{""}
+														{rate} / 10
+													</p>
+													<Button 
+														small
+														type="button"
+														onClick={() => addRateToMovie()}
+														onlyBorder={false}
+													>
+														Enviar
+													</Button>
+												</Row>
+
+											) : (
+												<p className="text-xs italic">
+													Você já avaliou esse filme...
+												</p>
+											)}
 										</div>
 
 										{/* Informacoes adicionais */}
@@ -341,11 +438,10 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 									</div>
 								</div>
 							</div>
-							{!movieAlreadyAdded && !movieExistsInFavorites ? (
+							{!movieExistsInFavorites ? (
 								<button
-									onClick={() => addMovieToFavoriteList(
-										movieById?.id
-									)
+									onClick={() =>
+										addMovieToFavoriteList(movieById?.id)
 									}
 									className="absolute -right-0 -top-10 bg-primary rounded-xl p-4 font-black text-title text-newWhite active:scale-95 transition duration-300 mr-2 shadow-md"
 								>
@@ -368,8 +464,12 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 
 					{/* Comentários */}
 
-					<section>
-						<CommentSection movieId={movieById.id.toString()} comments={movieById.comments} />
+					<section className="mt-[100px]">
+						<CommentSection
+							user={user}
+							movieId={movieById.id.toString()}
+							comments={movieById.comments}
+						/>
 					</section>
 				</main>
 			) : (

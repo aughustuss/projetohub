@@ -47,8 +47,10 @@ const Input = ({
   };
 
   return (
-    <div className='gap-y-1 flex flex-col text-primaryBlack'>
-      <label className="text-base" htmlFor="input">{label}</label>
+    <div className='gap-y-1 flex flex-col text-primaryBlack w-full'>
+      {label && (
+        <label className="text-base" htmlFor="input">{label}</label>
+      )}
       <div className="flex flex-row items-center relative w-full">
         <input
           id={id}

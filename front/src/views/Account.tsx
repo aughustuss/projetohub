@@ -47,26 +47,31 @@ const Account = () => {
                     const userData = res.data;
                     setUser(userData);
                     if (userData) {
+
                       setUserFavoriteMovies(userData.favoriteMovies);
+
                       const mostRepeatedCategory = findTheMostRepeatedCategory(
                         userData.favoriteMovies,
-                        "userFavoriteCategory"
+                        "personalFavoriteCategory"
                       );
+
                       setUserMostRepeatedCategory(mostRepeatedCategory);
-          
+
+                      const userFavoriteCategory = AllCategories.find((category) =>
+                        category.id === mostRepeatedCategory
+                      );
+                      
+                      if (userFavoriteCategory)
+                        setUserMostRepeatedCategoryName(userFavoriteCategory.name);
+
                       setUserMoviesCount(
                           userData.favoriteMovies.filter((movie) =>
                             movie.genres.some((genre) => genre === userMostRepeatedCategoryName)
                           ).length
                         );
+
                       setUserFavoriteList(userData.favoriteMovies);
           
-                      const userFavoriteCategory = AllCategories.find((category) =>
-                        category.id === mostRepeatedCategory
-                      );
-                      if (userFavoriteCategory)
-                        setUserMostRepeatedCategoryName(userFavoriteCategory.name);
-      
                       setLoading(false);
                     }
                   })
@@ -76,7 +81,7 @@ const Account = () => {
               );
         }
         getUserProfileInfo();
-    }, [userMostRepeatedCategoryName])
+    }, [])
 
 
     if(isLoading)

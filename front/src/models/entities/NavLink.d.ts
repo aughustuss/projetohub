@@ -4,4 +4,5 @@ export interface NavbarLink {
     linkText?: string;
     linkIcon?: IconType;
     show?: boolean;
+    action?: () => void
 }

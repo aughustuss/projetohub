@@ -20,7 +20,7 @@ namespace MoviesApi.Application.Interfaces.Services
         Task<List<UserShortInfo>> GetUserByNameAsync(string input);
 
         Task<bool> SendResetPasswordEmailAsync(ForgotPasswordEmailRequest input);
-
+        Task<bool> CheckIfUserRatedMovieAsync(MovieGetDto input);
         Task ConfirmUserAccountAsync(EmailRequest input);
         Task ResetPassword(PasswordResetDto input);
     }

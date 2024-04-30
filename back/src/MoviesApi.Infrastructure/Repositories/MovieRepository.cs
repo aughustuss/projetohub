@@ -79,7 +79,7 @@ namespace MoviesApi.Infrastructure.Repositories
 
         public async Task<List<Movie>> GetMoviesByNameAsync(string input)
         {
-            var movies = await _dbContext.Movies.Where(m => m.Title.Contains(input)).ToListAsync();
+            var movies = await _dbContext.Movies.Where(m => m.Title.Contains(input) || m.OriginalTitle.Contains(input)).ToListAsync();
 
             if (movies.Count == 0)
                 throw new EntityNotFoundException("Não há filmes cadastrados.");

@@ -1,5 +1,6 @@
 import axios from "axios"
 import { CommentCreateModel } from "models/entities/Comment";
+import { RateCreationModel } from "models/entities/Rate";
 import { LoginData } from "models/requests/LoginRequest";
 
 const token = localStorage.getItem("userToken");
@@ -98,8 +99,13 @@ export const addToFavoriteListService = async (id: number) => {
     })
 };
 
-export const addToWatchedListService = async (id: string) => {
-    return await axios.post(`${apiEndpoint}/User/watchedMovies`, id);
+export const addToWatchedListService = async (id: number) => {
+    return await axios.post(`${apiEndpoint}/User/watchedMovies`, JSON.stringify(id), {
+        headers: {
+            Authorization: bearerToken,
+            "Content-Type": "application/json"
+        }
+    })
 };
 
 export const removeFromFavoriteListService = async (id: string) => {
@@ -141,8 +147,28 @@ export const getUserInfoService = async () => {
     });
 }
 
-export const addCommentToMovie = async (data: CommentCreateModel) => {
+export const addCommentToMovieService = async (data: CommentCreateModel) => {
     return await axios.post(`${apiEndpoint}/Comment/comment`, data, {
+        headers:{
+            Authorization: bearerToken,
+            Accept: "application/json",
+            "Content-Type":"application/json"
+        }
+    })
+}
+
+export const addRateToMovieService = async (data: RateCreationModel) => {
+    return await axios.post(`${apiEndpoint}/Rate/rate`, data, {
+        headers:{
+            Authorization: bearerToken,
+            Accept: "application/json",
+            "Content-Type":"application/json"
+        }
+    })
+}
+
+export const checkIfUserRatedMovieService = async (movieId: string) => {
+    return await axios.get(`${apiEndpoint}/User/user/rate/${movieId}`, {
         headers:{
             Authorization: bearerToken,
             Accept: "application/json",

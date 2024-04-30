@@ -2,7 +2,7 @@ import Banner from "components/Banner";
 import Categories from "components/Categories";
 import Similar from "components/LastSearched";
 import Trending from "components/Trending";
-import LastTitleContext from "contexts/LastSearchedTitle";
+import LastTitleContext from "contexts/LastSearchedTitleContext";
 import { MovieModel } from "models/entities/Movie";
 import React from "react";
 import { getMoviesBasedOnItsGenreService, getMoviesBasedOnItsTitleService } from "services/Services";
