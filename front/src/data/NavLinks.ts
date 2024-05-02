@@ -1,12 +1,16 @@
 import { NavbarLink } from 'models/entities/NavLink';
 import { BiSolidHeart, BiSolidChat } from 'react-icons/bi';
-import React from 'react';
-import LoginContext from 'contexts/LoginContext';
 
-const useNavLinks = (isAboveLg: boolean) => {
+interface NavLinkProps {
+  isAboveLg: boolean;
+  isAdmin: boolean;
+  isLoggedIn: boolean;
+  logout: () => void;
+}
 
-  const { isLoggedIn, logout,  } = React.useContext(LoginContext);
+const useNavLinks = ({isAboveLg, isAdmin, isLoggedIn, logout}: NavLinkProps) => {
 
+  
   const navLinks: Array<NavbarLink> = [
     {
       linkText: 'Início',
@@ -16,7 +20,7 @@ const useNavLinks = (isAboveLg: boolean) => {
     {
       linkText: 'Cadastros',
       linkTo: "#",
-      show: isLoggedIn
+      show: isAdmin
     },
     {
       linkText: 'Filmes',

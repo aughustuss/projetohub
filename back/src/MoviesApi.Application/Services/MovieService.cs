@@ -38,6 +38,7 @@ namespace MoviesApi.Application.Services
                     movie.Companies.Add(company);
             }
 
+            movie.Status = movie.ReleaseDate <= DateTime.UtcNow ? EMovieStatus.Released : EMovieStatus.NotReleased;
             movie.CreatorUser = await _userRepository.GetUserByIdAsync(input.CreatorUserId);
             movie.VoteCount = 0;
             movie.VoteAverage = 0;

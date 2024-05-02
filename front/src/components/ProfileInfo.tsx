@@ -11,6 +11,9 @@ import OrderBy from "./OrderBy";
 import { UserProfileModel } from "models/entities/User";
 import Text from "./Text";
 import { MovieModel } from "models/entities/Movie";
+import FavoritesMoviesContext, {
+	FavoriteListContext,
+} from "contexts/FavoriteListContext";
 
 interface ProfileInfoProps {
 	user?: UserProfileModel;
@@ -35,6 +38,14 @@ const ProfileInfo = ({
 	recentlyAdded,
 	anotherUserProfile,
 }: ProfileInfoProps) => {
+	const { setUserFavoriteListCount } = React.useContext(FavoriteListContext);
+
+	React.useEffect(() => {
+		const updateFavoriteListCountAfterData = () => {
+			setUserFavoriteListCount(userFavoriteMovies.length);
+		};
+		updateFavoriteListCountAfterData();
+	}, [userFavoriteMovies]);
 	return (
 		<>
 			<main className="flex flex-col gap-y-[80px] pt-[120px] pb-[100px] w-full px-6 md:w-[85%] md:px-0 mx-auto text-newWhite">

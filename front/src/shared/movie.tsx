@@ -2,7 +2,7 @@ import { MovieModel } from "models/entities/Movie";
 import { FaInfo } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { AiFillStar } from "react-icons/ai";
-import FavoritesMoviesContext from "contexts/FavoritesMoviesContext";
+import FavoritesMoviesContext from "contexts/FavoriteListContext";
 import React from "react";
 import Link from "components/Link";
 import Button from "components/Button";

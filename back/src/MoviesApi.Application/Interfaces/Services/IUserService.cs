@@ -18,9 +18,13 @@ namespace MoviesApi.Application.Interfaces.Services
         Task<UserInfoDto> GetUserByIdAsync(int input);
         Task<UserInfoDto> GetAllUserInfosByIdAsync(int input);
         Task<List<UserShortInfo>> GetUserByNameAsync(string input);
+        Task<int> GetUserFavoriteListCountAsync(int input);
 
         Task<bool> SendResetPasswordEmailAsync(ForgotPasswordEmailRequest input);
+
         Task<bool> CheckIfUserRatedMovieAsync(MovieGetDto input);
+        Task<bool> CheckUserRoleAsync(int input);
+
         Task ConfirmUserAccountAsync(EmailRequest input);
         Task ResetPassword(PasswordResetDto input);
     }

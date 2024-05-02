@@ -9,7 +9,7 @@ import { IoPersonAdd } from "react-icons/io5";
 import { findTheMostRepeatedCategory } from "utils/CategoryFrequency";
 import { AllCategories } from "data/Categories";
 import InfoText from "components/InfoText";
-import FavoritesMoviesContext from "contexts/FavoritesMoviesContext";
+import FavoritesMoviesContext from "contexts/FavoriteListContext";
 import OrderBy from "components/OrderBy";
 import Link from "components/Link";
 import MoviesList from "components/MoviesList";

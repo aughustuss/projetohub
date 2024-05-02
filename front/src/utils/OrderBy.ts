@@ -12,8 +12,8 @@ export const sortMoviesByTitle = (order: "asc" | "desc", movies: MovieModel[], s
         sortedMovies = [...movies];
     }
     sortedMovies.sort((a, b) => {
-      const titleA = a.original_title.toLowerCase();
-      const titleB = b.original_title.toLowerCase();
+      const titleA = a.originalTitle.toLowerCase();
+      const titleB = b.originalTitle.toLowerCase();
 
       if (order == "asc") {
         return titleA.localeCompare(titleB);
@@ -46,8 +46,8 @@ export const sortMoviesByReleaseDate = (movies: MovieModel[], setMovies: React.D
         sortedMovies = [...movies];
     }
     sortedMovies.sort((a, b) => {
-        const dateA = new Date(a.release_date);
-        const dateB = new Date(b.release_date);
+        const dateA = new Date(a.releaseDate);
+        const dateB = new Date(b.releaseDate);
 
         return dateB.getTime() - dateA.getTime();
     });

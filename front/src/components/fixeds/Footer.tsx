@@ -24,7 +24,7 @@ const Footer = ({ showFooter }: FooterProps) => {
             </div>
           </nav>
           <address className="text-center text-xs text-bodyColor font-bold mt-2">
-            HubFilmes &copy; Todos os Direitos Reservados a Augusto e Micael
+            HubFilmes &copy; 2024
           </address>
         </footer>
       )}

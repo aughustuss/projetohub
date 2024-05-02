@@ -2,62 +2,19 @@ import axios from "axios"
 import { CommentCreateModel } from "models/entities/Comment";
 import { RateCreationModel } from "models/entities/Rate";
 import { LoginData } from "models/requests/LoginRequest";
+import { MovieRegister } from "views/MovieRegister";
 
-const token = localStorage.getItem("userToken");
-let bearerToken = "";
-if(token){
-    bearerToken = `Bearer ${JSON.parse(token)}`;
-}
+// const token = localStorage.getItem("userToken");
+// if(token){
+//     bearerToken = `Bearer ${JSON.parse(token)}`;
+// }
+// let bearerToken = "";
+
 const youtubeApiKey = `${import.meta.env.VITE_API_YOUTUBE}`; 
 const apiEndpoint = "http://localhost:5024/api";
 
-// export const getMovieByIdService = async (id: string) => {
-//     return await axios.get(`https://api.themoviedb.org/3/movie/${id}?language=pt-BR`, {
-//         headers: {
-//             Authorization: bearerToken,
-//             Accept: "application/json"
-//         }
-//     })
-// }
 
-// export const getPopularMoviesService = async () => {
-//     return await axios.get("https://api.themoviedb.org/3/movie/popular?language=pt-US&page=1", {
-//         headers: {
-//             Authorization: bearerToken,
-//             Accept: "application/json"
-//         }
-//     })
-// }
-
-// export const getUpcomingMoviesService = async () => {
-//     return await axios.get("https://api.themoviedb.org/3/movie/upcoming?language=pt-US&page=1", {
-//         headers: {
-//             Authorization: bearerToken,
-//             Accept: "application/json"
-//         }
-//     })
-// }
-
-export const getMoviesCategoriesService = async () => {
-    return await axios.get("https://api.themoviedb.org/3/genre/movie/list?language=pt", {
-        headers: {
-            Authorization: bearerToken,
-            Accept: "application/json"
-        }
-    })
-}
-
-export const getTrendingMovies = async () => {
-    return axios.get("https://api.themoviedb.org/3/trending/movie/day?language=en-US", {
-        headers: {
-            Authorization: bearerToken,
-            Accept: "application/json"
-        }
-    })
-}
-
-
-  export const getVideoIdFromTitle = async (movieTitle: string) => {
+export const getVideoIdFromTitle = async (movieTitle: string) => {
     try {
       const response = await axios.get(
         `https://www.googleapis.com/youtube/v3/search?q=${movieTitle}&key=${youtubeApiKey}&part=snippet&type=video`
@@ -90,28 +47,28 @@ export const getUserInfoByIdService = async (id: string) => {
     return await axios.get(`${apiEndpoint}/User/userById/${id}`)
 }
 
-export const addToFavoriteListService = async (id: number) => {
+export const addToFavoriteListService = async (id: number, token: string) => {
     return await axios.post(`${apiEndpoint}/User/favoriteMovies`, JSON.stringify(id), {
         headers: {
-            Authorization: bearerToken,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json"
         }
     })
 };
 
-export const addToWatchedListService = async (id: number) => {
+export const addToWatchedListService = async (id: number, token:string) => {
     return await axios.post(`${apiEndpoint}/User/watchedMovies`, JSON.stringify(id), {
         headers: {
-            Authorization: bearerToken,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json"
         }
     })
 };
 
-export const removeFromFavoriteListService = async (id: string) => {
+export const removeFromFavoriteListService = async (id: string, token: string) => {
     return await axios.delete(`${apiEndpoint}/User/favoriteMovie/${id}`, {
         headers: {
-            Authorization: bearerToken,
+            Authorization: `Bearer ${token}`,
             Accept: "application/json"
         }
     });
@@ -137,40 +94,80 @@ export const getMovieByIdService = async (id: string) => {
     return await axios.get(`${apiEndpoint}/Movie/movieById/${id}`);
 }
 
-export const getUserInfoService = async () => {
+export const getUserInfoService = async (token:string) => {
     return await axios.get(`${apiEndpoint}/User/user`, {
         headers: {
-            Authorization: bearerToken,
+            Authorization: `Bearer ${token}`,
             Accept: "application/json",
             "Content-Type":"application/json"
         }
     });
 }
 
-export const addCommentToMovieService = async (data: CommentCreateModel) => {
+export const addCommentToMovieService = async (data: CommentCreateModel, token: string) => {
     return await axios.post(`${apiEndpoint}/Comment/comment`, data, {
         headers:{
-            Authorization: bearerToken,
+            Authorization: `Bearer ${token}`,
             Accept: "application/json",
             "Content-Type":"application/json"
         }
     })
 }
 
-export const addRateToMovieService = async (data: RateCreationModel) => {
+export const addRateToMovieService = async (data: RateCreationModel, token: string) => {
     return await axios.post(`${apiEndpoint}/Rate/rate`, data, {
         headers:{
-            Authorization: bearerToken,
+            Authorization: `Bearer ${token}`,
             Accept: "application/json",
             "Content-Type":"application/json"
         }
     })
 }
 
-export const checkIfUserRatedMovieService = async (movieId: string) => {
+export const checkIfUserRatedMovieService = async (movieId: string, token: string) => {
     return await axios.get(`${apiEndpoint}/User/user/rate/${movieId}`, {
         headers:{
-            Authorization: bearerToken,
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type":"application/json"
+        }
+    })
+}
+
+export const checkUserRoleService = async (token:string) => {
+    return await axios.get(`${apiEndpoint}/User/user/role`, {
+        headers:{
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type":"application/json"
+        }
+    })
+}
+
+export const getUserFavoriteListCountService = async (token:string) => {
+    return await axios.get(`${apiEndpoint}/User/user/favoriteMovies`, {
+        headers:{
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type":"application/json"
+        }
+    })
+}
+
+export const getCompanieForMovieCreateService = async (token:string) => {
+    return await axios.get(`${apiEndpoint}/Company/companies`, {
+        headers:{
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type":"application/json"
+        }
+    })
+}
+
+export const createMovieService = async (data: MovieRegister, token:string) => {
+    return await axios.post(`${apiEndpoint}/Movie/movie`, data, {
+        headers:{
+            Authorization: `Bearer ${token}`,
             Accept: "application/json",
             "Content-Type":"application/json"
         }

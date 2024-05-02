@@ -19,10 +19,16 @@ export enum MovieStatusModel {
     NotReleased = "Não Lançado",
 }
 export interface MovieCompanyModel {
+    id: number;
     logoPath: string;
     name: string;
     originalCountry: string;
 }
+
+export interface MovieCompanyRegisterModel {
+    id: number;
+}
+
 export interface MovieByIdSpokenLanguagesModel {
     english_name: string;
     iso_639_1: string;

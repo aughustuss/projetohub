@@ -76,6 +76,7 @@ const OrderBy = ({
       sortMoviesByDate();
     }
   };
+
   return (
     <div
       className={` ${

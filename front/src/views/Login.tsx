@@ -29,7 +29,7 @@ const LoginPage: React.FC = () => {
 	const onSubmit: SubmitHandler<LoginData> = async (data) => {
 		setLoading(true);
 		try {
-			await login(data);
+			login(data);
 			setWrongPasswordOrEmail(false);
 			setLoading(false);
 			navigate("/account");

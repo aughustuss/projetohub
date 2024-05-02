@@ -198,6 +198,42 @@ namespace MoviesApi.Controllers
             }
         }
 
+        [Authorize(Roles = "User,Admin")]
+        [HttpGet("user/role")]
+        public async Task<IActionResult> CheckUserRole()
+        {
+            try
+            {
+                var userId = int.Parse(User.FindFirst("Id")!.Value);
+                var response = await _userService.CheckUserRoleAsync(userId);
+                return Ok(response);
+            } catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize(Roles = "User,Admin")]
+        [HttpGet("user/favoriteMovies")]
+        public async Task<IActionResult> GetUserFavoriteListCount()
+        {
+            try
+            {
+                var userId = int.Parse(User.FindFirst("Id")!.Value);
+                var response = await _userService.GetUserFavoriteListCountAsync(userId); 
+                return Ok(response);
+            } catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet("users")]
         public async Task<IActionResult> GetAll()
         {

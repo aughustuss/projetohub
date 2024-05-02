@@ -6,35 +6,35 @@ namespace MoviesApi.Domain.Enums
     public enum ELanguage
     {
         [Description("Português")]
-        Portugues,
+        Portugues = 1,
         [Description("Italiano")]
-        Italiano,
+        Italiano = 2,
         [Description("Inglês")]
-        Ingles,
+        Ingles = 3,
         [Description("Espanhol")]
-        Espanhol,
+        Espanhol = 4,
         [Description("Francês")]
-        Frances,
+        Frances = 5,
         [Description("Alemão")]
-        Alemao,
+        Alemao = 6,
         [Description("Chinês")]
-        Chines,
+        Chines = 7,
         [Description("Japonês")]
-        Japones,
+        Japones = 8,
         [Description("Russo")]
-        Russo,
+        Russo = 9,
         [Description("Árabe")]
-        Arabe,
+        Arabe = 10,
         [Description("Coreano")]
-        Coreano,
+        Coreano = 11,
         [Description("Holandês")]
-        Holandes,
+        Holandes = 12,
         [Description("Hindi")]
-        Hindi,
+        Hindi = 13,
         [Description("Turco")]
-        Turco,
+        Turco = 14,
         [Description("Sueco")]
-        Sueco
+        Sueco = 15
     }
 
     public class LanguageHelper()

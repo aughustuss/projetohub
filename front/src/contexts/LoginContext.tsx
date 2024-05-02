@@ -1,11 +1,12 @@
 import { ChildrenPropsModel } from "models/contexts/ContextModels";
 import { LoginData } from "models/requests/LoginRequest";
 import React from "react";
-import { loginService } from "services/Services";
+import { checkUserRoleService, loginService } from "services/Services";
 import Loading from "views/Loading";
 interface LoginContextProps {
 	login: (data: LoginData) => void;
 	logout: () => void;
+	isAdmin: boolean;
 	isLoggedIn: boolean;
 	token: string;
 	loading: boolean;
@@ -13,6 +14,7 @@ interface LoginContextProps {
 
 const LoginContext = React.createContext<LoginContextProps>({
 	isLoggedIn: false,
+	isAdmin: false,
 	login: () => {},
 	logout: () => {},
 	token: "",
@@ -23,11 +25,11 @@ const LoginContextProvider: React.FC<ChildrenPropsModel> = ({ children }) => {
 	const [loading, setLoading] = React.useState<boolean>(true);
 	const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(false);
 	const [token, setToken] = React.useState<string>("");
+	const [isAdmin, setAdmin] = React.useState<boolean>(false);
 
 	const getItemFromStorage = () => {
 		try {
 			const token = localStorage.getItem("userToken");
-
 			if (token) {
 				setToken(JSON.parse(token));
 				setIsLoggedIn(true);
@@ -39,14 +41,29 @@ const LoginContextProvider: React.FC<ChildrenPropsModel> = ({ children }) => {
 		}
 	};
 
+	const checkUserRole = async () => {
+		try{
+			const response = await checkUserRoleService(token);
+			setAdmin(response.data);
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
 	React.useEffect(() => {
 		getItemFromStorage();
-	}, []);
+		checkUserRole();
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [token]);
 
 	const login = async (data: LoginData) => {
 		try {
 			const res = await loginService(data);
-			localStorage.setItem("userToken", JSON.stringify(res.data.token));
+			const resToken = res.data.token;
+			if(resToken){
+				localStorage.setItem("userToken", JSON.stringify(resToken));
+				setToken(resToken);
+			}
 		} catch (error) {
 			throw new Error();
 		}
@@ -63,7 +80,7 @@ const LoginContextProvider: React.FC<ChildrenPropsModel> = ({ children }) => {
 
 	return (
 		<LoginContext.Provider
-			value={{ login, logout, isLoggedIn, token, loading }}
+			value={{ login, logout, isLoggedIn, isAdmin, token, loading }}
 		>
 			{children}
 		</LoginContext.Provider>

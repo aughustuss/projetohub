@@ -10,7 +10,6 @@ const Cadastro = React.lazy(() => import("views/Register"));
 const VideoTrailer = React.lazy(() => import("views/VideoTrailer"));
 import ProtectedRoute from "components/ProtectedRoute";
 import LoginContext from "contexts/LoginContext";
-import Loading from "views/Loading";
 const LoginPage = React.lazy(() => import("views/Login"));
 const HomePage = React.lazy(() => import("views/Home"));
 const MoviePage = React.lazy(() => import("views/Movie"));
@@ -24,15 +23,17 @@ const MovieRegisterPage = React.lazy(() => import("views/MovieRegister"));
 const CompanyRegisterPage = React.lazy(() => import("views/CompanyRegister"));
 
 function App() {
-	const { isLoggedIn, loading } = React.useContext(LoginContext);
+	const { isLoggedIn } = React.useContext(LoginContext);
 
 	const location = window.location;
 	const [isOnTop, setIsOnTop] = React.useState<boolean>(true);
+
 	const [showNavAndFooter, setShowNavAndFooter] =
 		React.useState<boolean>(false);
 
+
 	React.useEffect(() => {
-		if (location.pathname === "/login" || location.pathname === "/register")
+		if (location.pathname === "/login" || location.pathname === "/register" || location.pathname === "/movieregister")
 			setShowNavAndFooter(false);
 		else setShowNavAndFooter(true);
 	}, [location.pathname]);
@@ -51,9 +52,6 @@ function App() {
 		};
 	}, []);
 
-	if (loading) {
-		return <Loading big />;
-	}
 	return (
 		<React.Suspense fallback={<LoadingPage big />}>
 			<BrowserRouter>

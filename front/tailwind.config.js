@@ -18,7 +18,7 @@ export default {
         "primary": "#032541",
         "primaryBlack": "#0b1215",
         "secondary": "#1b4569",
-        "tertiary": "#000",
+        "tertiary": "#60a5fa",
         "newWhite": "#e3e3e3",
         "newBlack": "#1f1f1f",
         "primaryBg": "#141A1F",

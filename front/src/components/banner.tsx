@@ -11,7 +11,7 @@ import {
   getUpcomingMoviesService,
 } from "services/Services";
 import Loading from "views/Loading";
-import FavoritesMoviesContext from "contexts/FavoritesMoviesContext";
+import FavoritesMoviesContext from "contexts/FavoriteListContext";
 import Title from "./Title";
 import { Link } from 'react-router-dom';
 

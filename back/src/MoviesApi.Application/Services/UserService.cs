@@ -3,6 +3,7 @@ using MoviesApi.Application.Dtos.Request;
 using MoviesApi.Application.Dtos.Response;
 using MoviesApi.Domain.Entities;
 using MoviesApi.Domain.Interfaces.Repositories;
+using MoviesApi.Domain.Enums;
 using Microsoft.AspNetCore.Identity;
 using MoviesApi.Domain.Exceptions;
 using MoviesApi.Application.Interfaces.Security;
@@ -252,6 +253,20 @@ namespace MoviesApi.Application.Services
             var exists = user.FavoriteMovies.Any(m => m.Id == input.MovieId);
 
             return exists;
+        }
+
+        public async Task<bool> CheckUserRoleAsync(int input)
+        {
+            var user = await _userRepository.GetUserByIdAsync(input);
+
+            return user.Role == EUser.Admin;
+        }
+
+        public async Task<int> GetUserFavoriteListCountAsync(int input)
+        {
+            var user = await _userRepository.GetAllUserInfosByIdAsync(input);
+
+            return user.FavoriteMovies.Count;
         }
     }
 }

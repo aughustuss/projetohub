@@ -4,36 +4,40 @@ import { NavbarLink } from "models/entities/NavLink";
 import { AllCategories } from "data/Categories";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import LoginContext from "contexts/LoginContext";
-import { UserProfileModel } from "models/entities/User";
-import { getUserInfoService } from "services/Services";
+import { getUserFavoriteListCountService } from "services/Services";
 interface LinksMappedProps {
 	isAboveLG: boolean;
 }
 
 const LinksMapped = ({ isAboveLG }: LinksMappedProps) => {
-	const [categoriesMenuOpen, setCategoriesMenuOpen] =
-		React.useState<boolean>(false);
+	const [categoriesMenuOpen, setCategoriesMenuOpen] = React.useState<boolean>(false);
 
-	const [user, setUser] = React.useState<UserProfileModel>();
+	const { isLoggedIn, logout, token, isAdmin } = React.useContext(LoginContext);
+	const [userFavoriteListCount, setUserFavoriteListCount] = React.useState<number>(0);
 
-	const navLinks = useNavLinks(isAboveLG);
+	const navLinks = useNavLinks({
+		isAboveLg: isAboveLG,
+		isAdmin: isAdmin,
+		isLoggedIn: isLoggedIn,
+		logout: logout
+	})
 
-	const { isLoggedIn } = React.useContext(LoginContext);
 	const handleCategoriesMenu = () => {
 		setCategoriesMenuOpen(!categoriesMenuOpen);
 	};
 
+	const getUserFavoriteListCount = async () => {
+		try{
+			const response = await getUserFavoriteListCountService(token);
+			setUserFavoriteListCount(response.data);
+		} catch (err){
+			console.log(err);
+		}
+	}
+
 	React.useEffect(() => {
-		Promise.resolve(
-			getUserInfoService()
-				.then((response) => {
-					setUser(response.data);
-				})
-				.catch((error) => {
-					console.log(error.message);
-				})
-		);
-	}, []);
+		getUserFavoriteListCount();
+	}, [])
 
 	return (
 		<>
@@ -124,9 +128,9 @@ const LinksMapped = ({ isAboveLG }: LinksMappedProps) => {
 										className="text-newWhite text-iconSize  relative hover:text-secondary transition duration-300 active:scale-95"
 									>
 										{<i.linkIcon />}
-										{user?.favoriteMovies && user.favoriteMovies.length > 0 && (
+										{userFavoriteListCount > 0 && (
 											<span className="absolute h-[16px] w-[16px] bg-red-600 rounded-full -right-1 -top-2 text-newWhite text-[10px] flex justify-center items-center">
-												{user.favoriteMovies.length}
+												{userFavoriteListCount}
 											</span>
 										)}
 									</a>

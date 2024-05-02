@@ -34,7 +34,7 @@ const Header = ({ isOnTop, showNav }: HeaderProps) => {
   return (
     <>
       {showNav && (
-        <nav className="h-[90px] mt-0 md:mt-[10px] w-full fixed top-0 text-newWhite z-50">
+        <nav className="h-[70px] mt-0 md:mt-[10px] w-full fixed top-0 text-newWhite z-50">
           <div className={` ${
               isOnTop
                 ? !isToggled

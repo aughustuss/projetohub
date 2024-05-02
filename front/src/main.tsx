@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
 import { SideBarContextProvider } from "contexts/SidebarContext.tsx";
-import { FavoritesMoviesContextProvider } from "contexts/FavoritesMoviesContext.tsx";
+import { FavoriteListContextProvider } from "contexts/FavoriteListContext.tsx";
 import { LastTitleContextProvider } from "contexts/LastSearchedTitleContext.tsx";
 import { WatchedListContextProvider } from "contexts/WatchedListContext.tsx";
 import { LoginContextProvider } from "contexts/LoginContext.tsx";
@@ -12,11 +12,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 		<LoginContextProvider>
 				<LastTitleContextProvider>
 					<WatchedListContextProvider>
-						<FavoritesMoviesContextProvider>
+						<FavoriteListContextProvider>
 							<SideBarContextProvider>
 								<App />
 							</SideBarContextProvider>
-						</FavoritesMoviesContextProvider>
+						</FavoriteListContextProvider>
 					</WatchedListContextProvider>
 				</LastTitleContextProvider>
 		</LoginContextProvider>
