@@ -12,8 +12,8 @@ using MoviesApi.Infrastructure.Context;
 namespace MoviesApi.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240424142435_ResetPasswordToken")]
-    partial class ResetPasswordToken
+    [Migration("20240503170522_ImagesPath")]
+    partial class ImagesPath
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -104,6 +104,7 @@ namespace MoviesApi.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("BackdropPath")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Budget")
@@ -147,6 +148,7 @@ namespace MoviesApi.Infrastructure.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("PosterPath")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ReleaseDate")
@@ -242,7 +244,15 @@ namespace MoviesApi.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("NickName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProfileImagePath")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

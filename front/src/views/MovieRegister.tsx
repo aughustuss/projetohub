@@ -1,3 +1,4 @@
+import axios from "axios";
 import Button from "components/Button";
 import Error from "components/Error";
 import Input from "components/Input";
@@ -8,13 +9,14 @@ import { MovieCompanyModel, MovieCompanyRegisterModel } from "models/entities/Mo
 import React from "react";
 import Dropzone from "react-dropzone";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { createMovieService, getCompanieForMovieCreateService } from "services/Services";
+import { useNavigate } from "react-router-dom";
+import { createMovieService, getCompanieForMovieCreateService, imagesPath } from "services/Services";
 
 interface Language {
   id: number;
   name: string;
 }
-interface CustomFile extends File {
+export interface CustomFile extends File {
   preview: string;
 }
 
@@ -64,6 +66,9 @@ const movieRegisterLanguages: Array<Language> = [
 ]
 
 const MovieRegister = () => {
+
+  const navigate = useNavigate();
+
   const {token} = React.useContext(LoginContext);
 	const [poster, setPoster] = React.useState<CustomFile[]>([]);
   const [banner, setBanner] = React.useState<CustomFile[]>([]);
@@ -132,13 +137,20 @@ const MovieRegister = () => {
       const company: MovieCompanyRegisterModel = {
         id: Number.parseInt(value.target.value),
       }
+
+      if(value.target.value !== "redirect"){
+        setSelectedCompanies(prevCompanies => {
+          const newCompanies = [...prevCompanies, company];
+          setValue("companies", newCompanies); // Atualiza o valor do formulário após atualizar o estado
+          return newCompanies;
+        });
+      } else {
+        navigate("/companyRegister");
+      }
+        
   
-      setSelectedCompanies(prevCompanies => {
-        const newCompanies = [...prevCompanies, company];
-        setValue("companies", newCompanies); // Atualiza o valor do formulário após atualizar o estado
-        return newCompanies;
-      });
     }
+
   }
 
   const handleLanguageChange = (value: React.ChangeEvent<HTMLSelectElement>) => {
@@ -181,101 +193,55 @@ const MovieRegister = () => {
       console.log(error);
     }
 	};
-  
+
+  console.log(companies);
+  console.log(imagesPath);
 
 	return (
 		<>
-			<main className="min-h-screen flex flex-col gap-y-4 pt-[120px] pb-[100px] w-full px-6 md:w-[85%] md:px-0 items-start mx-auto text-primaryBlack">
-				<form
-					onSubmit={handleSubmit(onSubmit)}
-					className="w-full md:w-2/3 flex flex-col gap-4 items-center"
-				>
-				<Title
-					black
-					bold
-					fullWidth
-					center
-					message="Cadastro de filmes"
-				/>
-					<div className="w-full flex flex-col md:flex-row gap-x-4">
-						<div className="w-full md:w-1/2 ">
-							<div className="w-full flex flex-row gap-x-2 ">
-                <Controller
-                  control={control}
-                  name="posterPath"
-                  rules={{
-                    required: {
-                      message: "Campo obrigatório",
-                      value: true,
-                    }
-                  }}
-                  render={({field:{name}}) => (
-                    <>
-                    <div className="flex flex-col gap-y-1">
-                      <Dropzone onDrop={(files) => {
-                        setPoster(files.map(file => Object.assign(file, {
-                          preview: URL.createObjectURL(file),
-                        }),setValue("posterPath", files[0])));
-                      }}
-                        maxFiles={1}
-                        multiple={false}
-                      >
-                        {({getRootProps, getInputProps, isDragActive, isFocused}) => (
-                            <div className="flex flex-col gap-y-1" >
-                              <label htmlFor={name}>Imagem do Poster*</label>
-                              <div className={`${isFocused && 'border-tertiary'} hover:border-tertiary cursor-pointer rounded-xl p-4 border-2 border-dashed text-sm text-bodyColor`} {...getRootProps()}>
-                                <input id={name} {...getInputProps()} />
-                                {isDragActive ? (
-                                  <p>
-                                    Solte a imagem aqui...
-                                  </p>
-                                ) : (
-                                  <p>Arraste e solte uma imagem aqui ou clique para buscar...</p>
-                                )}
-                              </div>
-                              {poster.length > 0 ? (
-                                <div className="relative w-[150px]">
-                                  <img className="w-full h-[200px] rounded-xl" onLoad={() => URL.revokeObjectURL(poster[0].preview)} src={poster[0].preview} />
-                                  <button onClick={() => {
-                                    setPoster([]);
-                                    setValue("posterPath", null)
-                                  }} className="absolute top-1 right-2 text-newWhite font-bold" >x</button>
-                                </div>
-                              ) : null}
-                          </div>
-                        )}
-                      </Dropzone>
-                      <Error>
-                        {errors.posterPath && (errors.posterPath.type === "required" && errors.posterPath.message)}
-                      </Error>
-                    </div>
-                    </>
-                  )}
-                />
-                <Controller
-                  control={control}
-                  name="backdropPath"
-                  rules={{
-                    required: {
-                      message: "Campo obrigatório",
-                      value: true,
-                    }
-                  }}
-                  render={({field:{name}}) => (
-                    <>
+      <main className="min-h-screen bg-secondary relative overflow-hidden -z-0">
+				<div className="-left-[15%] bg-newWhite absolute h-[1400px] w-full -top-full rounded-full -z-10 shadow-sm"></div>
+        <section className="z-50 flex flex-col gap-y-4 pt-[120px] pb-[100px] w-full px-6 md:w-[85%] md:px-0 items-center mx-auto text-primaryBlack">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="w-full md:w-2/3 flex flex-col gap-4 items-center p-6 bg-newWhite shadow rounded-xl"
+          >
+          <Title
+            black
+            bold
+            fullWidth
+            center
+            message="Cadastro de filmes"
+          />
+          {companies.map((company) => (
+            <img src={company.imageSource} className="w-[100px] h-[100px] border" />
+          ))}
+            <div className="w-full flex flex-col md:flex-row gap-x-4">
+              <div className="w-full md:w-1/2 ">
+                <div className="w-full flex flex-row gap-x-2 ">
+                  <Controller
+                    control={control}
+                    name="posterPath"
+                    rules={{
+                      required: {
+                        message: "Campo obrigatório",
+                        value: true,
+                      }
+                    }}
+                    render={({field:{name}}) => (
+                      <>
                       <div className="flex flex-col gap-y-1">
                         <Dropzone onDrop={(files) => {
-                          setBanner(files.map(file => Object.assign(file, {
+                          setPoster(files.map(file => Object.assign(file, {
                             preview: URL.createObjectURL(file),
-                          }),setValue("backdropPath", files[0])));
+                          }),setValue("posterPath", files[0])));
                         }}
                           maxFiles={1}
                           multiple={false}
                         >
                           {({getRootProps, getInputProps, isDragActive, isFocused}) => (
-                            <>
                               <div className="flex flex-col gap-y-1" >
-                                <label htmlFor={name}>Imagem do Banner*</label>
+                                <label htmlFor={name}>Imagem do Poster*</label>
                                 <div className={`${isFocused && 'border-tertiary'} hover:border-tertiary cursor-pointer rounded-xl p-4 border-2 border-dashed text-sm text-bodyColor`} {...getRootProps()}>
                                   <input id={name} {...getInputProps()} />
                                   {isDragActive ? (
@@ -286,422 +252,482 @@ const MovieRegister = () => {
                                     <p>Arraste e solte uma imagem aqui ou clique para buscar...</p>
                                   )}
                                 </div>
-                                {banner.length > 0 ? (
-                                  <div className="relative w-full">
-                                    <img className="w-full h-[200px] rounded-xl" onLoad={() => URL.revokeObjectURL(banner[0].preview)} src={banner[0].preview} />
+                                {poster.length > 0 ? (
+                                  <div className="relative w-[150px]">
+                                    <img className="w-full h-[200px] rounded-xl" onLoad={() => URL.revokeObjectURL(poster[0].preview)} src={poster[0].preview} />
                                     <button onClick={() => {
-                                      setBanner([]);
-                                      setValue("backdropPath", null)
-                                    }} className="absolute top-1 right-2 font-bold text-newWhite" >x</button>
+                                      setPoster([]);
+                                      setValue("posterPath", null)
+                                    }} className="absolute top-1 right-2 text-newWhite font-bold" >x</button>
                                   </div>
                                 ) : null}
-                              </div>
-                            </>
+                            </div>
                           )}
                         </Dropzone>
                         <Error>
-                          {errors.backdropPath && (errors.backdropPath.type === "required" && errors.backdropPath.message)}
+                          {errors.posterPath && (errors.posterPath.type === "required" && errors.posterPath.message)}
                         </Error>
                       </div>
-                    </>
-                  )}
-                />
-              </div>
-              <Controller
-                control={control}
-                defaultValue=""
-                name="title"
-                rules={{
-                  required: {
-                    message: "Campo obrigatório",
-                    value: true,
-                  },
-                  maxLength: {
-                    message: "Máximo de 50 caracteres",
-                    value: 50,
-                  },
-                }}
-                render={({field:{value, name,onChange}}) => (
-                  <div>
-                    <Input
-                      id={name}
-                      label="Título do filme*"
-                      onChange={onChange}
-                      placeholder="Digite o título do filme..."
-                      value={value}
-                      type="text"
-                    />
-                    <Error>
-                      {errors.title && (errors.title.type === "required" && errors.title.message)}
-                      {errors.title && (errors.title.type === "maxLength" && errors.title.message)}
-                    </Error>
-                  </div>
-                )}
-              />
-              <Controller
-                control={control}
-                defaultValue=""
-                name="originalTitle"
-                rules={{
-                  required: {
-                    message: "Campo obrigatório",
-                    value: true,
-                  },
-                  maxLength: {
-                    message: "Máximo de 50 caracteres",
-                    value: 50,
-                  },
-                }}
-                render={({field:{onChange,name,value}}) => (
-                  <div>
-                    <Input
-                      id={name}
-                      label="Título original do filme*"
-                      onChange={onChange}
-                      placeholder="Digite o título original do filme..."
-                      value={value}
-                      type="text"
-                    />
-                    <Error>
-                      {errors.originalTitle && (errors.originalTitle.type === "required" && errors.originalTitle.message)}
-                      {errors.originalTitle && (errors.originalTitle.type === "maxLength" && errors.originalTitle.message)}
-                    </Error>
-                  </div>
-                )}
-                />
+                      </>
+                    )}
+                  />
+                  <Controller
+                    control={control}
+                    name="backdropPath"
+                    rules={{
+                      required: {
+                        message: "Campo obrigatório",
+                        value: true,
+                      }
+                    }}
+                    render={({field:{name}}) => (
+                      <>
+                        <div className="flex flex-col gap-y-1">
+                          <Dropzone onDrop={(files) => {
+                            setBanner(files.map(file => Object.assign(file, {
+                              preview: URL.createObjectURL(file),
+                            }),setValue("backdropPath", files[0])));
+                          }}
+                            maxFiles={1}
+                            multiple={false}
+                          >
+                            {({getRootProps, getInputProps, isDragActive, isFocused}) => (
+                              <>
+                                <div className="flex flex-col gap-y-1" >
+                                  <label htmlFor={name}>Imagem do Banner*</label>
+                                  <div className={`${isFocused && 'border-tertiary'} hover:border-tertiary cursor-pointer rounded-xl p-4 border-2 border-dashed text-sm text-bodyColor`} {...getRootProps()}>
+                                    <input id={name} {...getInputProps()} />
+                                    {isDragActive ? (
+                                      <p>
+                                        Solte a imagem aqui...
+                                      </p>
+                                    ) : (
+                                      <p>Arraste e solte uma imagem aqui ou clique para buscar...</p>
+                                    )}
+                                  </div>
+                                  {banner.length > 0 ? (
+                                    <div className="relative w-full">
+                                      <img className="w-full h-[200px] rounded-xl" onLoad={() => URL.revokeObjectURL(banner[0].preview)} src={banner[0].preview} />
+                                      <button onClick={() => {
+                                        setBanner([]);
+                                        setValue("backdropPath", null)
+                                      }} className="absolute top-1 right-2 font-bold text-newWhite" >x</button>
+                                    </div>
+                                  ) : null}
+                                </div>
+                              </>
+                            )}
+                          </Dropzone>
+                          <Error>
+                            {errors.backdropPath && (errors.backdropPath.type === "required" && errors.backdropPath.message)}
+                          </Error>
+                        </div>
+                      </>
+                    )}
+                  />
+                </div>
                 <Controller
                   control={control}
                   defaultValue=""
-                  name="overview"
+                  name="title"
                   rules={{
                     required: {
                       message: "Campo obrigatório",
                       value: true,
                     },
                     maxLength: {
-                      message: "Máximo de 200 caracteres",
-                      value: 200,
+                      message: "Máximo de 50 caracteres",
+                      value: 50,
                     },
                   }}
-                  render={({field:{name,value,onChange}}) => (
-                    <div className="flex flex-col gap-y-2">
-                      <label htmlFor={name}>Sinopse*</label>
-                      <textarea
-                        value={value}
-                        onChange={onChange}
-                        rows={6}
+                  render={({field:{value, name,onChange}}) => (
+                    <div>
+                      <Input
                         id={name}
-                        className="rounded-xl bg-newWhite border-border border p-2"
+                        label="Título do filme*"
+                        onChange={onChange}
+                        placeholder="Digite o título do filme..."
+                        value={value}
+                        type="text"
                       />
                       <Error>
-                        {errors.overview && (errors.overview.type === "required" && errors.overview.message)}
-                        {errors.overview && (errors.overview.type === "maxLength" && errors.overview.message)}
+                        {errors.title && (errors.title.type === "required" && errors.title.message)}
+                        {errors.title && (errors.title.type === "maxLength" && errors.title.message)}
+                      </Error>
+                    </div>
+                  )}
+                />
+                <Controller
+                  control={control}
+                  defaultValue=""
+                  name="originalTitle"
+                  rules={{
+                    required: {
+                      message: "Campo obrigatório",
+                      value: true,
+                    },
+                    maxLength: {
+                      message: "Máximo de 50 caracteres",
+                      value: 50,
+                    },
+                  }}
+                  render={({field:{onChange,name,value}}) => (
+                    <div>
+                      <Input
+                        id={name}
+                        label="Título original do filme*"
+                        onChange={onChange}
+                        placeholder="Digite o título original do filme..."
+                        value={value}
+                        type="text"
+                      />
+                      <Error>
+                        {errors.originalTitle && (errors.originalTitle.type === "required" && errors.originalTitle.message)}
+                        {errors.originalTitle && (errors.originalTitle.type === "maxLength" && errors.originalTitle.message)}
                       </Error>
                     </div>
                   )}
                   />
                   <Controller
                     control={control}
-                    name="tagline"
                     defaultValue=""
+                    name="overview"
                     rules={{
                       required: {
                         message: "Campo obrigatório",
                         value: true,
                       },
                       maxLength: {
-                        message: "Máximo de 50 caracteres",
-                        value: 50,
+                        message: "Máximo de 200 caracteres",
+                        value: 200,
                       },
                     }}
-                    render={({field:{value,name,onChange}}) => (
-                      <div>
-                        <Input
-                          id={name}
-                          label="Tagline*"
-                          onChange={onChange}
-                          placeholder="Digite a tagline do filme..."
+                    render={({field:{name,value,onChange}}) => (
+                      <div className="flex flex-col gap-y-2">
+                        <label htmlFor={name}>Sinopse*</label>
+                        <textarea
                           value={value}
-                          type="text"
+                          onChange={onChange}
+                          rows={6}
+                          id={name}
+                          className="rounded-xl bg-newWhite border-border border p-2"
                         />
                         <Error>
-                          {errors.tagline && (errors.tagline.type === "required" && errors.tagline.message)}
-                          {errors.tagline && (errors.tagline.type === "maxLength" && errors.tagline.message)}
+                          {errors.overview && (errors.overview.type === "required" && errors.overview.message)}
+                          {errors.overview && (errors.overview.type === "maxLength" && errors.overview.message)}
                         </Error>
                       </div>
                     )}
+                    />
+                    <Controller
+                      control={control}
+                      name="tagline"
+                      defaultValue=""
+                      rules={{
+                        required: {
+                          message: "Campo obrigatório",
+                          value: true,
+                        },
+                        maxLength: {
+                          message: "Máximo de 50 caracteres",
+                          value: 50,
+                        },
+                      }}
+                      render={({field:{value,name,onChange}}) => (
+                        <div>
+                          <Input
+                            id={name}
+                            label="Tagline*"
+                            onChange={onChange}
+                            placeholder="Digite a tagline do filme..."
+                            value={value}
+                            type="text"
+                          />
+                          <Error>
+                            {errors.tagline && (errors.tagline.type === "required" && errors.tagline.message)}
+                            {errors.tagline && (errors.tagline.type === "maxLength" && errors.tagline.message)}
+                          </Error>
+                        </div>
+                      )}
+                    />
+                  <Controller
+                    control={control}
+                    name="genres"
+                    rules={{
+                      required: {
+                        message: "Campo obrigatório",
+                        value: true,
+                      }
+                    }}
+                    render={({field:{name}}) => (
+                      <>  
+                      <div className="flex flex-col flex-wrap gap-y-1">
+                        <label htmlFor={name}>Selecione os gêneros do filme*</label>
+                        <div className="flex flex-row items-center flex-wrap gap-2">
+                          {genres.length > 0 && genres.map((genre, index) => (
+                            <div key={index} className="text-xs rounded-xl w-fit px-6 py-1 border border-border text-bodyColor relative">
+                              <span  >
+                                {genre}
+                              </span>
+                              <button type="button" onClick={() => removeGenreFromList(genre)} className="absolute right-2 top-0">x</button>
+                            </div>
+                          ))}
+                        </div>
+                        <select 
+                          id={name}
+                          className="py-2 rounded-lg text-sm text-newBlack w-full border border-border bg-newWhite"
+                          onChange={handleGenreChange}
+                        >
+                          <option value={0} defaultValue={0}>Selecione</option>
+                          {AllCategories.filter((genre) => !genres.includes(genre.id)).map((genre) => (
+                            <option key={genre.id} value={genre.id}>
+                              {genre.name}
+                            </option>
+                          ))}
+                        </select>
+                        <Error>
+                            {errors.genres && (errors.genres.type === "required" && errors.genres.message)}
+                          </Error>
+                        </div>
+                      </>
+                    )}
                   />
+              </div>
+
+              {/* Primeira metade da tela */}
+
+              <div className="w-full md:w-1/2">
                 <Controller
                   control={control}
-                  name="genres"
+                  name="companies"
                   rules={{
-                    required: {
-                      message: "Campo obrigatório",
-                      value: true,
+                    required:{
+                      value: selectedCompanies.length === 0,
+                      message: "Campo obrigatório"
                     }
                   }}
                   render={({field:{name}}) => (
-                    <>  
                     <div className="flex flex-col flex-wrap gap-y-1">
-                      <label htmlFor={name}>Selecione os gêneros do filme*</label>
-                      <div className="flex flex-row items-center flex-wrap gap-2">
-                        {genres.length > 0 && genres.map((genre, index) => (
-                          <div key={index} className="text-xs rounded-xl w-fit px-6 py-1 border border-border text-bodyColor relative">
-                            <span  >
-                              {genre}
-                            </span>
-                            <button type="button" onClick={() => removeGenreFromList(genre)} className="absolute right-2 top-0">x</button>
-                          </div>
-                        ))}
+                        <label htmlFor={name}>Selecione as produtoras do filme*</label>
+                        <div className="flex flex-row items-center flex-wrap gap-2">
+                          {selectedCompanies.length > 0 && selectedCompanies.map((company, index) => (
+                            <div key={index} className="text-xs rounded-xl w-fit px-6 py-1 border border-border text-bodyColor relative">
+                              <span  >
+                                {company.id}
+                              </span>
+                              <button type="button" onClick={() => removeCompanyFromList(company.id)} className="absolute right-2 top-0">x</button>
+                            </div>
+                          ))}
+                        </div>
+                        <select 
+                          id={name}
+                          className="py-2 rounded-lg text-sm text-newBlack w-full border border-border bg-newWhite"
+                          onChange={handleCompanyChange}
+                        >
+                          <option value={0} defaultValue={0}>Selecione</option>
+                          {companies.length > 0 ? (
+                            <>
+                            {companies.filter((company) => !selectedCompanies.some(selectedCompany => selectedCompany.id == company.id)).map((company) => (
+                              <option key={company.id} value={company.id}>
+                                {company.name}
+                              </option>
+                            ))}
+                            </>
+                          ) : (
+                            <option value="redirect" className="text-center underline py-2" onClick={() => navigate("/login")}>Nenhuma produtora cadastrada. Clique aqui para cadastrar uma.</option>
+                          )}
+                        </select>
+                        <Error>
+                            {errors.companies && (errors.companies.type === "required" && errors.companies.message)}
+                          </Error>
                       </div>
-                      <select 
-                        id={name}
-                        className="py-2 rounded-lg text-sm text-newBlack w-full border border-border bg-newWhite"
-                        onChange={handleGenreChange}
-                      >
-                        <option value={0} defaultValue={0}>Selecione</option>
-                        {AllCategories.filter((genre) => !genres.includes(genre.id)).map((genre) => (
-                          <option key={genre.id} value={genre.id}>
-                            {genre.name}
-                          </option>
-                        ))}
-                      </select>
-                      <Error>
-                          {errors.genres && (errors.genres.type === "required" && errors.genres.message)}
-                        </Error>
-                      </div>
-                    </>
                   )}
                 />
-						</div>
 
-            {/* Primeira metade da tela */}
-
-						<div className="w-full md:w-1/2">
-              <Controller
-                control={control}
-                name="companies"
-                rules={{
-                  required:{
-                    value: selectedCompanies.length === 0,
-                    message: "Campo obrigatório"
-                  }
-                }}
-                render={({field:{name}}) => (
-                  <div className="flex flex-col flex-wrap gap-y-1">
-                      <label htmlFor={name}>Selecione as produtoras do filme*</label>
-                      <div className="flex flex-row items-center flex-wrap gap-2">
-                        {selectedCompanies.length > 0 && selectedCompanies.map((company, index) => (
-                          <div key={index} className="text-xs rounded-xl w-fit px-6 py-1 border border-border text-bodyColor relative">
-                            <span  >
-                              {company.id}
-                            </span>
-                            <button type="button" onClick={() => removeCompanyFromList(company.id)} className="absolute right-2 top-0">x</button>
-                          </div>
-                        ))}
-                      </div>
-                      <select 
-                        id={name}
-                        className="py-2 rounded-lg text-sm text-newBlack w-full border border-border bg-newWhite"
-                        onChange={handleCompanyChange}
-                      >
-                        <option value={0} defaultValue={0}>Selecione</option>
-                        {companies.filter((company) => !selectedCompanies.some(selectedCompany => selectedCompany.id == company.id)).map((company) => (
-                          <option key={company.id} value={company.id}>
-                            {company.name}
-                          </option>
-                        ))}
-                      </select>
-                      <Error>
-                          {errors.companies && (errors.companies.type === "required" && errors.companies.message)}
-                        </Error>
+                <Controller
+                  control={control}
+                  name="languages"
+                  rules={{
+                    required:{
+                      value: languages.length === 0,
+                      message: "Campo obrigatório"
+                    }
+                  }}
+                  render={({field:{name}}) => (
+                    <div className="flex flex-col flex-wrap gap-y-1">
+                    <label htmlFor={name}>Selecione os idiomas disponíveis para o filme*</label>
+                    <div className="flex flex-row items-center flex-wrap gap-2">
+                      {languages.length > 0 && languages.map((language, index) => (
+                        <div key={index} className="text-xs rounded-xl w-fit px-6 py-1 border border-border text-bodyColor relative">
+                          <span  >
+                            {language}
+                          </span>
+                          <button type="button" onClick={() => removeLanguageFromList(language)} className="absolute right-2 top-0">x</button>
+                        </div>
+                      ))}
                     </div>
-                )}
-              />
-
-              <Controller
-                control={control}
-                name="languages"
-                rules={{
-                  required:{
-                    value: languages.length === 0,
-                    message: "Campo obrigatório"
-                  }
-                }}
-                render={({field:{name}}) => (
-                  <div className="flex flex-col flex-wrap gap-y-1">
-                  <label htmlFor={name}>Selecione os idiomas disponíveis para o filme*</label>
-                  <div className="flex flex-row items-center flex-wrap gap-2">
-                    {languages.length > 0 && languages.map((language, index) => (
-                      <div key={index} className="text-xs rounded-xl w-fit px-6 py-1 border border-border text-bodyColor relative">
-                        <span  >
-                          {language}
-                        </span>
-                        <button type="button" onClick={() => removeLanguageFromList(language)} className="absolute right-2 top-0">x</button>
-                      </div>
-                    ))}
-                  </div>
-                  <select 
-                    id={name}
-                    className="py-2 rounded-lg text-sm text-newBlack w-full border border-border bg-newWhite"
-                    onChange={handleLanguageChange}
-                  >
-                    <option value={0} defaultValue={0}>Selecione</option>
-                    {movieRegisterLanguages.filter((language) => !languages.includes(language.id)).map((language) => (
-                      <option key={language.id} value={language.id}>
-                        {language.name}
-                      </option>
-                    ))}
-                  </select>
-                  <Error>
-                      {errors.languages && (errors.languages.type === "required" && errors.languages.message)}
-                    </Error>
-                </div>
-                )}
-              />
-
-              <Controller
-                control={control}
-                name="releaseDate"
-                rules={{
-                  required:{
-                    value: true,
-                    message: "Campo obrigatório"
-                  }
-                }}
-                render={({field:{name, onChange}}) => (
-                  <div>
-                    <Input
-                      type="date"
-                      label="Informe a data de lançamento do filme*"
-                      onChange={onChange}
+                    <select 
                       id={name}
-                    />
-                  </div>
-                )}
-              />
-              <Controller
-                control={control}
-                name="budget"
-                rules={{
-                  required:{
-                    value: true,
-                    message: "Campo obrigatório"
-                  }
-                }}
-                render={({field:{name,onChange,value}}) => (
-                  <div>
-                    <Input
-                      type="number"
-                      label="Informe o investimento total do filme*"
-                      onChange={onChange}
-                      id={name}
-                      value={value}
-                      placeholder="Investimento do filme..."
-                    />
+                      className="py-2 rounded-lg text-sm text-newBlack w-full border border-border bg-newWhite"
+                      onChange={handleLanguageChange}
+                    >
+                      <option value={0} defaultValue={0}>Selecione</option>
+                      {movieRegisterLanguages.filter((language) => !languages.includes(language.id)).map((language) => (
+                        <option key={language.id} value={language.id}>
+                          {language.name}
+                        </option>
+                      ))}
+                    </select>
                     <Error>
-                      {errors.budget && (errors.budget.type === "required" && errors.budget.message)}
-                    </Error>
+                        {errors.languages && (errors.languages.type === "required" && errors.languages.message)}
+                      </Error>
                   </div>
-                )}
-              />
-              <Controller
-                control={control}
-                name="revenue"
-                defaultValue={0}
-                rules={{
-                  required:{
-                    value: true,
-                    message: "Campo obrigatório"
-                  }
+                  )}
+                />
 
-                }}
-                render={({field:{name,onChange,value}}) => (
-                  <div>
-                    <Input
-                      type="number"
-                      label="Informe a receita do filme*"
-                      onChange={onChange}
-                      id={name}
-                      value={value}
-                      placeholder="Receita do filme..."
-                    />
-                    <Error>
-                      {errors.revenue && (errors.revenue.type === "required" && errors.revenue.message)}
-                    </Error>
-                  </div>
-                )}
-              />
-              <Controller
-                control={control}
-                name="runtime"
-                rules={{
-                  required:{
-                    value: true,
-                    message: "Campo obrigatório"
-                  }
-                }}
-                render={({field:{name,onChange,value}}) => (
-                  <div>
-                    <Input
-                      type="number"
-                      label="Informe o tempo de duração do filme em minutos*"
-                      onChange={onChange}
-                      id={name}
-                      value={value}
-                      placeholder="Duração do filme..."
-                    />
-                    <Error>
-                      {errors.runtime && (errors.runtime.type === "required" && errors.runtime.message)}
-                    </Error>
-                  </div>
-                )}
-              />
-              <Controller
-                control={control}
-                name="homepage"
-                rules={{
-                  required: false
-                }}
-                render={({field:{name,onChange,value}}) => (
-                  <div>
-                    <Input
-                      type="number"
-                      label="Informe a página de lançamento do filme"
-                      onChange={onChange}
-                      id={name}
-                      value={value}
-                      placeholder="URL do site do filme..."
-                    />
-                  </div>
-                )}
-              />
-              <Controller
-                control={control}
-                name="imdbId"
-                rules={{
-                  required: false
-                }}
-                render={({field:{name,onChange,value}}) => (
-                  <div>
-                    <Input
-                      type="number"
-                      label="Link do IMBD do filme"
-                      onChange={onChange}
-                      id={name}
-                      value={value ?? undefined}
-                      placeholder="IMDB do filme..."
-                    />
-                  </div>
-                )}
-              />
+                <Controller
+                  control={control}
+                  name="releaseDate"
+                  rules={{
+                    required:{
+                      value: true,
+                      message: "Campo obrigatório"
+                    }
+                  }}
+                  render={({field:{name, onChange}}) => (
+                    <div>
+                      <Input
+                        type="date"
+                        label="Informe a data de lançamento do filme*"
+                        onChange={onChange}
+                        id={name}
+                      />
+                    </div>
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name="budget"
+                  rules={{
+                    required:{
+                      value: true,
+                      message: "Campo obrigatório"
+                    }
+                  }}
+                  render={({field:{name,onChange,value}}) => (
+                    <div>
+                      <Input
+                        type="number"
+                        label="Informe o investimento total do filme*"
+                        onChange={onChange}
+                        id={name}
+                        value={value}
+                        placeholder="Investimento do filme..."
+                      />
+                      <Error>
+                        {errors.budget && (errors.budget.type === "required" && errors.budget.message)}
+                      </Error>
+                    </div>
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name="revenue"
+                  defaultValue={0}
+                  rules={{
+                    required:{
+                      value: true,
+                      message: "Campo obrigatório"
+                    }
+
+                  }}
+                  render={({field:{name,onChange,value}}) => (
+                    <div>
+                      <Input
+                        type="number"
+                        label="Informe a receita do filme*"
+                        onChange={onChange}
+                        id={name}
+                        value={value}
+                        placeholder="Receita do filme..."
+                      />
+                      <Error>
+                        {errors.revenue && (errors.revenue.type === "required" && errors.revenue.message)}
+                      </Error>
+                    </div>
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name="runtime"
+                  rules={{
+                    required:{
+                      value: true,
+                      message: "Campo obrigatório"
+                    }
+                  }}
+                  render={({field:{name,onChange,value}}) => (
+                    <div>
+                      <Input
+                        type="number"
+                        label="Informe o tempo de duração do filme em minutos*"
+                        onChange={onChange}
+                        id={name}
+                        value={value}
+                        placeholder="Duração do filme..."
+                      />
+                      <Error>
+                        {errors.runtime && (errors.runtime.type === "required" && errors.runtime.message)}
+                      </Error>
+                    </div>
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name="homepage"
+                  rules={{
+                    required: false
+                  }}
+                  render={({field:{name,onChange,value}}) => (
+                    <div>
+                      <Input
+                        type="number"
+                        label="Informe a página de lançamento do filme"
+                        onChange={onChange}
+                        id={name}
+                        value={value}
+                        placeholder="URL do site do filme..."
+                      />
+                    </div>
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name="imdbId"
+                  rules={{
+                    required: false
+                  }}
+                  render={({field:{name,onChange,value}}) => (
+                    <div>
+                      <Input
+                        type="number"
+                        label="Link do IMBD do filme"
+                        onChange={onChange}
+                        id={name}
+                        value={value ?? undefined}
+                        placeholder="IMDB do filme..."
+                      />
+                    </div>
+                  )}
+                />
+              </div>
             </div>
-					</div>
-					<Button onlyBorder={false} small={false} type="submit">
-						Cadastrar
-					</Button>
-				</form>
-			</main>
+            <Button onlyBorder={false} small={false} type="submit">
+              Cadastrar
+            </Button>
+          </form>
+        </section>
+      </main>
 		</>
 	);
 };

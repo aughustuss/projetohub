@@ -34,7 +34,7 @@ const Link = ({
         bgPrimary
           ? onlyBorder 
             ? "border border-primaryBg hover:bg-primaryBg"
-            : "bg-primaryBg "
+            : "bg-primaryBg text-newWhite"
           : bgNotPrimary
             ? onlyBorder
               ? "border border-border hover:bg-border"

@@ -6,10 +6,10 @@ namespace MoviesApi.Application.Interfaces.Services
 {
     public interface ICompanyService
     {
-        Task<List<CompanyDto>> GetAllAsync();
-        Task<List<CompanyDto>> GetCompaniesByNameForSearchBoxAsync(string input);
-        Task<CompanyDto> GetCompanyByIdAsync(int input);
-        Task CreateAsync(CompanyDto input);
+        Task<List<CompanyInfoDto>> GetAllAsync();
+        Task<List<CompanyInfoDto>> GetCompaniesByNameForSearchBoxAsync(string input);
+        Task<CompanyInfoDto> GetCompanyByIdAsync(int input);
+        Task CreateAsync(CompanyCreateDto input);
         Task DeleteAsync(int input);
     }
 }

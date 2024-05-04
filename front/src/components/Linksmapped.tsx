@@ -36,7 +36,8 @@ const LinksMapped = ({ isAboveLG }: LinksMappedProps) => {
 	}
 
 	React.useEffect(() => {
-		getUserFavoriteListCount();
+		if(isLoggedIn)
+			getUserFavoriteListCount();
 	}, [])
 
 	return (
@@ -103,8 +104,8 @@ const LinksMapped = ({ isAboveLG }: LinksMappedProps) => {
 												: "group-hover:-right-full"
 										} `}
 									>
-										<a href="/movieregister">Filmes</a>
-										<a href="/companyregister">Produtoras</a>
+										<a href="/movieRegister">Filmes</a>
+										<a href="/companyRegister">Produtoras</a>
 									</div>
 								</div>
 							)}

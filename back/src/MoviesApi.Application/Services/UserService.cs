@@ -60,6 +60,8 @@ namespace MoviesApi.Application.Services
 
             user.EmailConfirmTokenLifetime = DateTime.UtcNow.AddMinutes(30);
 
+            user.Role = EUser.User;
+
             var email = new Email
             {
                 To = user.Email,

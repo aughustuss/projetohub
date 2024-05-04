@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MoviesApi.Application.Dtos.Request;
+using MoviesApi.Application.Dtos.Response;
 using MoviesApi.Application.Interfaces.Services;
 using MoviesApi.Domain.Exceptions;
 
@@ -20,7 +21,7 @@ namespace MoviesApi.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost("company")]
-        public async Task<IActionResult> Create([FromBody] CompanyDto input)
+        public async Task<IActionResult> Create([FromForm] CompanyCreateDto input)
         {
             try
             {
@@ -50,6 +51,10 @@ namespace MoviesApi.Controllers
             try
             {
                 var response = await _companyService.GetAllAsync();
+                response.ForEach(company =>
+                {
+                    company.ImageSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, company.LogoPath);
+                });
                 return Ok(response);
             } catch (EntityNotFoundException ex)
             {

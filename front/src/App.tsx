@@ -21,6 +21,7 @@ const Cinefilos = React.lazy(() => import("views/Cinephiles"));
 const AccountPage = React.lazy(() => import("views/Account"));
 const MovieRegisterPage = React.lazy(() => import("views/MovieRegister"));
 const CompanyRegisterPage = React.lazy(() => import("views/CompanyRegister"));
+const ConfirmAccountPage = React.lazy(() => import("views/ConfirmAccount"));
 
 function App() {
 	const { isLoggedIn } = React.useContext(LoginContext);
@@ -33,7 +34,11 @@ function App() {
 
 
 	React.useEffect(() => {
-		if (location.pathname === "/login" || location.pathname === "/register" || location.pathname === "/movieregister")
+		if (location.pathname === "/login" 
+			|| location.pathname === "/register" 
+			|| location.pathname === "/movieRegister"
+			|| location.pathname === "/companyRegister"
+			|| location.pathname === "/confirmAccount")
 			setShowNavAndFooter(false);
 		else setShowNavAndFooter(true);
 	}, [location.pathname]);
@@ -63,7 +68,14 @@ function App() {
 							<Route index path="/" Component={HomePage} />
 							<Route
 								path="/movie/:movieId"
-								Component={MoviePage}
+								element={
+									<ProtectedRoute
+										isAccessible={isLoggedIn}
+										redirectPath="/login"
+									>
+										<MoviePage />
+									</ProtectedRoute>
+								}
 							/>
 							<Route
 								path="/genre/:movieGenre"
@@ -80,6 +92,7 @@ function App() {
 								path="/profile/:userId"
 								Component={ProfilePage}
 							/>
+							<Route path="/confirmAccount" Component={ConfirmAccountPage} />
 							<Route path="/account" Component={AccountPage} />
 							<Route
 								path="/trailer/:movieName"
@@ -87,7 +100,7 @@ function App() {
 							/>
 							<Route path="/cinephiles" Component={Cinefilos} />
 							<Route
-								path="/movieregister"
+								path="/movieRegister"
 								element={
 									<ProtectedRoute
 										isAccessible={isLoggedIn}
@@ -98,7 +111,7 @@ function App() {
 								}
 							/>
 							<Route
-								path="/companyregister"
+								path="/companyRegister"
 								element={
 									<ProtectedRoute
 										isAccessible={isLoggedIn}

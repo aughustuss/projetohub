@@ -8,10 +8,11 @@ namespace MoviesApi.Application.Dtos.Request
 
         public string SurName { get; set; } = string.Empty;
 
+        public string NickName {  get; set; } = string.Empty;
+
         public string Email { get; set; } = string.Empty;
 
         public string Password { get; set; } = string.Empty;
 
-        public EUser Role { get; set; }
     }
 }

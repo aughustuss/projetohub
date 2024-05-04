@@ -17,7 +17,6 @@ namespace MoviesApi.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    LogoPath = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OriginalCountry = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -34,12 +33,15 @@ namespace MoviesApi.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SurName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NickName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProfileTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Role = table.Column<int>(type: "int", nullable: false),
                     Token = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EmailConfirmToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ResetPasswordToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ResetPasswordTokenLifetime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     TokenLifetime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     EmailConfirmTokenLifetime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Active = table.Column<bool>(type: "bit", nullable: true),
@@ -58,14 +60,12 @@ namespace MoviesApi.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IsAdult = table.Column<bool>(type: "bit", nullable: false),
-                    BackdropPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Budget = table.Column<double>(type: "float", nullable: false),
                     Homepage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImdbId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OriginalLanguage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OriginalTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Overview = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PosterPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ReleaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Revenue = table.Column<double>(type: "float", nullable: false),
                     Runtime = table.Column<double>(type: "float", nullable: false),

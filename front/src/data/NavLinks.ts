@@ -20,7 +20,12 @@ const useNavLinks = ({isAboveLg, isAdmin, isLoggedIn, logout}: NavLinkProps) => 
     {
       linkText: 'Cadastros',
       linkTo: "#",
-      show: isAdmin
+      show: isAdmin && isLoggedIn
+    },
+    {
+      linkText: 'Cadastro',
+      linkTo: '/register',
+      show: !isLoggedIn
     },
     {
       linkText: 'Filmes',

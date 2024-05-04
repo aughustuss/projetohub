@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import { ChildrenPropsModel } from "models/contexts/ContextModels";
 import { LoginData } from "models/requests/LoginRequest";
 import React from "react";
@@ -65,7 +66,10 @@ const LoginContextProvider: React.FC<ChildrenPropsModel> = ({ children }) => {
 				setToken(resToken);
 			}
 		} catch (error) {
-			throw new Error();
+			if(error instanceof AxiosError)
+				throw error.response?.data;	
+			else
+				throw "Ocorreu um erro inesperado ao fazer o login. Tente novamente.";
 		}
 	};
 

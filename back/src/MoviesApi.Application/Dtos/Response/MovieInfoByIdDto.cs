@@ -1,12 +1,11 @@
-﻿using MoviesApi.Application.Dtos.Request;
-using MoviesApi.Domain.Entities;
+﻿using MoviesApi.Domain.Entities;
 using MoviesApi.Domain.Enums;
 
 namespace MoviesApi.Application.Dtos.Response
 {
     public class MovieInfoByIdDto : MovieInfoDto
     {
-        public List<CompanyDto>? Companies { get; } = [];
+        public List<CompanyInfoDto>? Companies { get; } = [];
         public List<string>? Languages { get; } = [];
         public List<CommentInfoDto>? Comments { get; } = [];
         public double Budget { get; set; }

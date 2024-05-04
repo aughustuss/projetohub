@@ -1,5 +1,7 @@
-﻿using MoviesApi.Domain.Enums;
+﻿using Microsoft.AspNetCore.Http;
+using MoviesApi.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MoviesApi.Domain.Entities
 {
@@ -8,14 +10,21 @@ namespace MoviesApi.Domain.Entities
         [Key]
         public int Id { get; set; }
         public bool IsAdult { get; set; } = false;
-        public string? BackdropPath { get; set; } = null;
+        
+        public string BackdropPath { get; set; } = string.Empty;
+        [NotMapped]
+        public IFormFile? Backdrop { get; set; } = null;
+
+        public string PosterPath {  get; set; } = string.Empty;
+        [NotMapped]
+        public IFormFile? Poster { get; set; } = null;
+
         public double Budget { get; set; }
         public string? Homepage { get; set; }
         public string? ImdbId { get; set; }
         public string? OriginalLanguage { get; set; }
         public string OriginalTitle { get; set; } = string.Empty;
         public string Overview { get; set; } = string.Empty;
-        public string? PosterPath { get; set; }
         public DateTime ReleaseDate { get; set; }
         public double Revenue { get; set; }
         public double Runtime {  get; set; }

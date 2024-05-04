@@ -16,6 +16,7 @@ using System.Text;
 using MoviesApi.Application.Interfaces.Security;
 using MoviesApi.Application.Interfaces.Services;
 using MailKit;
+using Microsoft.AspNetCore.Hosting;
 
 namespace MoviesApi.IoC
 {

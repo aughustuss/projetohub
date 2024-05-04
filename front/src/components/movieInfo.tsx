@@ -22,10 +22,12 @@ import { UserProfileModel } from "models/entities/User";
 import StarRatings from "react-star-ratings";
 import Row from "./Row";
 import { RateCreationModel } from "models/entities/Rate";
+import LoginContext from "contexts/LoginContext";
 interface MovieInfoProps {
 	movieId?: string;
 }
 const MovieInfo = ({ movieId }: MovieInfoProps) => {
+	const { token } = React.useContext(LoginContext);
 	const [movieById, setMovieById] = React.useState<MovieByIdModel>();
 	const [movieExistsInWatched, setMovieExistsInWatched] =
 		React.useState<boolean>(false);
@@ -68,9 +70,9 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 		setLoading(true);
 		if (movieId) {
 			Promise.all([
-				getUserInfoService(), 
+				getUserInfoService(token), 
 				getMovieByIdService(movieId),
-				checkIfUserRatedMovieService(movieId)
+				checkIfUserRatedMovieService(movieId, token)
 			])
 				.then((response) => {
 					const userData: UserProfileModel = response[0].data;
@@ -102,7 +104,7 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 
 	const addMovieToFavoriteList = async (movieId: number) => {
 		Promise.resolve(
-			await addToFavoriteListService(movieId)
+			await addToFavoriteListService(movieId, token)
 				.then((response) => {
 					console.log(response);
 					setMovieExistsInFavorites(true);
@@ -115,7 +117,7 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 
 	const addMovieToWatchedList = async (movieId: number) => {
 		Promise.resolve(
-			await addToWatchedListService(movieId)
+			await addToWatchedListService(movieId, token)
 				.then((response) => {
 					console.log(response);
 					setMovieExistsInWatched(true);
@@ -134,7 +136,7 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 				vote: rate
 			}
 			Promise.resolve(
-				await addRateToMovieService(data)
+				await addRateToMovieService(data, token)
 					.then((response) => {
 						console.log(response);
 					})

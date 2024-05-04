@@ -11,8 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 const LoginPage: React.FC = () => {
 	const [isLoading, setLoading] = React.useState<boolean>(false);
-	const [wrongPasswordOrEmail, setWrongPasswordOrEmail] = React.useState<boolean>(false);
-
+	const [errorMessage, setErrorMessage] = React.useState<string>("");
 	const { login } = React.useContext(LoginContext);
 	const navigate = useNavigate();
 	const {
@@ -29,12 +28,13 @@ const LoginPage: React.FC = () => {
 	const onSubmit: SubmitHandler<LoginData> = async (data) => {
 		setLoading(true);
 		try {
-			login(data);
-			setWrongPasswordOrEmail(false);
+			await login(data);
+			setErrorMessage("");
 			setLoading(false);
 			navigate("/account");
 		} catch (err) {
-			setWrongPasswordOrEmail(true);
+			if(typeof err === "string" )
+				setErrorMessage(err)
 			setLoading(false);
 		}
 	};
@@ -46,8 +46,10 @@ const LoginPage: React.FC = () => {
 				className=" rounded-lg w-[80%] md:w-2/3 lg:w-1/3 xl:w-1/4 h-fit flex flex-col items-center gap-y-6"
 			>
 				<Title black bold message="Faça seu login" center fullWidth />
-				{ wrongPasswordOrEmail && <Error>Email ou senha inválidos.</Error>}
 				<div className="w-full flex flex-col gap-y-3">
+				{errorMessage && (
+					<Error>{errorMessage}</Error>
+				)}	
 					<Controller
 						name="email"
 						control={control}
@@ -100,7 +102,6 @@ const LoginPage: React.FC = () => {
 									label="Digite sua senha"
 									placeholder="Senha"
 									icon={<IoEye />}
-									hasText
 									height={40}
 								/>
 								<Error>

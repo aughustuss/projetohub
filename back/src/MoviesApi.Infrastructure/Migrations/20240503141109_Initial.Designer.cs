@@ -12,8 +12,8 @@ using MoviesApi.Infrastructure.Context;
 namespace MoviesApi.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240429123113_ProfileImage")]
-    partial class ProfileImage
+    [Migration("20240503141109_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -78,10 +78,6 @@ namespace MoviesApi.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("LogoPath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -102,9 +98,6 @@ namespace MoviesApi.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("BackdropPath")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Budget")
                         .HasColumnType("float");
@@ -145,9 +138,6 @@ namespace MoviesApi.Infrastructure.Migrations
 
                     b.Property<double?>("Popularity")
                         .HasColumnType("float");
-
-                    b.Property<string>("PosterPath")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("datetime2");

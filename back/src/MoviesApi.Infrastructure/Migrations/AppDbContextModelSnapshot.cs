@@ -101,6 +101,7 @@ namespace MoviesApi.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("BackdropPath")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Budget")
@@ -144,6 +145,7 @@ namespace MoviesApi.Infrastructure.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("PosterPath")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ReleaseDate")
@@ -244,6 +246,10 @@ namespace MoviesApi.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProfileImagePath")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

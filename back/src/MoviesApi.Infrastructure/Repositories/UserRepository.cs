@@ -19,6 +19,9 @@ namespace MoviesApi.Infrastructure.Repositories
         {
             if(await UserExists(input.Email))
                 throw new EntityAlreadyExistsException($"Usuário com o email {input.Email} já existe.");
+
+            if(await UserExists(input.NickName))
+                throw new EntityAlreadyExistsException($"Usuário com o apelido {input.NickName} já existe.");
             
             await _dbContext.Users.AddAsync(input);
             await _dbContext.SaveChangesAsync();
@@ -43,7 +46,11 @@ namespace MoviesApi.Infrastructure.Repositories
 
         private async Task<bool> UserExists(string input)
         {
-            return await _dbContext.Users.AnyAsync(u => u.Email == input);
+            if (await _dbContext.Users.AnyAsync(u => u.Email.ToUpper() == input.ToUpper()))
+                return true;
+            if (await _dbContext.Users.AnyAsync(u => u.NickName.ToUpper() == input.ToUpper()))
+                return true;
+            return false;
         }
 
         public async Task AuthenticateUserAsync(User input)

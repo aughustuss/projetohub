@@ -21,6 +21,7 @@ export enum MovieStatusModel {
 export interface MovieCompanyModel {
     id: number;
     logoPath: string;
+    imageSource: string;
     name: string;
     originalCountry: string;
 }

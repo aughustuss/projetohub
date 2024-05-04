@@ -2,17 +2,13 @@ import axios from "axios"
 import { CommentCreateModel } from "models/entities/Comment";
 import { RateCreationModel } from "models/entities/Rate";
 import { LoginData } from "models/requests/LoginRequest";
+import { UserConfirmAccount } from "views/ConfirmAccount";
 import { MovieRegister } from "views/MovieRegister";
-
-// const token = localStorage.getItem("userToken");
-// if(token){
-//     bearerToken = `Bearer ${JSON.parse(token)}`;
-// }
-// let bearerToken = "";
+import { UserRegister } from "views/Register";
 
 const youtubeApiKey = `${import.meta.env.VITE_API_YOUTUBE}`; 
-const apiEndpoint = "http://localhost:5024/api";
-
+const apiEndpoint = import.meta.env.VITE_HUB_MOBIES_API_ENDPOINT;
+export const imagesPath = import.meta.env.VITE_HUB_MOBVIES_IMG_PATH;
 
 export const getVideoIdFromTitle = async (movieTitle: string) => {
     try {
@@ -170,6 +166,34 @@ export const createMovieService = async (data: MovieRegister, token:string) => {
             Authorization: `Bearer ${token}`,
             Accept: "application/json",
             "Content-Type":"application/json"
+        }
+    })
+}
+
+export const registerUserService = async (data: UserRegister) => {
+    return await axios.post(`${apiEndpoint}/User/user`, data, {
+        headers:{
+            Accept: "application/json",
+            "Content-Type":"application/json"
+        }
+    });
+}
+
+export const confirmAccountService = async (data: UserConfirmAccount) => {
+    return await axios.post(`${apiEndpoint}/User/confirmAccount`, data, {
+        headers:{
+            Accept: "application/json",
+            "Content-Type":"application/json"
+        }
+    })
+}
+
+export const createCompanyService = async (data: FormData, token: string) => {
+    return await axios.post(`${apiEndpoint}/Company/company`, data, {
+        headers:{
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type": "multipart/form-data"
         }
     })
 }
