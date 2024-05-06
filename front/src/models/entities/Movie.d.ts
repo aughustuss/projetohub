@@ -1,7 +1,10 @@
 export interface MovieModel {
     isAdult: boolean;
     backdropPath: string;
+    backdropSource: string;
+    posterSource: string;
     genres: Array<string>;
+    languages: Array<string>;
     id: number;
     originalLanguage: string;
     originalTitle: string;

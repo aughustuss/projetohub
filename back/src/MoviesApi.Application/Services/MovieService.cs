@@ -16,13 +16,15 @@ namespace MoviesApi.Application.Services
         private readonly ICompanyRepository _companyRepository;
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
+        private readonly IImageUploaderService _imageUploaderService;
 
-        public MovieService(IMovieRepository movieRepository, IMapper mapper, ICompanyRepository companyRepository, IUserRepository userRepository)
+        public MovieService(IMovieRepository movieRepository, IMapper mapper, ICompanyRepository companyRepository, IUserRepository userRepository, IImageUploaderService imageUploaderService)
         {
             _movieRepository = movieRepository;
             _mapper = mapper;
             _companyRepository = companyRepository;
             _userRepository = userRepository;
+            _imageUploaderService = imageUploaderService;
         }
 
         public async Task CreateAsync(MovieCreateDto input)
@@ -37,6 +39,12 @@ namespace MoviesApi.Application.Services
                 if (company != null)
                     movie.Companies.Add(company);
             }
+
+            if (input.Backdrop != null)
+                movie.BackdropPath = await _imageUploaderService.SaveImage(input.Backdrop);
+
+            if(input.Poster != null) 
+                movie.PosterPath = await _imageUploaderService.SaveImage(input.Poster);
 
             movie.Status = movie.ReleaseDate <= DateTime.UtcNow ? EMovieStatus.Released : EMovieStatus.NotReleased;
             movie.CreatorUser = await _userRepository.GetUserByIdAsync(input.CreatorUserId);

@@ -67,10 +67,10 @@ const CompanyRegister = () => {
 							bold
 							center={false}
 							message="Cadastro de produtoras"
-              />
-              {errorMessage && errorMessage && (
-                <Error>{errorMessage}</Error>
-              )}
+						/>
+						{errorMessage && errorMessage && (
+							<Error>{errorMessage}</Error>
+						)}
 						<div>
 							<Controller
 								control={control}

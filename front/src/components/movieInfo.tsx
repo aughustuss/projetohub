@@ -66,6 +66,8 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 		setRate(rate);
 	};
 
+	console.log(userAlreadyRated)
+
 	React.useEffect(() => {
 		setLoading(true);
 		if (movieId) {
@@ -93,6 +95,7 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 
 					setMovieById(response[1].data);
 					setUserAlreadyRated(response[2].data);
+					console.log(response[2].data)
 					setLoading(false);
 				})
 				.catch((error) => {

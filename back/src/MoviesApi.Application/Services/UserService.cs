@@ -79,9 +79,11 @@ namespace MoviesApi.Application.Services
             return _mapper.Map<UserInfoDto>(user);
         }
 
-        public async Task<List<UserShortInfoDto>> GetAllUsersAsync()
+        public async Task<List<UserShortInfoDto>> GetAllUsersAsync(int input)
         {
+            var user = await _userRepository.GetUserByIdAsync(input);
             var users = await _userRepository.GetAllUsersAsync();
+            users = (List<User>)users.Where(u => u.Id != user.Id);
             return _mapper.Map<List<UserShortInfoDto>>(users);
         }
 
@@ -104,10 +106,12 @@ namespace MoviesApi.Application.Services
             return _mapper.Map<UserTokenDto>(user);
         }
 
-        public async Task<List<UserShortInfoDto>> GetUserByNameAsync(string input)
+        public async Task<List<UserShortInfoDto>> GetUsersByNameAsync(UserNameGetDto input)
         {
-            var user = await _userRepository.GetUsersByNameAsync(input);
-            return _mapper.Map<List<UserShortInfoDto>>(user);
+            var users = await _userRepository.GetUsersByNameAsync(input.FirstName);
+            var user = await _userRepository.GetUserByIdAsync(input.UserId);
+            users = (List<User>)users.Where(u => u.Id != user.Id);
+            return _mapper.Map<List<UserShortInfoDto>>(users);
         }
 
         public async Task AddMovieToFavoriteListAsync(MovieGetDto input)
@@ -161,9 +165,13 @@ namespace MoviesApi.Application.Services
             await _userRepository.UpdateUserAsync(user);
         }
 
-        public async Task<UserInfoDto> GetAllUserInfosByIdAsync(int input)
+        public async Task<UserInfoDto> GetAllUserInfosByIdAsync(UserIdGetDto input)
         {
-            var user = await _userRepository.GetAllUserInfosByIdAsync(input);
+
+            if (input.UserId == input.Id)
+                throw new SameEntityException("Usuário está tentando ver o próprio perfil. Redirecione para /account");
+
+            var user = await _userRepository.GetAllUserInfosByIdAsync(input.Id);
 
             var mappedUser = _mapper.Map<UserInfoDto>(user);
 
@@ -252,7 +260,7 @@ namespace MoviesApi.Application.Services
 
             var movie = await _movieRepository.GetMovieByIdAsync(input.MovieId);
 
-            var exists = user.FavoriteMovies.Any(m => m.Id == input.MovieId);
+            var exists = user.Rates.Any(m => m.Id == input.MovieId);
 
             return exists;
         }
@@ -269,6 +277,35 @@ namespace MoviesApi.Application.Services
             var user = await _userRepository.GetAllUserInfosByIdAsync(input);
 
             return user.FavoriteMovies.Count;
+        }
+
+        public async Task<bool> CheckIfUserWatchedMovieAsync(MovieGetDto input)
+        {
+            var user = await _userRepository.GetAllUserInfosByIdAsync(input.UserId);
+
+            if (await _movieRepository.CheckIfMoviesExistsByIdAsync(input.MovieId))
+                throw new EntityNotFoundException($"Filme com o id {input.MovieId} não existe.");
+
+            return user.WatchedMovies.Any(m => m.Id == input.MovieId);
+        }
+
+        public async Task<bool> CheckIfUserFavoritedMovieAsync(MovieGetDto input)
+        {
+            var user = await _userRepository.GetAllUserInfosByIdAsync(input.UserId);
+
+            if (await _movieRepository.CheckIfMoviesExistsByIdAsync(input.MovieId))
+                throw new EntityNotFoundException($"Filme com o id {input.MovieId} não existe.");
+
+            return user.FavoriteMovies.Any(m => m.Id == input.MovieId);
+        }
+
+        public async Task<UserInfoDto> GetMyInfosAsync(int input)
+        {
+            var user = await _userRepository.GetAllUserInfosByIdAsync(input);
+
+            var mappedUser = _mapper.Map<UserInfoDto>(user);
+
+            return mappedUser;
         }
     }
 }

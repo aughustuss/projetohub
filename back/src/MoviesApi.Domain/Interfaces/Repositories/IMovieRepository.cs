@@ -21,6 +21,9 @@ namespace MoviesApi.Domain.Interfaces.Repositories
         Task<List<Movie>> GetPopularMoviesAsync();
         Task<List<Movie>> GetAllAsync();
 
+        Task<bool> CheckIfMovieExistsAsync(string input);
+        Task<bool> CheckIfMoviesExistsByIdAsync(int input);
+        
         Task UpdateMovieVotesAsync(Movie input);
     }
 }

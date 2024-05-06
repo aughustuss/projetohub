@@ -7,33 +7,60 @@ import { AiFillStar } from "react-icons/ai";
 import useMediaQuery from "hooks/MediaScreen";
 import { EffectCoverflow, Navigation, Pagination } from "swiper/modules";
 import {
+  addToFavoriteListService,
   getPopularMoviesService,
   getUpcomingMoviesService,
 } from "services/Services";
 import Loading from "views/Loading";
-import FavoritesMoviesContext from "contexts/FavoriteListContext";
 import Title from "./Title";
 import { Link } from 'react-router-dom';
+import LoginContext from "contexts/LoginContext";
+import { FaCheck } from "react-icons/fa6";
 
 const Banner = () => {
-  const {addMovie} = React.useContext(FavoritesMoviesContext)
   const [popularMovies, setPopularMovies] = React.useState<MovieModel[]>([]);
   const [upComingMovies, setUpComingMovies] = React.useState<MovieModel[] >([]);
+  const {token} = React.useContext(LoginContext);
+  const [movieAlreadyAdded, setMovieAlreadyAdded] = React.useState<boolean>(false);
   
   const [loadingMovies, setLoadingMovies] = React.useState<boolean>(false);
   
   React.useEffect(() => {
-    Promise.all([
-      getPopularMoviesService(),
+    Promise.resolve(
+      getPopularMoviesService()
+       .then((res) => {
+          setPopularMovies(res.data);
+          setLoadingMovies(false);
+        })
+       .catch((err: unknown) => {
+          console.log(err);
+        })
+    )
+    Promise.resolve(
       getUpcomingMoviesService()
-    ]).then((response) => {
-      setPopularMovies(response[0].data);
-      setUpComingMovies(response[1].data);
-      setLoadingMovies(false);
-    }).catch((err: unknown) => {
-      console.log(err);
-    })
+       .then((res) => {
+          setUpComingMovies(res.data);
+          setLoadingMovies(false);
+        })
+       .catch((err: unknown) => {
+          console.log(err);
+        })
+    )
   },[])
+
+  const addMovieToFavoriteList = async (id:number) => {
+    if(id){
+      try{
+        const response = await addToFavoriteListService(id, token);
+        if(response.status === 200)
+          setMovieAlreadyAdded(true);
+      } catch(error){
+        console.log(error);
+      }
+    }
+  }
+
+  console.log(upComingMovies)
 
   const isAboveSM = useMediaQuery("(min-width: 400px)");
   if(loadingMovies){
@@ -48,9 +75,7 @@ const Banner = () => {
               <div className="relative w-full h-[550px] z-0 bg-none">
                 <div className="relative h-[85%] w-full">
                   <img
-                    src={`${import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH}${
-                      movie.backdropPath
-                    }`}
+                    src={"C:\\Users\\User\\source\\repos\\projetohub\\front\\Images\\Universal_242313095.svg"}
                     className="object-cover w-full h-full rounded-lg bg-none"
                   />
                   <div className="bg-black absolute inset-0 h-full w-full z-10 opacity-50 rounded-lg" />
@@ -59,14 +84,17 @@ const Banner = () => {
                 <div className="absolute h-2/3 w-2/3 lg:w-1/3 z-30 left-6 bottom-0 ">
                   <div className="relative h-full w-full">
                     <img
-                      src={`${import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH}${
-                        movie.posterPath
-                      }`}
+                      src={"C:\\Users\\User\\source\\repos\\projetohub\\front\\Images\\Universal_242313095.svg"}
                       className="rounded-lg object-cover h-full w-full"
                     />
                     <div className="bg-black absolute inset-0 h-full z-10 w-full opacity-25 rounded-lg" />
-                    <button onClick={() => addMovie(movie)} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-full bg-primary text-iconSize font-black z-40 hover:bg-primary/90 transition duration-300 active:scale-95 ">
-                      <BsPlus />
+                    <button onClick={() => {
+                      if(!movieAlreadyAdded){
+                        addMovieToFavoriteList(movie.id)}
+                      }
+                      } className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-full bg-primary text-iconSize font-black z-40 hover:bg-primary/90 transition duration-300 active:scale-95 ">
+                      
+                      {!movieAlreadyAdded ? <BsPlus /> : <FaCheck/> }
                     </button>
                   </div>
                 </div>
@@ -96,9 +124,7 @@ const Banner = () => {
               {upComingMovies && upComingMovies.slice(0, 4).map((movie: MovieModel) => (
                 <SwiperSlide key={movie.id} className="flex flex-row gap-x-4 h-[110px] p-2 border border-border rounded-lg hover:bg-border transition duration-300 cursor-pointer">
                   <img
-                    src={`${import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH}${
-                      movie.backdropPath
-                    }`}
+                    src={"C:\\Users\\User\\source\\repos\\projetohub\\front\\Images\\Universal_242313095.svg"}
                     className="w-full h-[100px] object-cover rounded-lg"
                   />
                   <div className="flex flex-col gap-y-4 text-body text-bodyColor">
@@ -129,9 +155,7 @@ const Banner = () => {
                   className="flex flex-row gap-x-4 h-[110px] p-2 border border-border rounded-lg hover:bg-border transition duration-300 cursor-pointer"
                 >
                   <img
-                    src={`${import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH}${
-                      movie.posterPath
-                    }`}
+                    src={"C:\\Users\\User\\source\\repos\\projetohub\\front\\Images\\Universal_242313095.svg"}
                     className="min-w-[100px] h-full object-cover rounded-lg"
                   />
                   <div className="flex flex-col gap-y-4 text-body text-bodyColor">

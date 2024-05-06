@@ -187,7 +187,7 @@ namespace MoviesApi.Controllers
             try
             {
                 var userId = int.Parse(User.FindFirst("Id")!.Value);
-                var response = await _userService.GetAllUserInfosByIdAsync(userId);
+                var response = await _userService.GetMyInfosAsync(userId);
                 return Ok(response);
             } catch (EntityNotFoundException ex)
             {
@@ -240,7 +240,8 @@ namespace MoviesApi.Controllers
         {
             try
             {
-                var response = await _userService.GetAllUsersAsync();
+                var userId = int.Parse(User.FindFirst("Id")!.Value);
+                var response = await _userService.GetAllUsersAsync(userId);
                 response.ForEach(user =>
                 {
                     user.ImageSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, user.ProfileImagePath);
@@ -263,9 +264,40 @@ namespace MoviesApi.Controllers
         {
             try
             {
-                var users = await _userService.GetUserByNameAsync(input);
-                return Ok(users);
+                var userId = int.Parse(User.FindFirst("Id")!.Value);
+                var obj = new UserNameGetDto
+                {
+                    FirstName = input,
+                    UserId = userId
+                };
+                var response = await _userService.GetUsersByNameAsync(obj);
+                return Ok(response);
             } catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        [Authorize(Roles = "User, Admin")]
+        [HttpGet("user/{input}")]
+        public async Task<IActionResult> GetUserById(int input)
+        {
+            try
+            {
+                var userId = int.Parse(User.FindFirst("Id")!.Value);
+                var obj = new UserIdGetDto
+                {
+                    Id = input,
+                    UserId = userId
+                };
+                var response = await _userService.GetAllUserInfosByIdAsync(obj);
+                return Ok(response);
+            }
+            catch (EntityNotFoundException ex)
             {
                 return NotFound(ex.Message);
             }
@@ -296,6 +328,58 @@ namespace MoviesApi.Controllers
             {
                 return NotFound(ex.Message);
             } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize(Roles = "User,Admin")]
+        [HttpGet("user/watchedMovies/{input}")]
+        public async Task<IActionResult> CheckIfUserWatchedMovies(int input)
+        {
+            try
+            {
+                var userId = int.Parse(User.FindFirst("Id")!.Value);
+
+                var obj = new MovieGetDto
+                {
+                    UserId = userId,
+                    MovieId = input
+                };
+                var response = await _userService.CheckIfUserWatchedMovieAsync(obj);
+                return Ok(response);
+
+            } catch(EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            } catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize(Roles = "User,Admin")]
+        [HttpGet("user/favoriteMovies/{input}")]
+        public async Task<IActionResult> CheckIfUserFavoritedMovie(int input)
+        {
+            try
+            {
+                var userId = int.Parse(User.FindFirst("Id")!.Value);
+
+                var obj = new MovieGetDto
+                {
+                    UserId = userId,
+                    MovieId = input
+                };
+                var response = await _userService.CheckIfUserFavoritedMovieAsync(obj);
+                return Ok(response);
+
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }

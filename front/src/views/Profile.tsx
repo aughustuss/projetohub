@@ -9,7 +9,6 @@ import { IoPersonAdd } from "react-icons/io5";
 import { findTheMostRepeatedCategory } from "utils/CategoryFrequency";
 import { AllCategories } from "data/Categories";
 import InfoText from "components/InfoText";
-import FavoritesMoviesContext from "contexts/FavoriteListContext";
 import OrderBy from "components/OrderBy";
 import Link from "components/Link";
 import MoviesList from "components/MoviesList";
@@ -17,14 +16,16 @@ import { UserProfileModel } from "models/entities/User";
 import { getUserInfoByIdService } from "services/Services";
 import { useParams } from "react-router-dom";
 import { AxiosResponse } from "axios";
+import LoginContext from "contexts/LoginContext";
 
 const Profile = () => {
 	const { userId } = useParams();
 
+	const {token} = React.useContext(LoginContext);
+
 	const [userFavoriteMovies, setUserFavoriteMovies] = React.useState<
 		MovieModel[]
 	>([]);
-	const { recentlyAdded } = React.useContext(FavoritesMoviesContext);
 	const [user, setUser] = React.useState<UserProfileModel>();
 
 	const [userMostRepeatedCategory, setUserMostRepeatedCategory] =
@@ -40,11 +41,13 @@ const Profile = () => {
 
 	React.useEffect(() => {
 		getUserInfo();
-	});
+	}, [userId]);
+
+	console.log(user);
 
 	const getUserInfo = async () => {
 		if (userId) {
-			getUserInfoByIdService(userId)
+			getUserInfoByIdService(token, Number(userId))
 				.then((res: AxiosResponse<UserProfileModel>) => {
 					const userData = res.data;
 					setUser(userData);
@@ -220,7 +223,7 @@ const Profile = () => {
 					</div>
 				</div>
 				<div className="flex flex-col gap-y-[10px]">
-					<div className="flex flex-col gap-y-4">
+					{/* <div className="flex flex-col gap-y-4">
 						<Title
 							bold
 							center={false}
@@ -247,7 +250,7 @@ const Profile = () => {
 								</Link>
 							</div>
 						)}
-					</div>
+					</div> */}
 					<div className="flex flex-col gap-y-4">
 						<Title
 							bold

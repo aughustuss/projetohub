@@ -22,7 +22,7 @@ namespace MoviesApi.Controllers
 
         [Authorize (Roles = "Admin")]
         [HttpPost("movie")]
-        public async Task<IActionResult> Create([FromBody] MovieCreateDto input)
+        public async Task<IActionResult> Create([FromForm] MovieCreateDto input)
         {
             try
             {
@@ -55,6 +55,11 @@ namespace MoviesApi.Controllers
             try
             {
                 var response = await _movieService.GetAllAsync();
+                response.ForEach(movie =>
+                {
+                    movie.PosterSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, movie.PosterPath);
+                    movie.BackdropSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, movie.BackdropPath);
+                });
                 return Ok(response);
             } catch (EntityNotFoundException ex)
             {
@@ -71,6 +76,11 @@ namespace MoviesApi.Controllers
             try
             {
                 var response = await _movieService.GetUpcomingMoviesAsync();
+                response.ForEach(movie =>
+                {
+                    movie.PosterSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, movie.PosterPath);
+                    movie.BackdropSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, movie.BackdropPath);
+                });
                 return Ok(response);
             }
             catch (EntityNotFoundException ex)
@@ -89,6 +99,11 @@ namespace MoviesApi.Controllers
             try
             {
                 var response = await _movieService.GetTrendingMoviesAsync();
+                response.ForEach(movie =>
+                {
+                    movie.PosterSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, movie.PosterPath);
+                    movie.BackdropSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, movie.BackdropPath);
+                });
                 return Ok(response);
             }
             catch (EntityNotFoundException ex)
@@ -107,6 +122,11 @@ namespace MoviesApi.Controllers
             try
             {
                 var response = await _movieService.GetPopularMoviesAsync();
+                response.ForEach(movie =>
+                {
+                    movie.PosterSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, movie.PosterPath);
+                    movie.BackdropSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, movie.BackdropPath);
+                });
                 return Ok(response);
             }
             catch (EntityNotFoundException ex)
@@ -125,6 +145,11 @@ namespace MoviesApi.Controllers
             try
             {
                 var response = await _movieService.GetAllMovieInfosByIdAsync(input);
+                if(response != null)
+                {
+                    response.PosterSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, response.PosterPath);
+                    response.BackdropSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, response.BackdropPath);
+                }
                 return Ok(response);
             }
             catch (EntityNotFoundException ex)
@@ -159,6 +184,11 @@ namespace MoviesApi.Controllers
             try
             {
                 var response = await _movieService.GetMoviesByGenreAsync(genre, page);
+                response.ForEach(movie =>
+                {
+                    movie.PosterSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, movie.PosterPath);
+                    movie.BackdropSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, movie.BackdropPath);
+                });
                 return Ok(response);
             }
             catch (EntityNotFoundException ex)

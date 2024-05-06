@@ -21,6 +21,8 @@ namespace MoviesApi.Application.Mappings
             CreateMap<User, UserShortInfoDto>().ReverseMap();
             CreateMap<User, FriendCreateDto>().ReverseMap();
             CreateMap<User, FriendIdDto>().ReverseMap();
+            CreateMap<User, UserNameGetDto>().ReverseMap();
+            CreateMap<User, UserIdGetDto>().ReverseMap();
 
             CreateMap<Company, CompanyInfoDto>().ReverseMap();
             CreateMap<Company, CompanyCreateDto>().ReverseMap();
@@ -42,6 +44,7 @@ namespace MoviesApi.Application.Mappings
                 .ForMember(destination => destination.Genres, options => options.MapFrom(g => g.Genres.Select(g => GenreHelper.GetGenreDescription(g)).ToList()))
                 .ReverseMap();
             CreateMap<Movie, MovieCreateDto>().ReverseMap();
+
             CreateMap<Movie, MovieInfoByIdDto>()
                 .ForMember(destination => destination.Languages, options => options.MapFrom(g => g.Languages.Select(l => LanguageHelper.GetLanguageDescription(l)).ToList()))
                 .ForMember(destination => destination.Genres, options => options.MapFrom(g => g.Genres.Select(g => GenreHelper.GetGenreDescription(g)).ToList()))

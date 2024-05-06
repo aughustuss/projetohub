@@ -5,7 +5,7 @@ namespace MoviesApi.Application.Dtos.Response
 {
     public class UserShortInfoDto
     {
-
+        public int Id { get; set; }
         public string ProfileImagePath { get; set; } = string.Empty;
         public string ImageSource { get; set; } = string.Empty;
 

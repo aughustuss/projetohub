@@ -39,8 +39,13 @@ export const loginService = async (data: LoginData) => {
     return await axios.post(`${apiEndpoint}/User/authenticate`, data);
 }
 
-export const getUserInfoByIdService = async (id: string) => {
-    return await axios.get(`${apiEndpoint}/User/userById/${id}`)
+export const getUserInfoByIdService = async (token:string, id: number) => {
+    return await axios.get(`${apiEndpoint}/User/user/${id}`,{
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+        }
+    })
 }
 
 export const addToFavoriteListService = async (id: number, token: string) => {
@@ -160,12 +165,12 @@ export const getCompanieForMovieCreateService = async (token:string) => {
     })
 }
 
-export const createMovieService = async (data: MovieRegister, token:string) => {
+export const createMovieService = async (data: FormData, token:string) => {
     return await axios.post(`${apiEndpoint}/Movie/movie`, data, {
         headers:{
             Authorization: `Bearer ${token}`,
             Accept: "application/json",
-            "Content-Type":"application/json"
+            "Content-Type": "multipart/form-data"
         }
     })
 }
@@ -210,6 +215,26 @@ export const getAllUsersService = async (token: string) => {
 
 export const getUsersByNameService = async (name:string, token:string) => {
     return await axios.get(`${apiEndpoint}/User/usersByName/${name}`, {
+        headers:{
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type":"application/json"
+        }
+    })
+}
+
+export const checkIfUserWatchedMovieService = async (token:string, id:number) => {
+    return await axios.get(`${apiEndpoint}/User/watchedMovies/${id}`, {
+        headers:{
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type":"application/json"
+        }
+    })
+}
+
+export const checkIfUserFavoritedMovieService = async (token:string, id:number) => {
+    return await axios.get(`${apiEndpoint}/User/favoriteMovies/${id}`, {
         headers:{
             Authorization: `Bearer ${token}`,
             Accept: "application/json",

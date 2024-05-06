@@ -14,14 +14,19 @@ namespace MoviesApi.Application.Interfaces.Services
         Task AddUserToFriendListAsync(FriendCreateDto input);
         Task RemoveMovieFromFavoriteListAsync(MovieGetDto input);
 
-        Task<List<UserShortInfoDto>> GetAllUsersAsync();
+        Task<List<UserShortInfoDto>> GetAllUsersAsync(int input);
         Task<UserInfoDto> GetUserByIdAsync(int input);
-        Task<UserInfoDto> GetAllUserInfosByIdAsync(int input);
-        Task<List<UserShortInfoDto>> GetUserByNameAsync(string input);
+
+        Task<UserInfoDto> GetMyInfosAsync(int input);
+        Task<UserInfoDto> GetAllUserInfosByIdAsync(UserIdGetDto input);
+        Task<List<UserShortInfoDto>> GetUsersByNameAsync(UserNameGetDto input);
+
         Task<int> GetUserFavoriteListCountAsync(int input);
 
         Task<bool> SendResetPasswordEmailAsync(ForgotPasswordEmailRequest input);
 
+        Task<bool> CheckIfUserWatchedMovieAsync(MovieGetDto input);
+        Task<bool> CheckIfUserFavoritedMovieAsync(MovieGetDto input);
         Task<bool> CheckIfUserRatedMovieAsync(MovieGetDto input);
         Task<bool> CheckUserRoleAsync(int input);
 

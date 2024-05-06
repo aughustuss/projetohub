@@ -33,7 +33,7 @@ const Link = ({
       ${
         bgPrimary
           ? onlyBorder 
-            ? "border border-primaryBg hover:bg-primaryBg"
+            ? "border-2 border-border hover:border-primaryBg hover:bg-primaryBg hover:text-newWhite"
             : "bg-primaryBg text-newWhite"
           : bgNotPrimary
             ? onlyBorder

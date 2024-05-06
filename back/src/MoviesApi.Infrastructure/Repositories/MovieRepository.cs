@@ -17,12 +17,12 @@ namespace MoviesApi.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        private async Task<bool> CheckIfMovieExistsAsync(string input)
+        public async Task<bool> CheckIfMovieExistsAsync(string input)
         {
             return await _dbContext.Movies.AnyAsync(m => m.Title == input);
         }
 
-        private async Task<bool> CheckIfMoviesExistsByIdAsync(int input)
+        public async Task<bool> CheckIfMoviesExistsByIdAsync(int input)
         {
             return await _dbContext.Movies.AnyAsync(m => m.Id == input);
         }

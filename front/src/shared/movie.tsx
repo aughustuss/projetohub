@@ -2,11 +2,11 @@ import { MovieModel } from "models/entities/Movie";
 import { FaInfo } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { AiFillStar } from "react-icons/ai";
-import FavoritesMoviesContext from "contexts/FavoriteListContext";
 import React from "react";
 import Link from "components/Link";
 import Button from "components/Button";
-import { addToFavoriteListService } from "services/Services";
+import { addToFavoriteListService, checkIfUserFavoritedMovieService } from "services/Services";
+import LoginContext from "contexts/LoginContext";
 interface MovieProps {
 	movie: MovieModel;
 	onGrid?: boolean;
@@ -14,20 +14,23 @@ interface MovieProps {
 
 const Movie = ({ movie, onGrid }: MovieProps) => {
 	const tmdbImagePath = import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH;
-	const { checkIfMovieExistsInFavorites } = React.useContext(
-		FavoritesMoviesContext
-	);
+	const { token } = React.useContext(LoginContext);
 	const [movieExists, setMovieExists] = React.useState<boolean>(false);
 	const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
 
-	const handleModalOpen = () => {
-		const mExists = checkIfMovieExistsInFavorites(movie.id);
-		setMovieExists(mExists);
-		setIsModalOpen(!isModalOpen);
+	const handleModalOpen = async () => {
+		try{
+			const response = await checkIfUserFavoritedMovieService(token, movie.id);
+			if(response.status === 200)
+				setMovieExists(response.data);
+			setIsModalOpen(!isModalOpen);
+		} catch(error){
+			console.log(error);
+		}
 	};
 
-	const addMovieToList = async (id: string) => {
-		await addToFavoriteListService(id)
+	const addMovieToList = async (id: number) => {
+		await addToFavoriteListService(id, token)
 			.then((res) => {
 				console.log(res);
 			})
@@ -113,7 +116,7 @@ const Movie = ({ movie, onGrid }: MovieProps) => {
 								fullWidth
 								small={false}
 								onlyBorder={false}
-								onClick={() => addMovieToList(movie.id.toString())}
+								onClick={() => addMovieToList(movie.id)}
 								type="button"
 							>
 								Favoritar

@@ -7,14 +7,17 @@ namespace MoviesApi.Application.Dtos.Response
     {
         public int Id { get; set; }
         public bool IsAdult { get; set; }
-        public string BackdropPath { get; set; } = string.Empty;
         public List<string> Genres { get; } = [];
 
+        public string BackdropPath { get; set; } = string.Empty;
+        public string BackdropSource { get; set; } = string.Empty;
+        public string PosterSource {  get; set; } = string.Empty;
+        public string PosterPath {  get; set; } = string.Empty;
+        
         public string OriginalLanguage { get; set; } = string.Empty;
         public string OriginalTitle {  get; set; } = string.Empty;
         public string Overview {  get; set; } = string.Empty;
         public double Popularity { get; set; }
-        public string PosterPath {  get; set; } = string.Empty;
         public DateTime ReleaseDate {  get; set; }
         public string Title { get; set; } = string.Empty;
         public bool HasVideo { get; set; }

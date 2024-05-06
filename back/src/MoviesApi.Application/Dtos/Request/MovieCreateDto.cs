@@ -1,9 +1,12 @@
-﻿using MoviesApi.Domain.Enums;
+﻿using Microsoft.AspNetCore.Http;
+using MoviesApi.Domain.Enums;
 
 namespace MoviesApi.Application.Dtos.Request
 {
     public class MovieCreateDto
-    {  
+    {
+        public IFormFile? Backdrop { get; set; } = null;
+        public IFormFile? Poster { get; set; } = null;
         public int CreatorUserId { get; set; }
         public bool IsAdult { get; set; } = false;
         public List<EGenre> Genres { get; set; } = null!;
@@ -20,10 +23,8 @@ namespace MoviesApi.Application.Dtos.Request
         public string Tagline { get; set; } = string.Empty;
         public string Title { get; set; } = string.Empty;
         public bool HasVideo { get; set; } = false;
-        public string? BackdropPath { get; set; } = null;
         public string? Homepage { get; set; } = string.Empty;
         public string? ImdbId { get; set; } = string.Empty;
         public string? OriginalLanguage { get; set; } = string.Empty;
-        public string? PosterPath { get; set; } = string.Empty;
     }
 }

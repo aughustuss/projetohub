@@ -37,6 +37,7 @@ namespace MoviesApi.IoC
             services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<ICommentService, CommentService>();
             services.AddScoped<IUserFavoriteMovieRepository, UserFavoriteMovieRepository>();
+            services.AddScoped<IImageUploaderService, ImageUploaderService>();
             
             services.AddScoped<IPasswordHandler<User>, PasswordHandler>();
             services.AddScoped<IMapper, Mapper>();

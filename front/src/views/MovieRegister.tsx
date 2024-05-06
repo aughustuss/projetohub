@@ -1,4 +1,3 @@
-import axios from "axios";
 import Button from "components/Button";
 import Error from "components/Error";
 import Input from "components/Input";
@@ -10,7 +9,7 @@ import React from "react";
 import Dropzone from "react-dropzone";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { createMovieService, getCompanieForMovieCreateService, imagesPath } from "services/Services";
+import { createMovieService, getCompanieForMovieCreateService } from "services/Services";
 
 interface Language {
   id: number;
@@ -28,7 +27,7 @@ export interface MovieRegister {
 	isAdult: boolean;
 	genres: Array<number>;
 	languages: Array<number>;
-	companies: Array<MovieCompanyRegisterModel>;
+	companies: Array<number>;
 	addedDate: Date;
 	budget: number;
 	originalTitle: string;
@@ -40,11 +39,11 @@ export interface MovieRegister {
 	tagline: string;
 	title: string;
 	hasVideo: boolean;
-	backdropPath: File | null;
+	backdrop: Blob | null;
 	homepage: string;
 	imdbId: number | null;
 	originalLanguage: string;
-	posterPath: File | null;
+	poster: Blob | null;
 }
 
 const movieRegisterLanguages: Array<Language> = [
@@ -75,7 +74,7 @@ const MovieRegister = () => {
   const [genres, setGenres] = React.useState<number[]>([]);
   const [languages, setLanguages] = React.useState<number[]>([]);
   const [companies, setCompanies] = React.useState<MovieCompanyModel[]>([]);
-  const [selectedCompanies, setSelectedCompanies] = React.useState<MovieCompanyRegisterModel[]>([]);
+  const [selectedCompanies, setSelectedCompanies] = React.useState<number[]>([]);
 
   const getCompaniesForMovieCreate = async () => {
     try{
@@ -88,10 +87,11 @@ const MovieRegister = () => {
     }
   }
 
+  
   React.useEffect(() => {
     getCompaniesForMovieCreate();
   }, [])
-
+  
 	const {
 		control,
 		formState: { errors },
@@ -114,11 +114,11 @@ const MovieRegister = () => {
 			tagline: "",
 			title: "",
 			hasVideo: false,
-			backdropPath: undefined,
+			backdrop: undefined,
 			homepage: "",
 			imdbId: null,
 			originalLanguage: "",
-			posterPath: undefined,
+			poster: undefined,
 		},
 	});
 
@@ -134,23 +134,18 @@ const MovieRegister = () => {
 
   const handleCompanyChange = (value: React.ChangeEvent<HTMLSelectElement>) => {
     if (Number.parseInt(value.target.value) !== 0) {
-      const company: MovieCompanyRegisterModel = {
-        id: Number.parseInt(value.target.value),
-      }
+      const company: number = Number.parseInt(value.target.value);
 
       if(value.target.value !== "redirect"){
         setSelectedCompanies(prevCompanies => {
           const newCompanies = [...prevCompanies, company];
-          setValue("companies", newCompanies); // Atualiza o valor do formulário após atualizar o estado
+          setValue("companies", newCompanies); 
           return newCompanies;
         });
       } else {
         navigate("/companyRegister");
       }
-        
-  
     }
-
   }
 
   const handleLanguageChange = (value: React.ChangeEvent<HTMLSelectElement>) => {
@@ -172,7 +167,7 @@ const MovieRegister = () => {
 
   const removeCompanyFromList = (company: number) => {
     setSelectedCompanies(prevCompanies => {
-      return prevCompanies.filter(c => c.id!== company);
+      return prevCompanies.filter(c => c !== company);
     })
     setValue("companies", selectedCompanies)
   }
@@ -186,16 +181,44 @@ const MovieRegister = () => {
 
 	const onSubmit: SubmitHandler<MovieRegister> = async (data) => {
 		data.addedDate = new Date();
+    const formData = new FormData();
+
+    formData.append("addedDate", data.addedDate.toISOString());
+    formData.append("budget", data.budget.toString());
+    formData.append("originalTitle", data.originalTitle);
+    formData.append("overview", data.overview);
+    formData.append("releaseDate", data.releaseDate.toString());
+    formData.append("revenue", data.revenue.toString());
+    formData.append("runtime", data.runtime.toString());
+    formData.append("status", data.status.toString());
+    formData.append("tagline", data.tagline);
+    formData.append("title", data.title);
+    formData.append("hasVideo", data.hasVideo.toString());
+    formData.append("homapage", data.homepage);
+    formData.append("imdbIb", data.imdbId ? data.imdbId.toString() : "");
+    formData.append("originalLanguage", data.originalLanguage);
+    formData.append("isAdult", data.isAdult.toString());
+    formData.append("poster", data.poster? data.poster : "");
+    formData.append("backdrop", data.backdrop? data.backdrop : "");
+    formData.append("companies", data.companies.toString());
+    data.languages.forEach((language) => {
+      formData.append("languages", language.toString());
+    })
+    data.genres.forEach((genre) => {
+      formData.append("genres", genre.toString());
+    })
+    // data.companies.forEach((company) => {
+    //   formData.append("companies", company.toString());
+    // })
+    console.log(formData);
+    
     try{
-      const response = await createMovieService(data, token);
+      const response = await createMovieService(formData, token);
       console.log(response);
     } catch (error){
       console.log(error);
     }
 	};
-
-  console.log(companies);
-  console.log(imagesPath);
 
 	return (
 		<>
@@ -213,15 +236,12 @@ const MovieRegister = () => {
             center
             message="Cadastro de filmes"
           />
-          {companies.map((company) => (
-            <img src={company.imageSource} className="w-[100px] h-[100px] border" />
-          ))}
             <div className="w-full flex flex-col md:flex-row gap-x-4">
               <div className="w-full md:w-1/2 ">
                 <div className="w-full flex flex-row gap-x-2 ">
                   <Controller
                     control={control}
-                    name="posterPath"
+                    name="poster"
                     rules={{
                       required: {
                         message: "Campo obrigatório",
@@ -234,7 +254,7 @@ const MovieRegister = () => {
                         <Dropzone onDrop={(files) => {
                           setPoster(files.map(file => Object.assign(file, {
                             preview: URL.createObjectURL(file),
-                          }),setValue("posterPath", files[0])));
+                          }),setValue("poster", files[0])));
                         }}
                           maxFiles={1}
                           multiple={false}
@@ -257,15 +277,15 @@ const MovieRegister = () => {
                                     <img className="w-full h-[200px] rounded-xl" onLoad={() => URL.revokeObjectURL(poster[0].preview)} src={poster[0].preview} />
                                     <button onClick={() => {
                                       setPoster([]);
-                                      setValue("posterPath", null)
-                                    }} className="absolute top-1 right-2 text-newWhite font-bold" >x</button>
+                                      setValue("poster", null)
+                                    }} className="absolute top-1 right-2 font-bold text-primaryBlack bg-white rounded-full py-1 px-3"  >x</button>
                                   </div>
                                 ) : null}
                             </div>
                           )}
                         </Dropzone>
                         <Error>
-                          {errors.posterPath && (errors.posterPath.type === "required" && errors.posterPath.message)}
+                          {errors.poster && (errors.poster.type === "required" && errors.poster.message)}
                         </Error>
                       </div>
                       </>
@@ -273,7 +293,7 @@ const MovieRegister = () => {
                   />
                   <Controller
                     control={control}
-                    name="backdropPath"
+                    name="backdrop"
                     rules={{
                       required: {
                         message: "Campo obrigatório",
@@ -286,7 +306,7 @@ const MovieRegister = () => {
                           <Dropzone onDrop={(files) => {
                             setBanner(files.map(file => Object.assign(file, {
                               preview: URL.createObjectURL(file),
-                            }),setValue("backdropPath", files[0])));
+                            }),setValue("backdrop", files[0])));
                           }}
                             maxFiles={1}
                             multiple={false}
@@ -310,8 +330,8 @@ const MovieRegister = () => {
                                       <img className="w-full h-[200px] rounded-xl" onLoad={() => URL.revokeObjectURL(banner[0].preview)} src={banner[0].preview} />
                                       <button onClick={() => {
                                         setBanner([]);
-                                        setValue("backdropPath", null)
-                                      }} className="absolute top-1 right-2 font-bold text-newWhite" >x</button>
+                                        setValue("backdrop", null)
+                                      }} className="absolute top-1 right-2 font-bold text-primaryBlack bg-white rounded-full py-1 px-3" >x</button>
                                     </div>
                                   ) : null}
                                 </div>
@@ -319,7 +339,7 @@ const MovieRegister = () => {
                             )}
                           </Dropzone>
                           <Error>
-                            {errors.backdropPath && (errors.backdropPath.type === "required" && errors.backdropPath.message)}
+                            {errors.backdrop && (errors.backdrop.type === "required" && errors.backdrop.message)}
                           </Error>
                         </div>
                       </>
@@ -513,9 +533,9 @@ const MovieRegister = () => {
                           {selectedCompanies.length > 0 && selectedCompanies.map((company, index) => (
                             <div key={index} className="text-xs rounded-xl w-fit px-6 py-1 border border-border text-bodyColor relative">
                               <span  >
-                                {company.id}
+                                {company}
                               </span>
-                              <button type="button" onClick={() => removeCompanyFromList(company.id)} className="absolute right-2 top-0">x</button>
+                              <button type="button" onClick={() => removeCompanyFromList(company)} className="absolute right-2 top-0">x</button>
                             </div>
                           ))}
                         </div>
@@ -527,7 +547,7 @@ const MovieRegister = () => {
                           <option value={0} defaultValue={0}>Selecione</option>
                           {companies.length > 0 ? (
                             <>
-                            {companies.filter((company) => !selectedCompanies.some(selectedCompany => selectedCompany.id == company.id)).map((company) => (
+                            {companies.filter((company) => !selectedCompanies.some(selectedCompany => selectedCompany == company.id)).map((company) => (
                               <option key={company.id} value={company.id}>
                                 {company.name}
                               </option>
