@@ -187,8 +187,8 @@ namespace MoviesApi.Controllers
             try
             {
                 var userId = int.Parse(User.FindFirst("Id")!.Value);
-                var user = await _userService.GetAllUserInfosByIdAsync(userId);
-                return Ok(user);
+                var response = await _userService.GetAllUserInfosByIdAsync(userId);
+                return Ok(response);
             } catch (EntityNotFoundException ex)
             {
                 return NotFound(ex.Message);
@@ -234,13 +234,18 @@ namespace MoviesApi.Controllers
             }
         }
 
+        [Authorize(Roles = "User,Admin")]
         [HttpGet("users")]
         public async Task<IActionResult> GetAll()
         {
             try
             {
-                var users = await _userService.GetAllUsersAsync();
-                return Ok(users);
+                var response = await _userService.GetAllUsersAsync();
+                response.ForEach(user =>
+                {
+                    user.ImageSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, user.ProfileImagePath);
+                });
+                return Ok(response);
             }
             catch (EntityNotFoundException ex)
             {

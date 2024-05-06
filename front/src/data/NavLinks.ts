@@ -34,7 +34,7 @@ const useNavLinks = ({isAboveLg, isAdmin, isLoggedIn, logout}: NavLinkProps) => 
     },
     {
       linkText: 'Cinéfilos',
-      linkTo: '/cinefilos',
+      linkTo: '/cinephiles',
       show: isLoggedIn,
     },
     {

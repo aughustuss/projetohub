@@ -14,10 +14,14 @@ namespace MoviesApi.Domain.Entities
         public string FirstName { get; set; } = string.Empty;
         public string SurName { get; set; } = string.Empty;
         public string NickName {  get; set; } = string.Empty;
+        
         public string ProfileImagePath {  get; set; } = string.Empty;
 
         [NotMapped]
         public IFormFile? ProfileImage { get; set; }
+
+        [NotMapped]
+        public string ImageSource { get; set; } = string.Empty;
 
         public string? ProfileTitle { get; set; }
         public string Email { get; set; } = string.Empty;

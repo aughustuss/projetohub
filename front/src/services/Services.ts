@@ -197,3 +197,23 @@ export const createCompanyService = async (data: FormData, token: string) => {
         }
     })
 }
+
+export const getAllUsersService = async (token: string) => {
+    return await axios.get(`${apiEndpoint}/User/users`, {
+        headers:{
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type":"application/json"
+        }
+    })
+}
+
+export const getUsersByNameService = async (name:string, token:string) => {
+    return await axios.get(`${apiEndpoint}/User/usersByName/${name}`, {
+        headers:{
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type":"application/json"
+        }
+    })
+}

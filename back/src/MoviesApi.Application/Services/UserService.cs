@@ -79,10 +79,10 @@ namespace MoviesApi.Application.Services
             return _mapper.Map<UserInfoDto>(user);
         }
 
-        public async Task<List<UserInfoDto>> GetAllUsersAsync()
+        public async Task<List<UserShortInfoDto>> GetAllUsersAsync()
         {
             var users = await _userRepository.GetAllUsersAsync();
-            return _mapper.Map<List<UserInfoDto>>(users);
+            return _mapper.Map<List<UserShortInfoDto>>(users);
         }
 
         public async Task<UserTokenDto> AuthenticateUserAsync(UserLoginDto input)
@@ -104,10 +104,10 @@ namespace MoviesApi.Application.Services
             return _mapper.Map<UserTokenDto>(user);
         }
 
-        public async Task<List<UserShortInfo>> GetUserByNameAsync(string input)
+        public async Task<List<UserShortInfoDto>> GetUserByNameAsync(string input)
         {
             var user = await _userRepository.GetUsersByNameAsync(input);
-            return _mapper.Map<List<UserShortInfo>>(user);
+            return _mapper.Map<List<UserShortInfoDto>>(user);
         }
 
         public async Task AddMovieToFavoriteListAsync(MovieGetDto input)
