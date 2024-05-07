@@ -19,7 +19,7 @@ namespace MoviesApi.Controllers
             _rateService = rateService;
         }
 
-        [Authorize(Roles = "Admin, Users")]
+        [Authorize(Roles = "Admin, User")]
         [HttpPost("rate")]
         public async Task<IActionResult> Create(RateCreateDto input)
         {

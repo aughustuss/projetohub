@@ -13,6 +13,7 @@ namespace MoviesApi.Application.Mappings
             CreateMap<User, UserInfoDto>()
                 .ForMember(destination => destination.WatchedMoviesCount, origin => origin.MapFrom(w => w.WatchedMovies.Count))
                 .ForMember(destination => destination.Friends, origin => origin.MapFrom(f => f.Friends.Count))
+                .ForMember(destination => destination.FavoriteGenre, origin => origin.MapFrom(m => GenreHelper.GetGenreDescription(m.FavoriteGenre)))
                 .ReverseMap();
 
             CreateMap<User, UserCreateDto>().ReverseMap();
@@ -33,6 +34,8 @@ namespace MoviesApi.Application.Mappings
             CreateMap<Comment, CommentInfoDto>().ReverseMap();
 
             CreateMap<Rate, RateCreateDto>().ReverseMap();
+
+            CreateMap<Movie, MovieNameGetDto>().ReverseMap();
 
             CreateMap<Movie, MovieIdDto>()
                 .ForMember(destination => destination.Genres, origin => origin.MapFrom(m => m.Genres.Select(g => GenreHelper.GetGenreDescription(g)).ToList()))

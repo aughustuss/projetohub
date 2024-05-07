@@ -8,6 +8,7 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import Button from "components/Button";
 import OrderBy from "components/OrderBy";
 import { findTheMostRepeatedCategory } from "utils/CategoryFrequency";
+import LoginContext from "contexts/LoginContext";
 const SearchedMovies = () => {
   const location = useLocation();
   const movieName = new URLSearchParams(location.search).get("movieName");
@@ -18,7 +19,7 @@ const SearchedMovies = () => {
     MovieModel[]
   >([]);
   const [filteredMovies, setFilteredMovies] = React.useState<MovieModel[]>([]);
-
+  const {token} = React.useContext(LoginContext);
 
   const handleFilterOpen = (
     setArray: React.Dispatch<React.SetStateAction<boolean>>,
@@ -69,7 +70,7 @@ const SearchedMovies = () => {
   React.useEffect(() => {
     if (movieName) {
       Promise.resolve(
-        getMoviesBasedOnItsTitleService(movieName)
+        getMoviesBasedOnItsTitleService(movieName, token)
           .then((res) => {
             const movies = res.data;
             setCategorizedMovies(movies);
@@ -82,6 +83,7 @@ const SearchedMovies = () => {
       );
     }
   }, [movieName]);
+
   return (
     <>
       <main className="pb-[100px] pt-[120px] min-h-screen w-[85%] flex flex-col gap-4 md:flex-row mx-auto">

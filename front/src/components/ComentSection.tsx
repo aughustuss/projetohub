@@ -10,16 +10,12 @@ import { addCommentToMovieService } from "services/Services";
 import Text from "./Text";
 import Row from "./Row";
 import LoginContext from "contexts/LoginContext";
-import { UserProfileModel } from "models/entities/User";
-
-// interface CommentItemProps {
-// 	comment: MovieCommentsModel;
-// }
+import { UserShortProfileModel } from "models/entities/User";
 
 interface CommentSectionProps {
 	comments: MovieCommentsModel[];
 	movieId: string;
-	user?: UserProfileModel
+	user?: UserShortProfileModel
 }
 
 const CommentSection: React.FC<CommentSectionProps> = ({
@@ -27,10 +23,14 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 	movieId,
 	user
 }) => {
+	
+	const { isLoggedIn, token } = React.useContext(LoginContext);
+	const [newComments, setNewComments] = React.useState<MovieCommentsModel[]>([]);
 	const {
 		control,
 		formState: { errors },
 		handleSubmit,
+		setValue,
 	} = useForm<CommentCreateModel>({
 		defaultValues: {
 			text: "",
@@ -39,7 +39,9 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 		},
 	});
 
-	const { isLoggedIn } = React.useContext(LoginContext);
+	React.useEffect(() => {
+		setNewComments(comments);
+	},[])
 
 	const onSubmit: SubmitHandler<CommentCreateModel> = (
 		data: CommentCreateModel
@@ -47,30 +49,37 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 		data.movieId = movieId;
 		data.creationDate = new Date();
 		Promise.resolve(
-			addCommentToMovieService(data)
+			addCommentToMovieService(data, token)
 				.then((res) => {
-					console.log(res);
-				})
-				.catch((err) => {
+					if(res.status === 200){
+						if(user != null){
+							const newComment: MovieCommentsModel = {
+								author: user,
+								creationDate: new Date(),
+								text: data.text,
+							}
+							setNewComments([...comments, newComment])
+							}
+						}
+				}).catch((err) => {
 					console.log(err);
 				})
 		);
 	};
 
-	
 
 	return (
 		<div className="flex flex-col gap-y-4 pt-[20px] pb-[100px] w-full px-6 md:w-[85%] md:px-0 mx-auto border-t border-border">
 			<Title bold center={false} black message="Seção de Comentários" />
-			<div className="flex flex-col-reverse w-full md:w-3/5">
-				<div className="space-y-4">
-					{comments.map((comment, index) => (
+			<div className="flex flex-col-reverse w-full md:w-3/5 gap-y-4">
+				<div className="flex flex-col gap-y-4">
+					{newComments.map((comment, index) => (
 						<div key={index} className="p-4 flex flex-col h-auto gap-4 rounded-xl border border-border text-bodyColor">
 						{" "}
 						<div className="flex items-start">
 							<img
 								className="rounded-full w-8 h-8 mr-4"
-								src={comment.author.profileImage}
+								src={comment.author.profileImageSource}
 								alt={`Imagem de perfil de ${comment.author.firstName}`}
 							/>
 							<div className="text-primaryBlack text-sm flex flex-col gap-4">
@@ -92,15 +101,16 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 					</div>
 					))}
 				</div>
+				<div className="border border-border" />
 				{isLoggedIn ? (
 					<form
 						onSubmit={handleSubmit(onSubmit)}
-						className="flex items-start mb-3"
+						className="flex flex-row "
 					>
 						<img
 							className="rounded-3xl w-20 h-20 mr-4"
 							alt="Imagem do autor"
-							src={user?.profileImage}
+							src={user?.profileImageSource}
 						/>
 						<div className="relative w-full">
 							<Controller
@@ -136,7 +146,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 							></Controller>
 							<div className="flex flex-wrap gap-2 items-center justify-start md:justify-end ">
 								<div className="flex flex-col md:flex-row items-start md:items-end justify-end gap-2">
-									<Button onlyBorder small>
+									<Button onlyBorder small onClick={() => setValue("text", "")}>
 										{" "}
 										Cancelar
 										<FaTimes className="ml-2" />

@@ -9,7 +9,7 @@ namespace MoviesApi.Domain.Entities
     {
         [Key]
         public int Id { get; set; }
-        public bool IsAdult { get; set; } = false;
+        public int Age { get; set; }
         
         public string BackdropPath { get; set; } = string.Empty;
         [NotMapped]

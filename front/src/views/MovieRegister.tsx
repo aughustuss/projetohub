@@ -4,7 +4,7 @@ import Input from "components/Input";
 import Title from "components/Title";
 import LoginContext from "contexts/LoginContext";
 import { AllCategories } from "data/Categories";
-import { MovieCompanyModel, MovieCompanyRegisterModel } from "models/entities/MovieById";
+import { MovieCompanyModel } from "models/entities/MovieById";
 import React from "react";
 import Dropzone from "react-dropzone";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -24,7 +24,7 @@ enum MovieStatus {
 	NotReleased,
 }
 export interface MovieRegister {
-	isAdult: boolean;
+	age: number;
 	genres: Array<number>;
 	languages: Array<number>;
 	companies: Array<number>;
@@ -75,6 +75,7 @@ const MovieRegister = () => {
   const [languages, setLanguages] = React.useState<number[]>([]);
   const [companies, setCompanies] = React.useState<MovieCompanyModel[]>([]);
   const [selectedCompanies, setSelectedCompanies] = React.useState<number[]>([]);
+  const [isLoading, setLoading] = React.useState<boolean>();
 
   const getCompaniesForMovieCreate = async () => {
     try{
@@ -99,7 +100,7 @@ const MovieRegister = () => {
 		setValue,
 	} = useForm<MovieRegister>({
 		defaultValues: {
-			isAdult: false,
+			age: 0,
 			genres: [],
 			languages: [],
 			companies: [],
@@ -197,7 +198,7 @@ const MovieRegister = () => {
     formData.append("homapage", data.homepage);
     formData.append("imdbIb", data.imdbId ? data.imdbId.toString() : "");
     formData.append("originalLanguage", data.originalLanguage);
-    formData.append("isAdult", data.isAdult.toString());
+    formData.append("age", data.age.toString());
     formData.append("poster", data.poster? data.poster : "");
     formData.append("backdrop", data.backdrop? data.backdrop : "");
     formData.append("companies", data.companies.toString());
@@ -210,13 +211,16 @@ const MovieRegister = () => {
     // data.companies.forEach((company) => {
     //   formData.append("companies", company.toString());
     // })
-    console.log(formData);
-    
+    setLoading(true);
     try{
       const response = await createMovieService(formData, token);
-      console.log(response);
+      if(response.status == 200){
+        setLoading(false);
+        navigate("/");
+      }
     } catch (error){
       console.log(error);
+      setLoading(false);
     }
 	};
 
@@ -237,7 +241,7 @@ const MovieRegister = () => {
             message="Cadastro de filmes"
           />
             <div className="w-full flex flex-col md:flex-row gap-x-4">
-              <div className="w-full md:w-1/2 ">
+              <div className="w-full flex flex-col gap-y-2 md:w-1/2 ">
                 <div className="w-full flex flex-row gap-x-2 ">
                   <Controller
                     control={control}
@@ -409,6 +413,37 @@ const MovieRegister = () => {
                   )}
                   />
                   <Controller
+                  control={control}
+                  defaultValue=""
+                  name="originalLanguage"
+                  rules={{
+                    required: {
+                      message: "Campo obrigatório",
+                      value: true,
+                    },
+                    maxLength: {
+                      message: "Máximo de 50 caracteres",
+                      value: 50,
+                    },
+                  }}
+                  render={({field:{onChange,name,value}}) => (
+                    <div>
+                      <Input
+                        id={name}
+                        label="Língua original do filme*"
+                        onChange={onChange}
+                        placeholder="Digite a linguagem original do filme..."
+                        value={value}
+                        type="text"
+                      />
+                      <Error>
+                        {errors.originalLanguage && (errors.originalLanguage.type === "required" && errors.originalLanguage.message)}
+                        {errors.originalLanguage && (errors.originalLanguage.type === "maxLength" && errors.originalLanguage.message)}
+                      </Error>
+                    </div>
+                  )}
+                  />
+                  <Controller
                     control={control}
                     defaultValue=""
                     name="overview"
@@ -418,8 +453,8 @@ const MovieRegister = () => {
                         value: true,
                       },
                       maxLength: {
-                        message: "Máximo de 200 caracteres",
-                        value: 200,
+                        message: "Máximo de 255 caracteres",
+                        value: 255,
                       },
                     }}
                     render={({field:{name,value,onChange}}) => (
@@ -516,7 +551,7 @@ const MovieRegister = () => {
 
               {/* Primeira metade da tela */}
 
-              <div className="w-full md:w-1/2">
+              <div className="w-full md:w-1/2 flex flex-col gap-y-2">
                 <Controller
                   control={control}
                   name="companies"
@@ -618,7 +653,29 @@ const MovieRegister = () => {
                     <div>
                       <Input
                         type="date"
-                        label="Informe a data de lançamento do filme*"
+                        label="Data de lançamento*"
+                        placeholder="Data de lançamento do filme..."
+                        onChange={onChange}
+                        id={name}
+                      />
+                    </div>
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name="age"
+                  rules={{
+                    required:{
+                      value: true,
+                      message: "Campo obrigatório"
+                    }
+                  }}
+                  render={({field:{name, onChange}}) => (
+                    <div>
+                      <Input
+                        type="number"
+                        label="Classificação indicativa*"
+                        placeholder="Informe a classificação indicativa do filme..."
                         onChange={onChange}
                         id={name}
                       />
@@ -689,7 +746,7 @@ const MovieRegister = () => {
                   render={({field:{name,onChange,value}}) => (
                     <div>
                       <Input
-                        type="number"
+                        type="text"
                         label="Informe o tempo de duração do filme em minutos*"
                         onChange={onChange}
                         id={name}
@@ -711,7 +768,7 @@ const MovieRegister = () => {
                   render={({field:{name,onChange,value}}) => (
                     <div>
                       <Input
-                        type="number"
+                        type="text"
                         label="Informe a página de lançamento do filme"
                         onChange={onChange}
                         id={name}
@@ -730,7 +787,7 @@ const MovieRegister = () => {
                   render={({field:{name,onChange,value}}) => (
                     <div>
                       <Input
-                        type="number"
+                        type="text"
                         label="Link do IMBD do filme"
                         onChange={onChange}
                         id={name}
@@ -742,7 +799,7 @@ const MovieRegister = () => {
                 />
               </div>
             </div>
-            <Button onlyBorder={false} small={false} type="submit">
+            <Button loading={isLoading} onlyBorder={false} small={false} type="submit">
               Cadastrar
             </Button>
           </form>

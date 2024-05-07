@@ -149,6 +149,13 @@ namespace MoviesApi.Controllers
                 {
                     response.PosterSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, response.PosterPath);
                     response.BackdropSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, response.BackdropPath);
+                    if(response.Comments != null)
+                    {
+                        response.Comments.ForEach(comment =>
+                        {
+                            comment.Author.ProfileImageSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, comment.Author.ProfileImagePath);
+                        });
+                    }
                 }
                 return Ok(response);
             }
@@ -162,12 +169,20 @@ namespace MoviesApi.Controllers
             }
         }
 
+        [Authorize(Roles = "User,Admin")]
         [HttpGet("movieByName/{input}")]
         public async Task<IActionResult> GetByName(string input)
         {
             try
             {
-                var response = await _movieService.GetMoviesByNameAsync(input);
+                var userId = int.Parse(User.FindFirst("Id")!.Value);
+                var obj = new MovieNameGetDto
+                {
+                    Name = input,
+                    UserId = userId
+                };
+
+                var response = await _movieService.GetMoviesByNameAsync(obj);
                 response?.ForEach(movie =>
                     {
                         movie.PosterSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, movie.PosterPath);

@@ -243,6 +243,7 @@ const CompanyRegister = () => {
 											onChange={onChange}
 											label="País*"
 											placeholder="Digite o país de origem da produtora..."
+											type="text"
 										/>
 										<Error>
 											{errors.name &&

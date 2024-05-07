@@ -1,5 +1,5 @@
 export interface MovieModel {
-    isAdult: boolean;
+    age: number;
     backdropPath: string;
     backdropSource: string;
     posterSource: string;

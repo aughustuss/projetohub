@@ -100,6 +100,9 @@ namespace MoviesApi.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("Age")
+                        .HasColumnType("int");
+
                     b.Property<string>("BackdropPath")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -122,9 +125,6 @@ namespace MoviesApi.Infrastructure.Migrations
 
                     b.Property<string>("ImdbId")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsAdult")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Languages")
                         .IsRequired()
@@ -237,8 +237,14 @@ namespace MoviesApi.Infrastructure.Migrations
                     b.Property<DateTime?>("EmailConfirmTokenLifetime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("FavoriteGenre")
+                        .HasColumnType("int");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastSearchedTitle")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NickName")

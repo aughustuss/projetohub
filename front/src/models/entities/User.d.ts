@@ -1,11 +1,14 @@
 import { MovieModel } from "./Movie";
 
 export interface UserProfileModel {
+    id:number;
     firstName: string;
     surName: string;
     nickName: string;
     profileTitle: string;
-    profileImage?: string;
+    profileImageSource: string;
+    lastSearchedTitle?: string,
+    favoriteGenre: string,
     email: string;
     role: Role;
     creationDate: Date,

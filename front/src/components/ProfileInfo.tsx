@@ -15,7 +15,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import Dropzone from "react-dropzone";
 import { CustomFile } from "views/MovieRegister";
 import Error from "./Error";
-import { addProfileImageService } from "services/Services";
+import { addProfileImageService, getUserFollowersService } from "services/Services";
 import LoginContext from "contexts/LoginContext";
 
 interface ProfileImage{
@@ -49,11 +49,26 @@ const ProfileInfo = ({
 	const [profileImage, setProfileImage] = React.useState<CustomFile[]>([]);
 	const [isLoading, setLoading] = React.useState<boolean>(false);
 	const {token} = React.useContext(LoginContext);
+	const [followers, setFollowers] = React.useState<number[]>([]);
+
+	const getUserFollowers = async () => {
+		if(user != null){
+			try{
+				const response = await getUserFollowersService(token);
+				if(response.status === 200){
+					setFollowers(response.data);
+				}
+			} catch (error){
+				console.log(error)
+			}
+		}
+	}
 
 	React.useEffect(() => {
         if (user?.profileImageSource) {
             setUserProfilePath(user.profileImageSource);
         }
+		getUserFollowers();
     }, [user]);
 
 	const {control, formState:{errors}, handleSubmit, setValue} = useForm<ProfileImage>({
@@ -93,7 +108,7 @@ const ProfileInfo = ({
 								profileImage[0]
 									.preview : userProfilePath
 							}
-							className="h-[300px] md:h-4/6 w-full object-cover rounded-xl"
+							className="min-h-[300px] md:h-full w-full object-cover rounded-xl"
 						/>
 								<form onSubmit={handleSubmit(onSubmit)} className="absolute italic text-primaryBlack w-full left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
 							{!anotherUserProfile && user?.profileImageSource?.includes("defaultuserprofile.png") && profileImage.length == 0 && (
@@ -238,7 +253,7 @@ const ProfileInfo = ({
 							<div className="border border-primaryBg p-4 rounded-lg w-fit text-sm gap-y-2 flex flex-col">
 								{userMostRepeatedCategoryName &&
 								userMostRepeatedCategoryName !== "" &&
-								userFavoriteMovies.length > 0 ? (
+								userFavoriteMovies.length > 0 && (
 									<>
 										<p>
 											O gênero preferido de{" "}
@@ -248,7 +263,7 @@ const ProfileInfo = ({
 											</InfoText>
 										</p>
 										<p>
-											Este usuário assistiu{" "}
+											Este usuário favoritou{" "}
 											<InfoText bold>
 												{" "}
 												{userMoviesCount}
@@ -256,28 +271,34 @@ const ProfileInfo = ({
 											filmes deste gênero{" "}
 										</p>
 									</>
-								) : (
-									<p>
-										{user?.nickName} ainda não assistiu
-										filme.
-									</p>
-								)}
+								)} 
+								<div className="pt-2">
+									{user?.watchedMoviesCount && user.watchedMoviesCount > 0 ? (
+										<p > <span className="capitalize"> {user.nickName}</span> assistiu <InfoText bold>{user.watchedMoviesCount} </InfoText> filmes</p>
+									) : (
+										<p> <span className="capitalize">{user?.nickName}</span> ainda não assistiu nenhum filme.</p>
+									)}
+								</div>
 							</div>
 							{anotherUserProfile && (
-								<div className="gap-2 flex flex-col w-full sm:w-fit">
+								<div className="gap-2 flex flex-col w-full sm:w-fit items-center">
 									<Button fullWidth onlyBorder={false} small>
 										<BiSolidChat className="text-2xl" />
 										Enviar mensagem{" "}
 									</Button>
-									<Button
-										small
-										onlyBorder={false}
-										fullWidth
-										type="button"
-									>
-										<IoPersonAdd className="text-lg" />
-										Seguir{" "}
-									</Button>
+									{user != null && !followers.includes(user.id) ? (
+										<Button
+											small
+											onlyBorder={false}
+											fullWidth
+											type="button"
+										>
+											<IoPersonAdd className="text-lg" />
+											Seguir{" "}
+										</Button>
+									) : (
+										<p className="text-bodyColor text-xs italic">Seguindo</p>
+									)}
 								</div>
 							)}
 						</Row>
@@ -338,15 +359,21 @@ const ProfileInfo = ({
 							/>
 						) : (
 							<div className="flex flex-col items-center justify-center h-[400px] text-xs text-bodyColor gap-y-4">
-								Você ainda não assistiu nenhuma filme... Que
-								pena. Vamos mudar isso!
-								<Link
-									bgNotPrimary
-									onlyBorder
-									to={`/genre/${userMostRepeatedCategory}`}
-								>
-									Navegar por Filmes
-								</Link>
+								{!anotherUserProfile ? (
+									<div className="flex flex-col items-center justify-center h-[400px] text-xs text-bodyColor gap-y-4">
+										Você ainda não favoritou nenhum filme... Que
+										pena. Vamos mudar isso!
+										<Link
+											bgNotPrimary
+											onlyBorder
+											to={`/genre/${userMostRepeatedCategory}`}
+											>
+											Navegar por Filmes
+										</Link>
+									</div>
+								) : (
+									<p>{user?.nickName} ainda não favoritou nenhum filme...</p>
+								)}
 							</div>
 						)}
 					</div>

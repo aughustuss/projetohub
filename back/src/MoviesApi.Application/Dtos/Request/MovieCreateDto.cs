@@ -8,7 +8,7 @@ namespace MoviesApi.Application.Dtos.Request
         public IFormFile? Backdrop { get; set; } = null;
         public IFormFile? Poster { get; set; } = null;
         public int CreatorUserId { get; set; }
-        public bool IsAdult { get; set; } = false;
+        public int Age { get; set; }
         public List<EGenre> Genres { get; set; } = null!;
         public List<ELanguage> Languages { get; set; } = null!;
         public List<CompanyGetDto> Companies { get; set; } = null!;

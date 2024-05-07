@@ -78,8 +78,14 @@ export const getMoviesBasedOnItsGenreService = async (genre: string, page: numbe
     return await axios.get(`${apiEndpoint}/Movie/movieByGenre/${genre}/${page}`);
 }
 
-export const getMoviesBasedOnItsTitleService = async (search: string) => {
-    return await axios.get(`${apiEndpoint}/Movie/movieByName/${search}`);
+export const getMoviesBasedOnItsTitleService = async (search: string, token:string) => {
+    return await axios.get(`${apiEndpoint}/Movie/movieByName/${search}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type":"application/json"
+        }
+    });
 }
 
 export const getPopularMoviesService = async () => {
@@ -254,6 +260,26 @@ export const addProfileImageService = async (data: FormData, token:string) => {
 
 export const followUserService = async (token:string, id:number) => {
     return await axios.post(`${apiEndpoint}/User/friend`, id, {
+        headers:{
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type":"application/json"
+        }
+    })
+}
+
+export const getUserFollowersService = async (token:string) => {
+    return await axios.get(`${apiEndpoint}/User/friends`, {
+        headers:{
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type":"application/json"
+        }
+    })
+}
+
+export const getUserFavoritedListService = async (token:string) => {
+    return await axios.get(`${apiEndpoint}/User/favoritedMovies`, {
         headers:{
             Authorization: `Bearer ${token}`,
             Accept: "application/json",

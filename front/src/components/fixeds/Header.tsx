@@ -7,6 +7,7 @@ import Input from "components/Input";
 import LastTitleContext from "contexts/LastSearchedTitleContext";
 import { useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
+import LoginContext from "contexts/LoginContext";
 interface HeaderProps {
   isOnTop: boolean;
   showNav: boolean;
@@ -17,6 +18,7 @@ const Header = ({ isOnTop, showNav }: HeaderProps) => {
   const { isToggled, handleToggle, setIsToggled } =
     React.useContext(SideBarContext);
   const navigate = useNavigate();
+  const {isLoggedIn} = React.useContext(LoginContext);
 
   const handleEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
@@ -48,28 +50,30 @@ const Header = ({ isOnTop, showNav }: HeaderProps) => {
             >
               HubFilmes
             </a>
-            <div className="w-3/4 px-4 md:px-0 md:w-1/3 h-1/2 relative flex flex-row items-center gap-1">
-              <Input
-                hasText={searchParam.length > 0}
-                onChange={(e) => setSearchParam(e.target.value)}
-                onClick={() => setSearchParam("")}
-                type="text"
-                onKeyDown={handleEnter}
-                placeholder="Pesquise por um filme..."
-                value={searchParam}
-                withIcon
-                icon={<IoMdClose />}
-                height={40}
-              />
-              {searchParam.length > 0 && (
-                <button
-                  className="border-2 border-border hover:bg-secondary hover:border-secondary transition duration-300 active:scale-95 h-[40px] px-4 rounded-lg font-semibold text-sm"
-                  onClick={() => handleGo()}
-                >
-                  Ir
-                </button>
-              )}
-            </div>
+            {isLoggedIn && (
+              <div className="w-3/4 px-4 md:px-0 md:w-1/3 h-1/2 relative flex flex-row items-center gap-1">
+                <Input
+                  hasText={searchParam.length > 0}
+                  onChange={(e) => setSearchParam(e.target.value)}
+                  onClick={() => setSearchParam("")}
+                  type="text"
+                  onKeyDown={handleEnter}
+                  placeholder="Pesquise por um filme..."
+                  value={searchParam}
+                  withIcon
+                  icon={<IoMdClose />}
+                  height={40}
+                />
+                {searchParam.length > 0 && (
+                  <button
+                    className="border-2 border-border hover:bg-secondary hover:border-secondary transition duration-300 active:scale-95 h-[40px] px-4 rounded-lg font-semibold text-sm"
+                    onClick={() => handleGo()}
+                  >
+                    Ir
+                  </button>
+                )}
+              </div>
+            )}
             <div className="text-links font-bold flex flex-row items-center gap-x-6">
               {isAboveLG ? (
                 <Linksmapped isAboveLG={isAboveLG}/>

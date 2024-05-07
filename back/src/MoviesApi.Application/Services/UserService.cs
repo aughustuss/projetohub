@@ -12,6 +12,7 @@ using MoviesApi.Application.Utils.Models;
 using MoviesApi.Application.Utils.EmailBodies;
 using MoviesApi.Utils.EmailBodies;
 using Microsoft.AspNetCore.Http;
+using System.Security.Cryptography;
 
 namespace MoviesApi.Application.Services
 {
@@ -50,6 +51,54 @@ namespace MoviesApi.Application.Services
             _imageUploaderService = imageUploaderService;
         }
 
+        private static string BuildProfileTitle(int input)
+        {
+            if (input == 0)
+                return "Um novato no mundo dos filmes...";
+            else if(input >= 0 && input <= 25)
+                return "Começando a assistir alguns filmes";
+            else if (input >= 25 && input <= 50)
+                return "Gosta de assistir filmes";
+            else if (input >= 50 && input <= 100)
+                return "Está criando uma paixão por filmes";
+            else if (input >= 100 && input <= 150)
+                return "Tem uma paixão por filmes";
+            else if (input >= 150 && input <= 250)
+                return "Ama assistir filmes";
+            else if (input >= 250 && input <= 400)
+                return "É viciado em filmes";
+            else if (input >= 400 && input <= 500)
+                return "Realmente é viciado por filmes, não passa um dia sem ver";
+            else if (input >= 500 && input <= 750)
+                return "É um grande cinéfilo";
+            else
+                return "É um dos maiores cinéfilos que já pisaram na terra";
+        }
+
+        private static string GenerateToken()
+        {
+            var tokenBytes = RandomNumberGenerator.GetBytes(64);
+            return Convert.ToBase64String(tokenBytes);
+        }
+
+        private static EGenre FindFavoriteGenre(List<Movie> movies)
+        {
+            Dictionary<EGenre, int> genreCount = [];
+            foreach(var movie in movies)
+            {
+                foreach(var genre in movie.Genres)
+                {
+                    if(genreCount.ContainsKey(genre))
+                        genreCount[genre]++;
+                    else 
+                        genreCount.Add(genre, 1);
+                }
+            }
+
+            EGenre favoriteGenre = genreCount.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
+            return favoriteGenre;
+        }
+
         public async Task CreateUserAsync(UserCreateDto input)
         {
             var user = _mapper.Map<User>(input);
@@ -58,9 +107,9 @@ namespace MoviesApi.Application.Services
 
             user.Password = _hasher.HashPassword(user, user.Password);
 
-            user.ProfileTitle = "Um novato no mundo dos filmes...";
+            user.ProfileTitle = BuildProfileTitle(user.WatchedMovies.Count);
 
-            user.EmailConfirmToken = user.GenerateToken();
+            user.EmailConfirmToken = GenerateToken();
 
             user.EmailConfirmTokenLifetime = DateTime.UtcNow.AddMinutes(30);
 
@@ -129,6 +178,7 @@ namespace MoviesApi.Application.Services
             };
 
             user.FavoriteMovies.Add(movie);
+            user.FavoriteGenre = FindFavoriteGenre(user.FavoriteMovies);
             await _userFavoriteMovieRepository.CreateUserFavoriteMovieAsync(userFavoriteMovie);
             await _userRepository.UpdateUserAsync(user);
         }
@@ -143,7 +193,7 @@ namespace MoviesApi.Application.Services
                 throw new EntityAlreadyExistsException($"Filme com o id {input.MovieId} já está adicionado na sua lista.");
 
             user.WatchedMovies.Add(movie);
-            user.ProfileTitle = user.BuildProfileTitle();
+            user.ProfileTitle = BuildProfileTitle(user.WatchedMovies.Count);
             await _userRepository.UpdateUserAsync(user);
         }
 
@@ -211,7 +261,7 @@ namespace MoviesApi.Application.Services
         {
             var user = await _userRepository.GetUserByEmailAsync(input.Email);
 
-            user.ResetPasswordToken = user.GenerateToken();
+            user.ResetPasswordToken = GenerateToken();
 
             user.ResetPasswordTokenLifetime = DateTime.UtcNow.AddMinutes(30);
 
@@ -265,7 +315,7 @@ namespace MoviesApi.Application.Services
 
             var movie = await _movieRepository.GetMovieByIdAsync(input.MovieId);
 
-            var exists = user.Rates.Any(m => m.Id == input.MovieId);
+            var exists = user.Rates.Any(m => m.MovieId == input.MovieId);
 
             return exists;
         }
@@ -320,6 +370,20 @@ namespace MoviesApi.Application.Services
                 user.ProfileImagePath = await _imageUploaderService.SaveImage(input.ProfileImage);
 
             await _userRepository.UpdateUserAsync(user);
+        }
+
+        public async Task<List<int>> GetUserFriendListAsync(int input)
+        {
+            var user = await _userRepository.GetAllUserInfosByIdAsync(input);
+
+            return user.Friends.Select(f => f.Id).ToList();
+        }
+
+        public async Task<List<int>> GetUserFavoritedListAsync(int input)
+        {
+            var user = await _userRepository.GetAllUserInfosByIdAsync(input);
+
+            return user.FavoriteMovies.Select(fm => fm.Id).ToList();
         }
     }
 }

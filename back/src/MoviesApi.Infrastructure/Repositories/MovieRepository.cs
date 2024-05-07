@@ -139,7 +139,7 @@ namespace MoviesApi.Infrastructure.Repositories
         public async Task UpdateMovieVotesAsync(Movie input)
         {
             input.VoteCount = await _dbContext.Rates.CountAsync(r => r.MovieId == input.Id);
-            input.VoteAverage = (_dbContext.Movies.Include(m => m.Rates).SelectMany(r => r.Rates).Sum(r => r.Vote)) / input.VoteCount;
+            input.VoteAverage = (_dbContext.Movies.Include(m => m.Rates).SelectMany(r => r.Rates).Where(r => r.MovieId == input.Id).Sum(r => r.Vote)) / input.VoteCount;
             _dbContext.Movies.Update(input);
             await _dbContext.SaveChangesAsync();
         }

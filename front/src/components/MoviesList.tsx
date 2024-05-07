@@ -38,9 +38,9 @@ const MoviesList = ({ movies, grid, extraItems, hasDarkBg, hasMovies, stretch }:
                 {extraItems && (
                   <>
                     <p className="text-xs italic text-bodyColor">
-                      Adicionado em{" "}
-                      {movie.addedDate &&
-                        new Date(movie.addedDate).toLocaleDateString("pt-BR")}
+                      Lançado em{" "}
+                      {movie.releaseDate &&
+                        new Date(movie.releaseDate).toLocaleDateString("pt-BR")}
                     </p>
                     <Button
                       onClick={() => removeMovieFromFavoriteList(movie.id.toString())}
@@ -66,9 +66,9 @@ const MoviesList = ({ movies, grid, extraItems, hasDarkBg, hasMovies, stretch }:
               {extraItems && (
                 <>
                   <p className="text-xs italic text-bodyColor">
-                    Adicionado em{" "}
-                    {movie.addedDate &&
-                      new Date(movie.addedDate).toLocaleDateString("pt-BR")}
+                    Lançado em{" "}
+                    {movie.releaseDate &&
+                      new Date(movie.releaseDate).toLocaleDateString("pt-BR")}
                   </p>
                   <Button
                     onClick={() => removeMovieFromFavoriteList(movie.id.toString())}

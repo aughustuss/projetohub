@@ -10,6 +10,7 @@ import {
   addToFavoriteListService,
   getPopularMoviesService,
   getUpcomingMoviesService,
+  getUserFavoritedListService,
 } from "services/Services";
 import Loading from "views/Loading";
 import Title from "./Title";
@@ -22,6 +23,7 @@ const Banner = () => {
   const [upComingMovies, setUpComingMovies] = React.useState<MovieModel[] >([]);
   const {token} = React.useContext(LoginContext);
   const [movieAlreadyAdded, setMovieAlreadyAdded] = React.useState<boolean>(false);
+  const [userFavoritedList, setUserFavoritedList] = React.useState<number[]>([]);
   
   const [loadingMovies, setLoadingMovies] = React.useState<boolean>(false);
   
@@ -46,7 +48,20 @@ const Banner = () => {
           console.log(err);
         })
     )
+    getUserFavoritedList();
   },[])
+
+  const getUserFavoritedList = async () => {
+    try{
+      const response = await getUserFavoritedListService(token);
+      if(response.status === 200){
+        setUserFavoritedList(response.data);
+      }
+      console.log(response);
+    } catch (error){
+      console.log(error);
+    }
+  }
 
   const addMovieToFavoriteList = async (id:number) => {
     if(id){
@@ -59,8 +74,6 @@ const Banner = () => {
       }
     }
   }
-
-  console.log(upComingMovies)
 
   const isAboveSM = useMediaQuery("(min-width: 400px)");
   if(loadingMovies){
@@ -89,12 +102,12 @@ const Banner = () => {
                     />
                     <div className="bg-black absolute inset-0 h-full z-10 w-full opacity-25 rounded-lg" />
                     <button onClick={() => {
-                      if(!movieAlreadyAdded){
+                      if(!movieAlreadyAdded && !userFavoritedList.includes(movie.id)){
                         addMovieToFavoriteList(movie.id)}
                       }
-                      } className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-full bg-primary text-iconSize font-black z-40 hover:bg-primary/90 transition duration-300 active:scale-95 ">
+                      } className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-full bg-primary text-iconSize font-black z-40 hover:bg-primary/90 transition duration-300 active:scale-95 ${userFavoritedList.includes(movie.id) && "cursor-not-allowed" } `}>
                       
-                      {!movieAlreadyAdded ? <BsPlus /> : <FaCheck/> }
+                      {!movieAlreadyAdded && !userFavoritedList.includes(movie.id) ? <BsPlus /> : <FaCheck/> }
                     </button>
                   </div>
                 </div>

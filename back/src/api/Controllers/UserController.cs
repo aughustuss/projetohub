@@ -491,5 +491,41 @@ namespace MoviesApi.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,User")]
+        [HttpGet("friends")]
+        public async Task<IActionResult> GetUserFriendList()
+        {
+            try
+            {
+                var userId = int.Parse(User.FindFirst("Id")!.Value);
+                var response = await _userService.GetUserFriendListAsync(userId);
+                return Ok(response);
+            } catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize(Roles = "Admin,User")]
+        [HttpGet("favoritedMovies")]
+        public async Task<IActionResult> GetUserFavoritedList()
+        {
+            try
+            {
+                var userId = int.Parse(User.FindFirst("Id")!.Value);
+                var response = await _userService.GetUserFavoritedListAsync(userId);
+                return Ok(response);
+            } catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

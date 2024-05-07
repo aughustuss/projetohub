@@ -1,17 +1,6 @@
 import React from "react";
-import Title from "components/Title";
 import { MovieModel } from "models/entities/Movie";
-import Text from "components/Text";
-import Row from "components/Row";
-import Button from "components/Button";
-import { BiSolidChat } from "react-icons/bi";
-import { IoPersonAdd } from "react-icons/io5";
-import { findTheMostRepeatedCategory } from "utils/CategoryFrequency";
 import { AllCategories } from "data/Categories";
-import InfoText from "components/InfoText";
-import OrderBy from "components/OrderBy";
-import Link from "components/Link";
-import MoviesList from "components/MoviesList";
 import { UserProfileModel } from "models/entities/User";
 import { getUserInfoByIdService } from "services/Services";
 import { useParams } from "react-router-dom";
@@ -42,9 +31,7 @@ const Profile = () => {
 
 	React.useEffect(() => {
 		getUserInfo();
-	}, [userId]);
-
-	console.log(user);
+	}, [userId, userMoviesCount]);
 
 	const getUserInfo = async () => {
 		if (userId) {
@@ -53,31 +40,25 @@ const Profile = () => {
 					const userData = res.data;
 					setUser(userData);
 					if (userData) {
-						setUserFavoriteMovies(userData.favoriteMovies);
-						const mostRepeatedCategory =
-							findTheMostRepeatedCategory(
-								userData.favoriteMovies
-							);
-						setUserMostRepeatedCategory(mostRepeatedCategory);
 
+						setUserFavoriteMovies(userData.favoriteMovies);
+						setUserFavoriteList(userData.favoriteMovies);
+						setUserMostRepeatedCategoryName(userData.favoriteGenre);
+
+						const mostRepeatedCategory = AllCategories.find((category) => {
+							return category.name === userData.favoriteGenre
+						});
+
+						setUserMostRepeatedCategory(mostRepeatedCategory?.id);
+						
 						setUserMoviesCount(
 							userData.favoriteMovies.filter((movie) =>
 								movie.genres.some(
 									(genre) =>
-										genre === userMostRepeatedCategoryName
+										genre === user?.favoriteGenre
 								)
 							).length
 						);
-
-						setUserFavoriteList(userData.favoriteMovies);
-
-						const userFavoriteCategory = AllCategories.find(
-							(category) => category.id === mostRepeatedCategory
-						);
-						if (userFavoriteCategory)
-							setUserMostRepeatedCategoryName(
-								userFavoriteCategory.name
-							);
 					}
 				})
 				.catch((err) => {
@@ -85,35 +66,6 @@ const Profile = () => {
 				});
 		}
 	};
-
-	// React.useEffect(() => {
-	// 	if (favoriteMovies) {
-	// 		const parsedFavoriteMovies = JSON.parse(favoriteMovies);
-	// 		setUserFavoriteMovies(parsedFavoriteMovies);
-	// 		setUserMostRepeatedCategory(
-	// 			findTheMostRepeatedCategory(
-	// 				parsedFavoriteMovies,
-	// 				"userMostFrequentCategory"
-	// 			)
-	// 		);
-	// 		setUserMoviesCount(
-	// 			parsedFavoriteMovies.filter((movie: MovieModel) =>
-	// 				movie.genre_ids.some(
-	// 					(genre) => Number(genre) === userMostRepeatedCategory
-	// 				)
-	// 			).length
-	// 		);
-
-	// 		const userFavoriteCategoryName = AllCategories.find(
-	// 			(cat) => cat.id === userMostRepeatedCategory
-	// 		);
-
-	// 		if (userFavoriteCategoryName) {
-	// 			setUserMostRepeatedCategoryName(userFavoriteCategoryName.name);
-	// 		}
-	// 	}
-	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	// }, [userMostRepeatedCategory]);
 
 	return (
 		<>

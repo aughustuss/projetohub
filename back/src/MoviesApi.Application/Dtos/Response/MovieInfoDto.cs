@@ -6,7 +6,7 @@ namespace MoviesApi.Application.Dtos.Response
     public class MovieInfoDto
     {
         public int Id { get; set; }
-        public bool IsAdult { get; set; }
+        public int Age{ get; set; }
         public List<string> Genres { get; } = [];
 
         public string BackdropPath { get; set; } = string.Empty;

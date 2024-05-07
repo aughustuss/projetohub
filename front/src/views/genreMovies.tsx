@@ -13,9 +13,11 @@ import OrderBy from "components/OrderBy";
 import { AllCategories } from "data/Categories";
 import { IoMdClose } from "react-icons/io";
 import ErrorMessage from "components/ErrorMessage";
+import LoginContext from "contexts/LoginContext";
 
 const GenreMovies = () => {
 	const { movieGenre } = useParams();
+	const {token} = React.useContext(LoginContext)
 	const [movies, setMovies] = React.useState<MovieModel[]>([]);
 	const [page, setPage] = React.useState<number>(1);
 	const [pageCount, setPageCount] = React.useState<number>(0);
@@ -54,7 +56,7 @@ const GenreMovies = () => {
 		if (searchParam.length > 0) {
 			setLoadingSearchedMovies(false);
 			Promise.resolve(
-				getMoviesBasedOnItsTitleService(searchParam).then(
+				getMoviesBasedOnItsTitleService(searchParam, token).then(
 					(response) => {
 						const responseData: MovieModel[] = response.data;
 						setSearchedMovies(
@@ -74,6 +76,7 @@ const GenreMovies = () => {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [page, searchParam]);
+
 
 	return (
 		<>

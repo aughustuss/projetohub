@@ -78,9 +78,16 @@ namespace MoviesApi.Application.Services
             return _mapper.Map<MovieInfoDto>(movie);
         }
 
-        public async Task<List<MovieInfoDto>> GetMoviesByNameAsync(string input)
+        public async Task<List<MovieInfoDto>> GetMoviesByNameAsync(MovieNameGetDto input)
         {
-            var movies = await _movieRepository.GetMoviesByNameAsync(input);
+            var movies = await _movieRepository.GetMoviesByNameAsync(input.Name);
+            
+            var user = await _userRepository.GetAllUserInfosByIdAsync(input.UserId);
+            
+            user.LastSearchedTitle = input.Name;
+
+            await _userRepository.UpdateUserAsync(user);
+
             return _mapper.Map<List<MovieInfoDto>>(movies);
         }
 

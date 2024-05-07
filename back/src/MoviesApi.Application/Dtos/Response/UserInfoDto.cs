@@ -11,6 +11,7 @@ namespace MoviesApi.Application.Dtos.Response
 {
     public class UserInfoDto
     {
+        public int Id { get; set; }
         public string FirstName { get; set; } = string.Empty;
         public string SurName { get; set; } = string.Empty;
         public string NickName {  get; set; } = string.Empty;
@@ -19,6 +20,8 @@ namespace MoviesApi.Application.Dtos.Response
         public string ProfileImagePath { get; set; } = string.Empty;
         public string ProfileImageSource {  get; set; } = string.Empty;
 
+        public string? LastSearchedTitle { get; set; } = string.Empty;
+        public string FavoriteGenre { get; set; } = null!;
         public string Email { get; set; } = string.Empty;
         public EUser Role { get; set; }
         public DateTime? CreationDate { get; set; }

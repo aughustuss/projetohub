@@ -18,7 +18,7 @@ import Loading from "views/Loading";
 import Button from "./Button";
 import ErrorMessage from "./ErrorMessage";
 import CommentSection from "./ComentSection";
-import { UserProfileModel } from "models/entities/User";
+import { UserProfileModel, UserShortProfileModel } from "models/entities/User";
 import StarRatings from "react-star-ratings";
 import Row from "./Row";
 import { RateCreationModel } from "models/entities/Rate";
@@ -33,7 +33,6 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 		React.useState<boolean>(false);
 	const [movieExistsInFavorites, setMovieExistsInFavorites] =
 		React.useState<boolean>(false);
-	const tmdbImagePath = import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH;
 	const [isLoading, setLoading] = React.useState(false);
 
 	const [user, setUser] = React.useState<UserProfileModel>();
@@ -66,8 +65,6 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 		setRate(rate);
 	};
 
-	console.log(userAlreadyRated)
-
 	React.useEffect(() => {
 		setLoading(true);
 		if (movieId) {
@@ -92,10 +89,9 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 						setMovieExistsInWatched(movieInWatched);
 						setMovieExistsInFavorites(movieInFavorites);
 					}
-
+					console.log(response[1].data)
 					setMovieById(response[1].data);
 					setUserAlreadyRated(response[2].data);
-					console.log(response[2].data)
 					setLoading(false);
 				})
 				.catch((error) => {
@@ -140,8 +136,8 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 			}
 			Promise.resolve(
 				await addRateToMovieService(data, token)
-					.then((response) => {
-						console.log(response);
+					.then(() => {
+						setUserAlreadyRated(true);
 					})
 					.catch((error) => {
 						console.log(error);
@@ -150,6 +146,19 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 		}
 	};
 
+	const shortUser: UserShortProfileModel = {
+		firstName: user?.firstName ?? "",
+		friendsCount: 0,
+		id: user?.id ?? 0,
+        surName: user?.surName  ?? "",
+		nickName: user?.nickName ?? "",
+        profileImageSource: user?.profileImageSource ?? "",
+        profileTitle: user?.profileTitle ?? "",
+        watchedMoviesCount: user?.watchedMoviesCount ?? 0,
+	}
+
+	console.log(movieById)
+
 	if (isLoading) return <Loading big />;
 
 	return (
@@ -157,7 +166,7 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 			{movieId && movieById ? (
 				<main className="w-full h-auto flex flex-col text-newWhite">
 					{/* Banner */}
-					<div className="min-h-[650px] h-auto w-full">
+					<div className="h-[650px] w-full">
 						<div className="h-full w-full relative">
 							<img
 								src={movieById.backdropSource}
@@ -198,8 +207,7 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 																){" "}
 															</p>
 														</span>
-														{movieById?.status.toString() ==
-														"Lançado" ? (
+														{movieById?.status.toString() == "0" ? (
 															<span className="py-1 px-2 bg-newWhite rounded-xl text-primaryBlack text-body w-fit text-sm">
 																Lançado
 															</span>
@@ -250,7 +258,7 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 										{/* Minutos e categorias */}
 										<div className="flex flex-row flex-wrap gap-2 text-subBody items-center">
 											<p className="p-1 border border-border  w-fit rounded-lg">
-												{movieById?.isAdult
+												{movieById?.age >= 18
 													? "Filme aduto"
 													: "Não adulto"}
 											</p>{" "}
@@ -333,43 +341,47 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 											<p className="text-smallDevicesTitle font-title font-black ">
 												Classificação geral do público
 											</p>
-											<div className="flex flex-row items-center gap-4">
-												<div className="max-h-[80px] max-w-[80px] ">
-													<Doughnut
-														data={data}
-														options={{
-															plugins: {
-																legend: {
-																	display:
-																		false,
+											{movieById.voteCount > 0 ? (
+												<div className="flex flex-row items-center gap-4">
+													<div className="max-h-[80px] max-w-[80px] ">
+														<Doughnut
+															data={data}
+															options={{
+																plugins: {
+																	legend: {
+																		display:
+																			false,
+																	},
 																},
-															},
-														}}
-													/>
+															}}
+														/>
+													</div>
+													<div className="flex flex-row text-body gap-2">
+														<p className="flex flex-row items-center gap-x-2">
+															<AiFillStar className="text-yellow-600" />
+															<span>
+																{
+																	movieById?.voteAverage
+																}
+															</span>
+														</p>
+														/
+														<p>
+															{movieById?.voteCount} -
+															Votantes
+														</p>
+													</div>
 												</div>
-												<div className="flex flex-row text-body gap-2">
-													<p className="flex flex-row items-center gap-x-2">
-														<AiFillStar className="text-yellow-600" />
-														<span>
-															{
-																movieById?.voteAverage
-															}
-														</span>
-													</p>
-													/
-													<p>
-														{movieById?.voteCount} -
-														Votantes
-													</p>
-												</div>
-											</div>
+											) : (
+												<p className="text-xs italic">Ainda não foram feitas avaliações para este filme...</p>
+											)}
 										</div>
 										{/* Sinopse */}
-										<div className="flex flex-col gap-y-4">
+										<div className="flex flex-col gap-y-4 flex-wrap">
 											<p className="text-smallDevicesTitle font-title font-black">
 												Sinopse
 											</p>
-											<p>{movieById?.overview}</p>
+											<p className="flex flex-wrap max-w-full">{movieById?.overview}</p>
 										</div>
 
 										{/* Avaliação */}
@@ -467,7 +479,7 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 
 					<section className="mt-[100px]">
 						<CommentSection
-							user={user}
+							user={shortUser}
 							movieId={movieById.id.toString()}
 							comments={movieById.comments}
 						/>
