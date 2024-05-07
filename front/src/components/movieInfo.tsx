@@ -160,7 +160,7 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 					<div className="min-h-[650px] h-auto w-full">
 						<div className="h-full w-full relative">
 							<img
-								src={`${tmdbImagePath}${movieById?.backdropPath}`}
+								src={movieById.backdropSource}
 								className="h-full w-full object-cover"
 							/>
 							<div className="bg-black absolute inset-0 h-full w-full opacity-30" />
@@ -175,7 +175,7 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 								{/* Imagem e informações adicionais*/}
 								<div className="flex flex-col md:flex-row items-start gap-4">
 									<img
-										src={`${tmdbImagePath}/${movieById?.posterPath}`}
+										src={movieById.posterSource}
 										className="w-full md:w-[250px] h-[300px] md:h-[20%] rounded-lg shadow-md object-cover"
 									/>
 									<div className="flex flex-col gap-4">
@@ -428,11 +428,7 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 												>
 													<img
 														className="w-[60px] h-[60px] object-contain bg-newWhite rounded-lg p-1"
-														src={`${
-															company?.logoPath !==
-																null &&
-															tmdbImagePath
-														}/${company.logoPath}`}
+														src={company.imageSource}
 													/>
 													<span className="text-subBody text-bodyColor">
 														{company.name}

@@ -33,9 +33,9 @@ namespace MoviesApi.Infrastructure.Repositories
             return user ?? throw new EntityNotFoundException($"Usuário com o id {input} não foi encontrado.");
         }
 
-        public async Task<List<User>> GetAllUsersAsync()
+        public async Task<List<User>> GetAllUsersAsync(int input)
         {
-            var users = await _dbContext.Users.ToListAsync();
+            var users = await _dbContext.Users.Where(u => u.Id != input).ToListAsync();
 
             if (users.Count == 0)
                 throw new EntityNotFoundException("Não há usuários cadastrados.");
@@ -69,9 +69,9 @@ namespace MoviesApi.Infrastructure.Repositories
             throw new EntityNotFoundException($"Não existe um usuário cadastrado com este e-mail.");
         }
 
-        public async Task<List<User>> GetUsersByNameAsync(string input)
+        public async Task<List<User>> GetUsersByNameAsync(string input, int userId)
         {
-            var users = await _dbContext.Users.Where(u => u.FirstName.Contains(input) || u.SurName.Contains(input) || (u.FirstName + " " + u.SurName).Contains(input)).ToListAsync();
+            var users = await _dbContext.Users.Where(u => u.Id != userId).Where(u => u.FirstName.Contains(input) || u.SurName.Contains(input) || (u.FirstName + " " + u.SurName).Contains(input)).ToListAsync();
             return users ?? throw new EntityNotFoundException($"Nãó há usuários com o nome {input} cadastrados.");
         }
 

@@ -15,7 +15,10 @@ namespace MoviesApi.Application.Dtos.Response
         public string SurName { get; set; } = string.Empty;
         public string NickName {  get; set; } = string.Empty;
         public string ProfileTitle {  get; set; } = string.Empty;
-        public IFormFile? ProfileImage { get; set; }
+
+        public string ProfileImagePath { get; set; } = string.Empty;
+        public string ProfileImageSource {  get; set; } = string.Empty;
+
         public string Email { get; set; } = string.Empty;
         public EUser Role { get; set; }
         public DateTime? CreationDate { get; set; }

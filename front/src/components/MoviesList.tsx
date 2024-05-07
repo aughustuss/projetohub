@@ -6,6 +6,8 @@ import { SwiperSlide } from "swiper/react";
 import Button from "./Button";
 import { IoMdClose } from "react-icons/io";
 import { removeFromFavoriteListService } from "services/Services";
+import LoginContext from "contexts/LoginContext";
+import React from "react";
 interface MovieListProps {
   movies: MovieModel[];
   grid: boolean;
@@ -15,8 +17,9 @@ interface MovieListProps {
   stretch?: boolean;
 }
 const MoviesList = ({ movies, grid, extraItems, hasDarkBg, hasMovies, stretch }: MovieListProps) => {
+  const { token } = React.useContext(LoginContext);
   const removeMovieFromFavoriteList = async (id : string) => {
-    await removeFromFavoriteListService(id)
+    await removeFromFavoriteListService(id, token)
     .then((res) => {
       console.log(res);
     }).catch((err) => {

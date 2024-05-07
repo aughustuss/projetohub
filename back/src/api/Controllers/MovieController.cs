@@ -168,6 +168,11 @@ namespace MoviesApi.Controllers
             try
             {
                 var response = await _movieService.GetMoviesByNameAsync(input);
+                response?.ForEach(movie =>
+                    {
+                        movie.PosterSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, movie.PosterPath);
+                        movie.BackdropSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, movie.BackdropPath);
+                    });
                 return Ok(response);
             } catch (EntityNotFoundException ex)
             {

@@ -75,7 +75,7 @@ const Banner = () => {
               <div className="relative w-full h-[550px] z-0 bg-none">
                 <div className="relative h-[85%] w-full">
                   <img
-                    src={"C:\\Users\\User\\source\\repos\\projetohub\\front\\Images\\Universal_242313095.svg"}
+                    src={movie.posterSource}
                     className="object-cover w-full h-full rounded-lg bg-none"
                   />
                   <div className="bg-black absolute inset-0 h-full w-full z-10 opacity-50 rounded-lg" />
@@ -84,7 +84,7 @@ const Banner = () => {
                 <div className="absolute h-2/3 w-2/3 lg:w-1/3 z-30 left-6 bottom-0 ">
                   <div className="relative h-full w-full">
                     <img
-                      src={"C:\\Users\\User\\source\\repos\\projetohub\\front\\Images\\Universal_242313095.svg"}
+                      src={movie.backdropSource}
                       className="rounded-lg object-cover h-full w-full"
                     />
                     <div className="bg-black absolute inset-0 h-full z-10 w-full opacity-25 rounded-lg" />
@@ -124,7 +124,7 @@ const Banner = () => {
               {upComingMovies && upComingMovies.slice(0, 4).map((movie: MovieModel) => (
                 <SwiperSlide key={movie.id} className="flex flex-row gap-x-4 h-[110px] p-2 border border-border rounded-lg hover:bg-border transition duration-300 cursor-pointer">
                   <img
-                    src={"C:\\Users\\User\\source\\repos\\projetohub\\front\\Images\\Universal_242313095.svg"}
+                    src={movie.backdropSource}
                     className="w-full h-[100px] object-cover rounded-lg"
                   />
                   <div className="flex flex-col gap-y-4 text-body text-bodyColor">
@@ -155,7 +155,7 @@ const Banner = () => {
                   className="flex flex-row gap-x-4 h-[110px] p-2 border border-border rounded-lg hover:bg-border transition duration-300 cursor-pointer"
                 >
                   <img
-                    src={"C:\\Users\\User\\source\\repos\\projetohub\\front\\Images\\Universal_242313095.svg"}
+                    src={movie.posterSource}
                     className="min-w-[100px] h-full object-cover rounded-lg"
                   />
                   <div className="flex flex-col gap-y-4 text-body text-bodyColor">

@@ -33,7 +33,6 @@ const Account = () => {
 					setUser(userData);
 					setUserFavoriteMovies(userData.favoriteMovies);
 					setUserFavoriteList(userData.favoriteMovies);
-
 					const mostRepeatedCategory = findTheMostRepeatedCategory(
 						userData.favoriteMovies,
 						"personalFavoriteCategory"

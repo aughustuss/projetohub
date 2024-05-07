@@ -5,7 +5,7 @@ import Button from "../components/Button";
 import { IoPerson, IoPlay } from 'react-icons/io5';
 import { UserShortProfileModel } from 'models/entities/User';
 import LoginContext from 'contexts/LoginContext';
-import { getAllUsersService, getUsersByNameService } from 'services/Services';
+import { followUserService, getAllUsersService, getUsersByNameService } from 'services/Services';
 import { IoMdClose } from 'react-icons/io';
 import Link from 'components/Link';
 
@@ -14,11 +14,26 @@ interface UserProps {
 }
 
 const Cinephiles: React.FC<UserProps> = ({user}: UserProps) => {
+
+  const [isFollowing, setIsFollowing] = React.useState<boolean>(false);
+
+  const {token} = React.useContext(LoginContext);
+
+  const followUser = async (id:number) => {
+    try{
+      const response = await followUserService(token,id);
+      if(response.status === 200)
+        setIsFollowing(true);
+    } catch (error){
+      console.log(error);
+    }
+  }
+
   return (
     <div className="rounded-xl flex flex-row shadow w-2/4 justify-between p-4">
       <div className='flex flex-col gap-y-2'>
         <div className="flex flex-row items-center gap-6">
-          <img  alt="Profile" className="w-12 h-12 rounded-full" />
+          <img src={user.profileImageSource} alt="Profile" className="w-12 h-12 rounded-full" />
           <div className='flex flex-row items-center gap-x-2'>
             <p className="font-bold">{user.firstName} {""} {user.surName}</p>
             <p className='text-sm italic text-bodyColor'>{user.profileTitle}</p>
@@ -36,13 +51,18 @@ const Cinephiles: React.FC<UserProps> = ({user}: UserProps) => {
         </div>
       </div>
       <div className='flex flex-col gap-y-2'>
-       <Button
-          onlyBorder={false}
-          small
-          fullWidth
-        >
-          Seguir
-        </Button>
+       {!isFollowing ? (
+        <Button
+            onlyBorder={false}
+            small
+            fullWidth
+            onClick={() => followUser(user.id)}
+          >
+            Seguir
+          </Button>
+       ) : (
+        <p className='text-xs italic text-bodyColor'>Você já segue este usuário...</p>
+       )}
         <Link
           to={`/profile/${user.id}`}
           onlyBorder

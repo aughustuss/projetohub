@@ -11,7 +11,16 @@ import OrderBy from "./OrderBy";
 import { UserProfileModel } from "models/entities/User";
 import Text from "./Text";
 import { MovieModel } from "models/entities/Movie";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import Dropzone from "react-dropzone";
+import { CustomFile } from "views/MovieRegister";
+import Error from "./Error";
+import { addProfileImageService } from "services/Services";
+import LoginContext from "contexts/LoginContext";
 
+interface ProfileImage{
+	profileImage: Blob | string;
+}
 interface ProfileInfoProps {
 	user?: UserProfileModel;
 	userFavoriteMovies: MovieModel[];
@@ -35,15 +44,146 @@ const ProfileInfo = ({
 	recentlyAdded,
 	anotherUserProfile,
 }: ProfileInfoProps) => {
+
+	const [userProfilePath, setUserProfilePath] = React.useState<string>("");
+	const [profileImage, setProfileImage] = React.useState<CustomFile[]>([]);
+	const [isLoading, setLoading] = React.useState<boolean>(false);
+	const {token} = React.useContext(LoginContext);
+
+	React.useEffect(() => {
+        if (user?.profileImageSource) {
+            setUserProfilePath(user.profileImageSource);
+        }
+    }, [user]);
+
+	const {control, formState:{errors}, handleSubmit, setValue} = useForm<ProfileImage>({
+		defaultValues: {
+            profileImage: "",
+        },
+	});
+
+	const onSubmit: SubmitHandler<ProfileImage> = async (data) => {
+		setLoading(true);
+		const formData = new FormData();
+        formData.append("profileImage", data.profileImage);
+        try{
+			const response = await addProfileImageService(formData, token);
+			if(response.status === 200){
+				setLoading(false);
+			}
+		} catch (error){
+			console.log(error);
+			setLoading(false);
+		}
+	}
+
 	return (
 		<>
 			<main className="flex flex-col gap-y-[80px] pt-[120px] pb-[100px] w-full px-6 md:w-[85%] md:px-0 mx-auto text-newWhite">
 				<div className="flex flex-wrap flex-row items-start gap-4 min-h-[300px] h-auto bg-primaryBg p-4  rounded-xl shadow-md shadow-black/30 sm:justify-start">
-					<div className="h-full w-full md:w-1/4 flex flex-row items-center md:justify-center gap-4">
+					<div className="h-full w-full md:w-1/4 flex flex-row items-center md:justify-center gap-4 relative">
 						<img
-							src={user?.profileImage}
-							className="h-4/6 w-[80px] md:w-full object-cover rounded-xl"
+							onLoad={() =>
+								URL.revokeObjectURL(
+									profileImage[0]
+										.preview
+								)
+							}
+							src={profileImage.length > 0 ?
+								profileImage[0]
+									.preview : userProfilePath
+							}
+							className="h-[300px] md:h-4/6 w-full object-cover rounded-xl"
 						/>
+								<form onSubmit={handleSubmit(onSubmit)} className="absolute italic text-primaryBlack w-full left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+							{!anotherUserProfile && user?.profileImageSource?.includes("defaultuserprofile.png") && profileImage.length == 0 && (
+									<Controller
+										control={control}
+										name="profileImage"
+										rules={{
+											required: {
+                                                value: true,
+                                                message: "Campo obrigatório",
+                                            },
+										}}
+										render={({field:{name}}) => (
+											<div className=" flex flex-col gap-y-1">
+												<Dropzone 
+													maxFiles={1}
+													multiple={false}
+													onDrop={(files) => {
+														setProfileImage(files.map((file) => Object.assign(file, {
+															preview: URL.createObjectURL(file),
+														}), setValue("profileImage", files[0]) ))
+													}}
+													>
+														{({getInputProps, getRootProps, isFocused, isDragActive}) => (
+															<div className="flex flex-col gap-y-1 relative">
+																<div
+																	className={`${
+																		isFocused &&
+																		"border-tertiary"
+																	} hover:border-tertiary cursor-pointer rounded-xl p-4 border-2 border-dashed text-sm text-bodyColor w-1/2 mx-auto`}
+																	{...getRootProps()}
+																>
+																	<input
+																		id={name}
+																		{...getInputProps()}
+																	/>
+																	{isDragActive ? (
+																		<p>
+																			Solte a imagem
+																			aqui...
+																		</p>
+																	) : (
+																		<p>
+																			Arraste e solte
+																			uma imagem aqui
+																			ou clique para
+																			buscar...
+																		</p>
+																	)}
+																</div>
+															</div>	
+														)}
+												</Dropzone>
+												<Error>
+												{errors.profileImage &&
+													errors.profileImage.type ===
+														"required" &&
+													errors.profileImage.message}
+												</Error>
+											</div>
+										)}
+									/>
+										)}
+										{profileImage.length > 0 && (
+											<div className="z-50">
+												<Button 
+													onlyBorder={false}
+													small
+													loading={isLoading}
+													type="submit"
+												>
+													Salvar
+												</Button>
+											</div>
+										)}
+								</form>
+							{profileImage.length > 0 && (
+								<button
+									onClick={() => {
+										setProfileImage([]);
+										setValue(
+											"profileImage",
+											""
+										);
+									}}
+									className="absolute top-1 right-2 font-bold bg-white rounded-full py-1 px-3 text-primaryBlack">
+										x
+								</button>								
+							)} 
+							
 					</div>
 					<div className="flex flex-col gap-8 md:w-fit h-full w-full justify-between">
 						<Title
@@ -191,9 +331,10 @@ const ProfileInfo = ({
 						{userFavoriteList.length > 0 ? (
 							<MoviesList
 								hasMovies
-								extraItems
+								extraItems={!anotherUserProfile}
 								grid
 								movies={userFavoriteList}
+
 							/>
 						) : (
 							<div className="flex flex-col items-center justify-center h-[400px] text-xs text-bodyColor gap-y-4">

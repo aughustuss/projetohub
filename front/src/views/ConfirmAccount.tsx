@@ -12,28 +12,37 @@ export interface UserConfirmAccount {
 const ConfirmAccount = () => {
 
     const [message, setMessage] = React.useState<string>("");
+    const [loginButtonVisible, setLoginButtonVisible] = React.useState<boolean>(false);
 
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const userEmail = params.get("email");
     const userCode = params.get("code");
 
-    console.log(userEmail, userCode);
 
     const confirmAccount = async () => {
         if(userEmail && userCode ){
             try{
                 const data: UserConfirmAccount = {
-                    emailToken: userCode.replace(' ', '+'),
+                    emailToken: userCode.replace(" ","+"),
                     email: userEmail
                 }
                 const response = await confirmAccountService(data);
-                setMessage(response.data);
+                if(response.status === 200){
+                    setMessage(response.data);
+                    setLoginButtonVisible(true);
+                }
             } catch (err) {
-                if(typeof err === 'string')
+                if(typeof err === 'string'){
                     setMessage(err);
-                else if (err instanceof AxiosError)
+
+                }
+                else if (err instanceof AxiosError){
                     setMessage(err.response?.data);
+                    if(err.response?.data == "Usuário já possui a conta confirmada."){
+                        setLoginButtonVisible(true);
+                    }
+                }
             }
         }
     }
@@ -48,9 +57,11 @@ const ConfirmAccount = () => {
                 <p>
                     {message && message}
                 </p>
-                <Link to="/login" onlyBorder={false} bgPrimary>
-                    Clique aqui para fazer o login.
-                </Link>
+                {loginButtonVisible && (
+                    <Link to="/login" onlyBorder={false} bgPrimary>
+                        Clique aqui para fazer o login.
+                    </Link>
+                )}
             </main>
 		</>
 	);

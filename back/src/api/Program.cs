@@ -1,6 +1,7 @@
 using MoviesApi.IoC;
 using Microsoft.OpenApi.Models;
 using MoviesApi.Middlewares;
+using Microsoft.Extensions.FileProviders;
 var builder = WebApplication.CreateBuilder(args);
 
 // CreateMovieAsync services to the container.
@@ -47,6 +48,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine("C:\\Users\\User\\source\\repos\\projetohub\\back\\src\\api", "Images")),
+    RequestPath = "/Images"
+});
+
 
 app.UseHttpsRedirection();
 

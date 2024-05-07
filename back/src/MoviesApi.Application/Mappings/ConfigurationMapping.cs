@@ -23,6 +23,7 @@ namespace MoviesApi.Application.Mappings
             CreateMap<User, FriendIdDto>().ReverseMap();
             CreateMap<User, UserNameGetDto>().ReverseMap();
             CreateMap<User, UserIdGetDto>().ReverseMap();
+            CreateMap<User, UserProfileImageCreateDto>().ReverseMap();
 
             CreateMap<Company, CompanyInfoDto>().ReverseMap();
             CreateMap<Company, CompanyCreateDto>().ReverseMap();

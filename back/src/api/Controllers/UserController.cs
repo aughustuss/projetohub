@@ -9,6 +9,7 @@ using MoviesApi.Application.Utils.Models;
 using MoviesApi.Domain.Entities;
 using MoviesApi.Domain.Exceptions;
 using System.Security.Claims;
+using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace MoviesApi.Controllers
 {
@@ -188,6 +189,15 @@ namespace MoviesApi.Controllers
             {
                 var userId = int.Parse(User.FindFirst("Id")!.Value);
                 var response = await _userService.GetMyInfosAsync(userId);
+                if(response.FavoriteMovies != null)
+                {
+                    response.FavoriteMovies.ForEach(movie =>
+                    {
+                        movie.PosterSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, movie.PosterPath);
+                        movie.BackdropSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, movie.BackdropPath);
+                    });
+                }
+                response.ProfileImageSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, response.ProfileImagePath);
                 return Ok(response);
             } catch (EntityNotFoundException ex)
             {
@@ -199,7 +209,7 @@ namespace MoviesApi.Controllers
         }
 
         [Authorize(Roles = "User,Admin")]
-        [HttpGet("user/role")]
+        [HttpGet("role")]
         public async Task<IActionResult> CheckUserRole()
         {
             try
@@ -217,7 +227,7 @@ namespace MoviesApi.Controllers
         }
 
         [Authorize(Roles = "User,Admin")]
-        [HttpGet("user/favoriteMovies")]
+        [HttpGet("favoriteMovies")]
         public async Task<IActionResult> GetUserFavoriteListCount()
         {
             try
@@ -244,7 +254,7 @@ namespace MoviesApi.Controllers
                 var response = await _userService.GetAllUsersAsync(userId);
                 response.ForEach(user =>
                 {
-                    user.ImageSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, user.ProfileImagePath);
+                    user.ProfileImageSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, user.ProfileImagePath);
                 });
                 return Ok(response);
             }
@@ -259,7 +269,7 @@ namespace MoviesApi.Controllers
         }
 
         [Authorize(Roles = "User, Admin")]
-        [HttpGet("usersByName/{input}")]
+        [HttpGet("name/{input}")]
         public async Task<IActionResult> GetUsersByName(string input)
         {
             try
@@ -271,6 +281,10 @@ namespace MoviesApi.Controllers
                     UserId = userId
                 };
                 var response = await _userService.GetUsersByNameAsync(obj);
+                response.ForEach(user =>
+                {
+                    user.ProfileImageSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, user.ProfileImagePath);
+                });
                 return Ok(response);
             } catch (EntityNotFoundException ex)
             {
@@ -295,6 +309,15 @@ namespace MoviesApi.Controllers
                     UserId = userId
                 };
                 var response = await _userService.GetAllUserInfosByIdAsync(obj);
+                if(response.FavoriteMovies != null)
+                {
+                    response.FavoriteMovies.ForEach(movie =>
+                    {
+                        movie.PosterSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, movie.PosterPath);
+                        movie.BackdropSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, movie.BackdropPath);
+                    });
+                }
+                response.ProfileImageSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, response.ProfileImagePath);
                 return Ok(response);
             }
             catch (EntityNotFoundException ex)
@@ -308,7 +331,7 @@ namespace MoviesApi.Controllers
         }
 
         [Authorize(Roles = "User, Admin")]
-        [HttpGet("user/rate/{input}")]
+        [HttpGet("rate/{input}")]
         public async Task<IActionResult> CheckIfUserRatedMovie(int input)
         {
             try
@@ -334,7 +357,7 @@ namespace MoviesApi.Controllers
         }
 
         [Authorize(Roles = "User,Admin")]
-        [HttpGet("user/watchedMovies/{input}")]
+        [HttpGet("watchedMovies/{input}")]
         public async Task<IActionResult> CheckIfUserWatchedMovies(int input)
         {
             try
@@ -359,7 +382,7 @@ namespace MoviesApi.Controllers
         }
 
         [Authorize(Roles = "User,Admin")]
-        [HttpGet("user/favoriteMovies/{input}")]
+        [HttpGet("favoriteMovies/{input}")]
         public async Task<IActionResult> CheckIfUserFavoritedMovie(int input)
         {
             try
@@ -433,6 +456,32 @@ namespace MoviesApi.Controllers
             } catch (WrongEntryException ex)
             {
                 return BadRequest(ex.Message);
+            } catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize(Roles = "User,Admin")]
+        [HttpPut("profileImage")]
+        public async Task<IActionResult> AddProfileImage([FromForm] IFormFile profileImage)
+        {
+            try
+            {
+                var userId = int.Parse(User.FindFirst("Id")!.Value);
+                var obj = new UserProfileImageCreateDto
+                {
+                    ProfileImage = profileImage,
+                    UserId = userId
+                };
+                await _userService.AddProfileImageAsync(obj);
+                return Ok(new
+                {
+                    Message = "Foto de perfil adicionada."
+                });
             } catch (EntityNotFoundException ex)
             {
                 return NotFound(ex.Message);

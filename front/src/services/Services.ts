@@ -3,7 +3,6 @@ import { CommentCreateModel } from "models/entities/Comment";
 import { RateCreationModel } from "models/entities/Rate";
 import { LoginData } from "models/requests/LoginRequest";
 import { UserConfirmAccount } from "views/ConfirmAccount";
-import { MovieRegister } from "views/MovieRegister";
 import { UserRegister } from "views/Register";
 
 const youtubeApiKey = `${import.meta.env.VITE_API_YOUTUBE}`; 
@@ -126,7 +125,7 @@ export const addRateToMovieService = async (data: RateCreationModel, token: stri
 }
 
 export const checkIfUserRatedMovieService = async (movieId: string, token: string) => {
-    return await axios.get(`${apiEndpoint}/User/user/rate/${movieId}`, {
+    return await axios.get(`${apiEndpoint}/User/rate/${movieId}`, {
         headers:{
             Authorization: `Bearer ${token}`,
             Accept: "application/json",
@@ -136,7 +135,7 @@ export const checkIfUserRatedMovieService = async (movieId: string, token: strin
 }
 
 export const checkUserRoleService = async (token:string) => {
-    return await axios.get(`${apiEndpoint}/User/user/role`, {
+    return await axios.get(`${apiEndpoint}/User/role`, {
         headers:{
             Authorization: `Bearer ${token}`,
             Accept: "application/json",
@@ -146,7 +145,7 @@ export const checkUserRoleService = async (token:string) => {
 }
 
 export const getUserFavoriteListCountService = async (token:string) => {
-    return await axios.get(`${apiEndpoint}/User/user/favoriteMovies`, {
+    return await axios.get(`${apiEndpoint}/User/favoriteMovies`, {
         headers:{
             Authorization: `Bearer ${token}`,
             Accept: "application/json",
@@ -235,6 +234,26 @@ export const checkIfUserWatchedMovieService = async (token:string, id:number) =>
 
 export const checkIfUserFavoritedMovieService = async (token:string, id:number) => {
     return await axios.get(`${apiEndpoint}/User/favoriteMovies/${id}`, {
+        headers:{
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type":"application/json"
+        }
+    })
+}
+
+export const addProfileImageService = async (data: FormData, token:string) => {
+    return await axios.put(`${apiEndpoint}/User/profileImage`, data, {
+        headers:{
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type": "multipart/form-data"
+        }
+    })
+}
+
+export const followUserService = async (token:string, id:number) => {
+    return await axios.post(`${apiEndpoint}/User/friend`, id, {
         headers:{
             Authorization: `Bearer ${token}`,
             Accept: "application/json",

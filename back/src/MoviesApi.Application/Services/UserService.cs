@@ -11,6 +11,7 @@ using MoviesApi.Application.Interfaces.Services;
 using MoviesApi.Application.Utils.Models;
 using MoviesApi.Application.Utils.EmailBodies;
 using MoviesApi.Utils.EmailBodies;
+using Microsoft.AspNetCore.Http;
 
 namespace MoviesApi.Application.Services
 {
@@ -24,6 +25,7 @@ namespace MoviesApi.Application.Services
         private readonly IEmailService _emailService;
         private readonly IPasswordHandler<User> _hasher;
         private readonly IJwtHandler _tokenHandler;
+        private readonly IImageUploaderService _imageUploaderService;
 
         public UserService(
             IUserRepository userRepository,
@@ -33,7 +35,8 @@ namespace MoviesApi.Application.Services
             IPasswordHandler<User> hasher,
             IJwtHandler tokenHandler,
             IUserFavoriteMovieRepository userFavoriteMovieRepository,
-            IEmailService emailService
+            IEmailService emailService,
+            IImageUploaderService imageUploaderService
             )
         {
             _userRepository = userRepository;
@@ -44,6 +47,7 @@ namespace MoviesApi.Application.Services
             _rateRepository = rateRepository;
             _userFavoriteMovieRepository = userFavoriteMovieRepository;
             _emailService = emailService;
+            _imageUploaderService = imageUploaderService;
         }
 
         public async Task CreateUserAsync(UserCreateDto input)
@@ -59,6 +63,8 @@ namespace MoviesApi.Application.Services
             user.EmailConfirmToken = user.GenerateToken();
 
             user.EmailConfirmTokenLifetime = DateTime.UtcNow.AddMinutes(30);
+
+            user.ProfileImagePath = "defaultuserprofile.png";
 
             user.Role = EUser.User;
 
@@ -81,9 +87,7 @@ namespace MoviesApi.Application.Services
 
         public async Task<List<UserShortInfoDto>> GetAllUsersAsync(int input)
         {
-            var user = await _userRepository.GetUserByIdAsync(input);
-            var users = await _userRepository.GetAllUsersAsync();
-            users = (List<User>)users.Where(u => u.Id != user.Id);
+            var users = await _userRepository.GetAllUsersAsync(input);
             return _mapper.Map<List<UserShortInfoDto>>(users);
         }
 
@@ -108,9 +112,7 @@ namespace MoviesApi.Application.Services
 
         public async Task<List<UserShortInfoDto>> GetUsersByNameAsync(UserNameGetDto input)
         {
-            var users = await _userRepository.GetUsersByNameAsync(input.FirstName);
-            var user = await _userRepository.GetUserByIdAsync(input.UserId);
-            users = (List<User>)users.Where(u => u.Id != user.Id);
+            var users = await _userRepository.GetUsersByNameAsync(input.FirstName, input.UserId);
             return _mapper.Map<List<UserShortInfoDto>>(users);
         }
 
@@ -227,6 +229,9 @@ namespace MoviesApi.Application.Services
 
         public async Task ConfirmUserAccountAsync(EmailRequest input)
         {
+
+            input.EmailToken = input.EmailToken.Replace(" ", "+");
+
             var user = await _userRepository.GetUserByEmailAsync(input.Email);
 
             if (user.Active == true)
@@ -283,7 +288,7 @@ namespace MoviesApi.Application.Services
         {
             var user = await _userRepository.GetAllUserInfosByIdAsync(input.UserId);
 
-            if (await _movieRepository.CheckIfMoviesExistsByIdAsync(input.MovieId))
+            if (!await _movieRepository.CheckIfMoviesExistsByIdAsync(input.MovieId))
                 throw new EntityNotFoundException($"Filme com o id {input.MovieId} não existe.");
 
             return user.WatchedMovies.Any(m => m.Id == input.MovieId);
@@ -293,7 +298,7 @@ namespace MoviesApi.Application.Services
         {
             var user = await _userRepository.GetAllUserInfosByIdAsync(input.UserId);
 
-            if (await _movieRepository.CheckIfMoviesExistsByIdAsync(input.MovieId))
+            if (!await _movieRepository.CheckIfMoviesExistsByIdAsync(input.MovieId))
                 throw new EntityNotFoundException($"Filme com o id {input.MovieId} não existe.");
 
             return user.FavoriteMovies.Any(m => m.Id == input.MovieId);
@@ -306,6 +311,15 @@ namespace MoviesApi.Application.Services
             var mappedUser = _mapper.Map<UserInfoDto>(user);
 
             return mappedUser;
+        }
+
+        public async Task AddProfileImageAsync(UserProfileImageCreateDto input)
+        {
+            var user = await _userRepository.GetUserByIdAsync(input.UserId);
+            if (input.ProfileImage != null)
+                user.ProfileImagePath = await _imageUploaderService.SaveImage(input.ProfileImage);
+
+            await _userRepository.UpdateUserAsync(user);
         }
     }
 }

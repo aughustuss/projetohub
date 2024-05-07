@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MoviesApi.IoC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9d8797d071c1070d4d20d6b287cb32107cebc746")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8e6d690ba0051d1d3c4eb84f2f803dfcf85ad62a")]
 [assembly: System.Reflection.AssemblyProductAttribute("MoviesApi.IoC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MoviesApi.IoC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

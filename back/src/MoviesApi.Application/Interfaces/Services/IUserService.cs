@@ -1,4 +1,5 @@
-﻿using MoviesApi.Application.Dtos.Request;
+﻿using Microsoft.AspNetCore.Http;
+using MoviesApi.Application.Dtos.Request;
 using MoviesApi.Application.Dtos.Response;
 using MoviesApi.Application.Utils.Models;
 using MoviesApi.Domain.Entities;
@@ -21,6 +22,7 @@ namespace MoviesApi.Application.Interfaces.Services
         Task<UserInfoDto> GetAllUserInfosByIdAsync(UserIdGetDto input);
         Task<List<UserShortInfoDto>> GetUsersByNameAsync(UserNameGetDto input);
 
+
         Task<int> GetUserFavoriteListCountAsync(int input);
 
         Task<bool> SendResetPasswordEmailAsync(ForgotPasswordEmailRequest input);
@@ -30,6 +32,7 @@ namespace MoviesApi.Application.Interfaces.Services
         Task<bool> CheckIfUserRatedMovieAsync(MovieGetDto input);
         Task<bool> CheckUserRoleAsync(int input);
 
+        Task AddProfileImageAsync(UserProfileImageCreateDto input);
         Task ConfirmUserAccountAsync(EmailRequest input);
         Task ResetPassword(PasswordResetDto input);
     }

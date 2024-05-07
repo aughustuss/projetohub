@@ -12,8 +12,8 @@ namespace MoviesApi.Domain.Interfaces.Repositories
         Task<User> GetUserByIdAsync(int input);
         Task<User> GetAllUserInfosByIdAsync(int input);
 
-        Task<List<User>> GetUsersByNameAsync(string input);
-        Task<List<User>> GetAllUsersAsync();
+        Task<List<User>> GetUsersByNameAsync(string name, int userId);
+        Task<List<User>> GetAllUsersAsync(int input);
         Task UpdateUserAsync(User input);
 
     }

@@ -41,7 +41,7 @@ namespace MoviesApi.IoC
             
             services.AddScoped<IPasswordHandler<User>, PasswordHandler>();
             services.AddScoped<IMapper, Mapper>();
-
+            
             services.AddScoped<IEmailService, EmailService>();
             
             services.AddCors(options =>

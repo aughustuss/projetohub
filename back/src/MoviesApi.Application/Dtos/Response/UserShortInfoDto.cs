@@ -7,7 +7,7 @@ namespace MoviesApi.Application.Dtos.Response
     {
         public int Id { get; set; }
         public string ProfileImagePath { get; set; } = string.Empty;
-        public string ImageSource { get; set; } = string.Empty;
+        public string ProfileImageSource { get; set; } = string.Empty;
 
         public string FirstName { get; set; } = string.Empty;
         public string SurName { get; set; } = string.Empty;

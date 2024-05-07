@@ -27,7 +27,7 @@ interface WatchedMovieListModel {
 
 export interface UserShortProfileModel {
     id:number;
-    profileImage: string;
+    profileImageSource: string;
     firstName: string;
     surName: string;
     nickName: string;

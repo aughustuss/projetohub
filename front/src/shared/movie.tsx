@@ -13,7 +13,6 @@ interface MovieProps {
 }
 
 const Movie = ({ movie, onGrid }: MovieProps) => {
-	const tmdbImagePath = import.meta.env.VITE_THE_MOVIE_DB_IMG_PATH;
 	const { token } = React.useContext(LoginContext);
 	const [movieExists, setMovieExists] = React.useState<boolean>(false);
 	const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
@@ -23,6 +22,7 @@ const Movie = ({ movie, onGrid }: MovieProps) => {
 			const response = await checkIfUserFavoritedMovieService(token, movie.id);
 			if(response.status === 200)
 				setMovieExists(response.data);
+			console.log(movieExists)
 			setIsModalOpen(!isModalOpen);
 		} catch(error){
 			console.log(error);
@@ -30,13 +30,13 @@ const Movie = ({ movie, onGrid }: MovieProps) => {
 	};
 
 	const addMovieToList = async (id: number) => {
-		await addToFavoriteListService(id, token)
-			.then((res) => {
-				console.log(res);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+		try{
+			const response = await addToFavoriteListService(id, token);
+			if(response.status === 200)
+				setMovieExists(true);
+		} catch(error){
+			console.log(error);
+		}
 	};
 	return (
 		<div
@@ -46,7 +46,7 @@ const Movie = ({ movie, onGrid }: MovieProps) => {
 		>
 			<div className="h-[350px] w-full relative">
 				<img
-					src={`${tmdbImagePath}/${movie.posterPath}`}
+					src={movie.posterSource}
 					className="w-full h-full object-cover rounded-xl"
 				/>
 				<div className="bg-black absolute inset-0 h-full w-full z-10 opacity-25 rounded-xl" />
@@ -70,7 +70,7 @@ const Movie = ({ movie, onGrid }: MovieProps) => {
 							<IoClose />
 						</button>
 						<img
-							src={`${tmdbImagePath}/${movie.backdropPath}`}
+							src={movie.backdropSource}
 							className="w-full h-[220px] object-cover"
 						/>
 						<div className="flex flex-col gap-y-1 p-2 font-body text-xs">
@@ -97,7 +97,7 @@ const Movie = ({ movie, onGrid }: MovieProps) => {
 							<p className="line-clamp-1">{movie?.overview}</p>
 							<p className="text-bodyColor italic text-xs">
 								Idioma original:{" "}
-								{movie?.originalLanguage.toUpperCase()}
+								{movie?.originalLanguage?.toUpperCase()}
 							</p>
 						</div>
 					</div>
