@@ -287,3 +287,23 @@ export const getUserFavoritedListService = async (token:string) => {
         }
     })
 }
+
+export const addChatRoomService = async (token:string, name: string) => {
+    return await axios.post(`${apiEndpoint}/Chat/chat`, name, {
+        headers:{
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type":"application/json"
+        }
+    })
+}
+
+export const getChatRoomsService = async (token:string) => {
+    return await axios.get(`${apiEndpoint}/User/chats`, {
+        headers:{
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type":"application/json"
+        }
+    })
+}

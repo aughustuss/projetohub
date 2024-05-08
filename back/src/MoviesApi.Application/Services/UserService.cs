@@ -385,5 +385,12 @@ namespace MoviesApi.Application.Services
 
             return user.FavoriteMovies.Select(fm => fm.Id).ToList();
         }
+
+        public async Task<List<ChatInfoDto>> GetUserChatsAsync(int input)
+        {
+            var user = await _userRepository.GetAllUserInfosByIdAsync(input);
+
+            return _mapper.Map<List<ChatInfoDto>>(user.Chats.ToList());
+        }
     }
 }

@@ -2,6 +2,7 @@ using MoviesApi.IoC;
 using Microsoft.OpenApi.Models;
 using MoviesApi.Middlewares;
 using Microsoft.Extensions.FileProviders;
+using MoviesApi.Application.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // CreateMovieAsync services to the container.

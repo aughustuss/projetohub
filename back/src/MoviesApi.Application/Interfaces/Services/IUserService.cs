@@ -26,6 +26,7 @@ namespace MoviesApi.Application.Interfaces.Services
         Task<int> GetUserFavoriteListCountAsync(int input);
         Task<List<int>> GetUserFavoritedListAsync(int input);
         Task<List<int>> GetUserFriendListAsync(int input);
+        Task<List<ChatInfoDto>> GetUserChatsAsync(int input);
 
         Task<bool> SendResetPasswordEmailAsync(ForgotPasswordEmailRequest input);
 

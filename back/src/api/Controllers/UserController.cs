@@ -527,5 +527,31 @@ namespace MoviesApi.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,User")]
+        [HttpGet("chats")]
+        public async Task<IActionResult> GetUserChats()
+        {
+            try
+            {
+                var userId = int.Parse(User.FindFirst("Id")!.Value);
+                var response = await _userService.GetUserChatsAsync(userId);
+                foreach (var chat in response)
+                {
+                    foreach(var user in chat.Users)
+                    {
+                        user.ProfileImageSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, user.ProfileImagePath);
+                    }
+                }
+                return Ok(response);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

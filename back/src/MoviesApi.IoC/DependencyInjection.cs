@@ -38,17 +38,19 @@ namespace MoviesApi.IoC
             services.AddScoped<ICommentService, CommentService>();
             services.AddScoped<IUserFavoriteMovieRepository, UserFavoriteMovieRepository>();
             services.AddScoped<IImageUploaderService, ImageUploaderService>();
-            
             services.AddScoped<IPasswordHandler<User>, PasswordHandler>();
             services.AddScoped<IMapper, Mapper>();
-            
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IChatService, ChatService>();
+            services.AddScoped<IChatRepository, ChatRepository>();
+            services.AddScoped<IMessageRepository, MessageRepository>();
+            services.AddSignalR();
             
             services.AddCors(options =>
             {
                 options.AddPolicy(name: "hub_movies_cors_origin", policy =>
                 {
-                    policy.WithOrigins("http://127.0.0.1:5173").AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                    policy.WithOrigins("http://127.0.0.1:5173").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
                 });
             });
 

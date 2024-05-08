@@ -15,7 +15,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import Dropzone from "react-dropzone";
 import { CustomFile } from "views/MovieRegister";
 import Error from "./Error";
-import { addProfileImageService, getUserFollowersService } from "services/Services";
+import { addChatRoomService, addProfileImageService, getUserFollowersService } from "services/Services";
 import LoginContext from "contexts/LoginContext";
 
 interface ProfileImage{
@@ -89,6 +89,18 @@ const ProfileInfo = ({
 		} catch (error){
 			console.log(error);
 			setLoading(false);
+		}
+	}
+
+	const addChatRoom = async () => {
+		console.log("clicado");
+		if(user != null){
+			try{
+				const response = await addChatRoomService(token, user?.firstName);
+				console.log(response);
+			} catch (error){
+				console.log(error);
+			}
 		}
 	}
 
@@ -282,7 +294,7 @@ const ProfileInfo = ({
 							</div>
 							{anotherUserProfile && (
 								<div className="gap-2 flex flex-col w-full sm:w-fit items-center">
-									<Button fullWidth onlyBorder={false} small>
+									<Button onClick={() => addChatRoom()} type="button" fullWidth onlyBorder={false} small>
 										<BiSolidChat className="text-2xl" />
 										Enviar mensagem{" "}
 									</Button>

@@ -21,6 +21,8 @@ namespace MoviesApi.Infrastructure.Context
         public DbSet<Company> Companies { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Rate> Rates { get; set; }
+        public DbSet<Chat> Chats { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

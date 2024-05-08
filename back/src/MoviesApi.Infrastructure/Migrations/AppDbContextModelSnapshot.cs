@@ -22,6 +22,21 @@ namespace MoviesApi.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("ChatUser", b =>
+                {
+                    b.Property<int>("ChatsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ChatsId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("ChatUser");
+                });
+
             modelBuilder.Entity("CompanyMovie", b =>
                 {
                     b.Property<int>("CompaniesId")
@@ -35,6 +50,23 @@ namespace MoviesApi.Infrastructure.Migrations
                     b.HasIndex("MoviesId");
 
                     b.ToTable("CompanyMovie");
+                });
+
+            modelBuilder.Entity("MoviesApi.Domain.Entities.Chat", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ChatName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Chats");
                 });
 
             modelBuilder.Entity("MoviesApi.Domain.Entities.Comment", b =>
@@ -90,6 +122,36 @@ namespace MoviesApi.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Companies");
+                });
+
+            modelBuilder.Entity("MoviesApi.Domain.Entities.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ChatId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("SendDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChatId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("MoviesApi.Domain.Entities.Movie", b =>
@@ -334,6 +396,21 @@ namespace MoviesApi.Infrastructure.Migrations
                     b.ToTable("UserUser");
                 });
 
+            modelBuilder.Entity("ChatUser", b =>
+                {
+                    b.HasOne("MoviesApi.Domain.Entities.Chat", null)
+                        .WithMany()
+                        .HasForeignKey("ChatsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MoviesApi.Domain.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("CompanyMovie", b =>
                 {
                     b.HasOne("MoviesApi.Domain.Entities.Company", null)
@@ -362,6 +439,25 @@ namespace MoviesApi.Infrastructure.Migrations
                     b.Navigation("Author");
 
                     b.Navigation("Movie");
+                });
+
+            modelBuilder.Entity("MoviesApi.Domain.Entities.Message", b =>
+                {
+                    b.HasOne("MoviesApi.Domain.Entities.Chat", "Chat")
+                        .WithMany("Messages")
+                        .HasForeignKey("ChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MoviesApi.Domain.Entities.User", "User")
+                        .WithMany("Messages")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Chat");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MoviesApi.Domain.Entities.Movie", b =>
@@ -439,6 +535,11 @@ namespace MoviesApi.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("MoviesApi.Domain.Entities.Chat", b =>
+                {
+                    b.Navigation("Messages");
+                });
+
             modelBuilder.Entity("MoviesApi.Domain.Entities.Movie", b =>
                 {
                     b.Navigation("Comments");
@@ -451,6 +552,8 @@ namespace MoviesApi.Infrastructure.Migrations
                     b.Navigation("AddedMovies");
 
                     b.Navigation("Comments");
+
+                    b.Navigation("Messages");
 
                     b.Navigation("Rates");
                 });

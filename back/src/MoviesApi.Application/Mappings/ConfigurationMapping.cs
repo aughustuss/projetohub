@@ -25,6 +25,7 @@ namespace MoviesApi.Application.Mappings
             CreateMap<User, UserNameGetDto>().ReverseMap();
             CreateMap<User, UserIdGetDto>().ReverseMap();
             CreateMap<User, UserProfileImageCreateDto>().ReverseMap();
+            CreateMap<User, UserIdDto>().ReverseMap();
 
             CreateMap<Company, CompanyInfoDto>().ReverseMap();
             CreateMap<Company, CompanyCreateDto>().ReverseMap();
@@ -55,6 +56,14 @@ namespace MoviesApi.Application.Mappings
                 .ReverseMap();
 
             CreateMap<Movie, MovieInfoToSearchBoxDto>().ReverseMap();
+
+            CreateMap<Chat, ChatCreateDto>().ReverseMap();
+            CreateMap<Chat, ChatInfoDto>().ReverseMap();
+            CreateMap<Chat, ChatGetDto>().ReverseMap();
+            CreateMap<Chat, ChatInfoMessagesDto>().ReverseMap();
+
+            CreateMap<Message, MessageCreateDto>().ReverseMap();
+            CreateMap<Message, MessageInfoDto>().ReverseMap();
         }
     }
 }

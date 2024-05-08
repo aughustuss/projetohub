@@ -46,5 +46,8 @@ namespace MoviesApi.Domain.Entities
         public List<Movie> FavoriteMovies { get; } = [];
         public List<Movie> WatchedMovies { get; } = [];
 
+        public ICollection<Message> Messages { get; } = new List<Message>();
+        public ICollection<Chat> Chats { get; } = new List<Chat>();
+
     }
 }

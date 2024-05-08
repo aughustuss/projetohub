@@ -296,3 +296,5 @@ C:\Users\User\source\repos\projetohub\back\src\api\bin\Debug\net8.0\Microsoft.As
 C:\Users\User\source\repos\projetohub\back\src\api\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
 C:\Users\User\source\repos\projetohub\back\src\api\bin\Debug\net8.0\MailKit.dll
 C:\Users\User\source\repos\projetohub\back\src\api\bin\Debug\net8.0\MimeKit.dll
+C:\Users\User\source\repos\projetohub\back\src\api\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\User\source\repos\projetohub\back\src\api\bin\Debug\net8.0\System.Net.WebSockets.WebSocketProtocol.dll
