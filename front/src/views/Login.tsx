@@ -114,14 +114,25 @@ const LoginPage: React.FC = () => {
 						)}
 					></Controller>
 				</div>
-				<div className="text-sm text-bodyColor gap-2 flex flex-row items-center flex-wrap">
-					<span>Não possui uma conta?</span>
-					<a
-						href="/register"
-						className="font-bold text-primaryBlack underline"
-					>
-						Clique aqui para criar uma!
-					</a>
+				<div className="text-sm text-bodyColor gap-4 flex flex-col  flex-wrap w-full">
+					<div className="flex flex-row items-center gap-x-2 justify-start">
+					<span >Esqueceu a senha?</span>
+						<a
+							href="/forgotPassword"
+							className="font-bold text-primaryBlack underline"
+						>
+							Redefina agora!
+						</a>
+					</div>
+					<div className="flex flex-row items-center gap-x-2 justify-end">
+						<span>Não possui uma conta?</span>
+						<a
+							href="/register"
+							className="font-bold text-primaryBlack underline"
+						>
+							Clique aqui para criar uma!
+						</a>
+					</div>
 				</div>
 				<Button
 					onlyBorder={false}

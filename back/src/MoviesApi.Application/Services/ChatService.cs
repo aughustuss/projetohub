@@ -32,6 +32,7 @@ namespace MoviesApi.Application.Services
             {
                 var user = await _userRepository.GetUserByIdAsync(item.Id);
                 chat.Users.Add(user);
+                chat.ChatName += chat.Id;
             }
             await _chatRepository.CreateRoomAsync(chat);
         }

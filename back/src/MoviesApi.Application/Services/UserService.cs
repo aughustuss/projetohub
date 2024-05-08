@@ -234,14 +234,14 @@ namespace MoviesApi.Application.Services
         {
             var user = await _userRepository.GetUserByEmailAsync(input.Email);
 
-            var token = user.ResetPasswordToken;
+            var token = user.ResetPasswordToken.Replace(" ", "+");
 
             var tokenLifetime = user.ResetPasswordTokenLifetime;
 
             if (tokenLifetime < DateTime.UtcNow)
                 throw new ExpiredTokenException("Token de redefinição de senha expirado. Reenvie o email de redefinição.");
 
-            if (token != input.ResetPasswordToken)
+            if (token != user.ResetPasswordToken)
                 throw new WrongEntryException("Token inválido");
 
             var passwordMatches = _hasher.VerifyHashedPassword(user, user.Password, input.NewPassword) == PasswordVerificationResult.Success;
@@ -261,16 +261,18 @@ namespace MoviesApi.Application.Services
         {
             var user = await _userRepository.GetUserByEmailAsync(input.Email);
 
-            user.ResetPasswordToken = GenerateToken();
+            var token = GenerateToken();
 
-            user.ResetPasswordTokenLifetime = DateTime.UtcNow.AddMinutes(30);
+            user.ResetPasswordTokenLifetime = DateTime.UtcNow.AddHours(3);
 
             var email = new Email
             {
                 To = user.Email,
                 Subject = "Pedido de redefinição de senha",
-                Body = ResetPasswordEmailBody.ResetPasswordEmail(user.Email, user.ResetPasswordToken),
+                Body = ResetPasswordEmailBody.ResetPasswordEmail(user.Email, token),
             };
+
+            user.ResetPasswordToken = token;
 
             await _userRepository.UpdateUserAsync(user);
 

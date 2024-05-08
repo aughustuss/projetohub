@@ -1,9 +1,13 @@
 import axios from "axios"
+import { RoomModel } from "components/ProfileInfo";
 import { CommentCreateModel } from "models/entities/Comment";
 import { RateCreationModel } from "models/entities/Rate";
 import { LoginData } from "models/requests/LoginRequest";
+import { JoinRoomModel, MessageCreateModel } from "views/Chat";
 import { UserConfirmAccount } from "views/ConfirmAccount";
+import { ForgotPasswordModel } from "views/ForgotPassword";
 import { UserRegister } from "views/Register";
+import { ResetPasswordModel } from "views/ResetPassword";
 
 const youtubeApiKey = `${import.meta.env.VITE_API_YOUTUBE}`; 
 const apiEndpoint = import.meta.env.VITE_HUB_MOBIES_API_ENDPOINT;
@@ -288,8 +292,8 @@ export const getUserFavoritedListService = async (token:string) => {
     })
 }
 
-export const addChatRoomService = async (token:string, name: string) => {
-    return await axios.post(`${apiEndpoint}/Chat/chat`, name, {
+export const addChatRoomService = async (token:string, data: RoomModel ) => {
+    return await axios.post(`${apiEndpoint}/Chat/chat`, data, {
         headers:{
             Authorization: `Bearer ${token}`,
             Accept: "application/json",
@@ -302,6 +306,53 @@ export const getChatRoomsService = async (token:string) => {
     return await axios.get(`${apiEndpoint}/User/chats`, {
         headers:{
             Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type":"application/json"
+        }
+    })
+}
+
+export const getChatMessagesService = async (token:string, chatId:number) => {
+    return await axios.get(`${apiEndpoint}/Chat/${chatId}`, {
+        headers:{
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type":"application/json"
+        }
+    })
+}
+
+export const addMessageToChatService = async (data: MessageCreateModel, token:string) => {
+    return await axios.post(`${apiEndpoint}/Chat/message`, data, {
+        headers:{
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type":"application/json"
+        }
+    } )
+}
+
+export const joinRoomService = (data: JoinRoomModel) => {
+    return axios.post(`${apiEndpoint}/Room/join`, data  ,{
+        headers:{
+            Accept: "application/json",
+            "Content-Type":"application/json"
+        }
+    })
+}
+
+export const forgotPasswordService = async (data: ForgotPasswordModel) => {
+    return await axios.post(`${apiEndpoint}/User/forgotPassword`, data, {
+        headers:{
+            Accept: "application/json",
+            "Content-Type":"application/json"
+        }
+    })
+}
+
+export const resetPasswordService = async (data: ResetPasswordModel) => {
+    return await axios.post(`${apiEndpoint}/User/resetPassword`, data,{
+        headers:{
             Accept: "application/json",
             "Content-Type":"application/json"
         }

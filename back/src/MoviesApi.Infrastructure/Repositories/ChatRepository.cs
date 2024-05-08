@@ -21,8 +21,16 @@ namespace MoviesApi.Infrastructure.Repositories
             return await _dbContext.Chats.AnyAsync(c => c.Id == input);
         }
 
+        private async Task<bool> CheckIfChatNameExists(string input)
+        {
+            return await _dbContext.Chats.AnyAsync(c => c.ChatName.ToUpper() == input.ToUpper());
+        }
+
         public async Task CreateRoomAsync(Chat input)
         {
+            if (await CheckIfChatNameExists(input.ChatName))
+                throw new EntityAlreadyExistsException($"Chat com o nome {input.ChatName} já existe. Visualize a aba de chats.");
+
             await _dbContext.Chats.AddAsync(input);
             await _dbContext.SaveChangesAsync();
         }

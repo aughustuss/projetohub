@@ -135,7 +135,7 @@ const MovieRegister = () => {
 
   const handleCompanyChange = (value: React.ChangeEvent<HTMLSelectElement>) => {
     if (Number.parseInt(value.target.value) !== 0) {
-      const company: number = Number.parseInt(value.target.value);
+      const company = Number.parseInt(value.target.value)
 
       if(value.target.value !== "redirect"){
         setSelectedCompanies(prevCompanies => {
@@ -201,16 +201,15 @@ const MovieRegister = () => {
     formData.append("age", data.age.toString());
     formData.append("poster", data.poster? data.poster : "");
     formData.append("backdrop", data.backdrop? data.backdrop : "");
-    formData.append("companies", data.companies.toString());
     data.languages.forEach((language) => {
       formData.append("languages", language.toString());
     })
     data.genres.forEach((genre) => {
       formData.append("genres", genre.toString());
     })
-    // data.companies.forEach((company) => {
-    //   formData.append("companies", company.toString());
-    // })
+    data.companies.forEach((company) => {
+      formData.append("companies", JSON.stringify(company));
+    })
     setLoading(true);
     try{
       const response = await createMovieService(formData, token);

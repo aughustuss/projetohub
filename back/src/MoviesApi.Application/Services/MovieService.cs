@@ -35,7 +35,7 @@ namespace MoviesApi.Application.Services
 
             foreach (var item in input.Companies)
             {
-                var company = await _companyRepository.GetCompanyByIdAsync(item.Id);
+                var company = await _companyRepository.GetCompanyByIdAsync(item);
                 if (company != null)
                     movie.Companies.Add(company);
             }

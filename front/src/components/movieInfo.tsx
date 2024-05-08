@@ -381,7 +381,7 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 											<p className="text-smallDevicesTitle font-title font-black">
 												Sinopse
 											</p>
-											<p className="flex flex-wrap max-w-full">{movieById?.overview}</p>
+											<p className="flex flex-wrap max-w-[200px] md:max-w-full ">{movieById?.overview}</p>
 										</div>
 
 										{/* Avaliação */}
@@ -477,7 +477,7 @@ const MovieInfo = ({ movieId }: MovieInfoProps) => {
 
 					{/* Comentários */}
 
-					<section className="mt-[100px]">
+					<section className="mt-[250px]">
 						<CommentSection
 							user={shortUser}
 							movieId={movieById.id.toString()}

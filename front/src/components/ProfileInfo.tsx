@@ -21,6 +21,14 @@ import LoginContext from "contexts/LoginContext";
 interface ProfileImage{
 	profileImage: Blob | string;
 }
+
+interface UserId {
+	id: number;
+}
+export interface RoomModel{
+	chatName: string;
+	users: Array<UserId>
+}
 interface ProfileInfoProps {
 	user?: UserProfileModel;
 	userFavoriteMovies: MovieModel[];
@@ -41,7 +49,6 @@ const ProfileInfo = ({
 	setUserFavoriteList,
 	userFavoriteList,
 	userMostRepeatedCategory,
-	recentlyAdded,
 	anotherUserProfile,
 }: ProfileInfoProps) => {
 
@@ -64,6 +71,10 @@ const ProfileInfo = ({
 		}
 	}
 
+	const userIdObject: UserId = {
+		id: user?.id ?? 0
+	}
+
 	React.useEffect(() => {
         if (user?.profileImageSource) {
             setUserProfilePath(user.profileImageSource);
@@ -71,11 +82,18 @@ const ProfileInfo = ({
 		getUserFollowers();
     }, [user]);
 
-	const {control, formState:{errors}, handleSubmit, setValue} = useForm<ProfileImage>({
+	const {control: control1, formState:{errors: errors1}, handleSubmit: handleSubmit1, setValue} = useForm<ProfileImage>({
 		defaultValues: {
             profileImage: "",
         },
 	});
+
+	const {handleSubmit: handleSubmit2} = useForm<RoomModel>({
+		defaultValues: {
+            chatName: "",
+            users: [],
+        },
+	})
 
 	const onSubmit: SubmitHandler<ProfileImage> = async (data) => {
 		setLoading(true);
@@ -92,17 +110,19 @@ const ProfileInfo = ({
 		}
 	}
 
-	const addChatRoom = async () => {
-		console.log("clicado");
+	const onChatRoomSubmit:SubmitHandler<RoomModel> = async (data) => {
 		if(user != null){
+			data.users.push(userIdObject);
+			data.chatName = user.firstName;
 			try{
-				const response = await addChatRoomService(token, user?.firstName);
-				console.log(response);
+				const response = await addChatRoomService(token, data);
+                console.log(response);
 			} catch (error){
 				console.log(error);
 			}
 		}
 	}
+
 
 	return (
 		<>
@@ -122,10 +142,10 @@ const ProfileInfo = ({
 							}
 							className="min-h-[300px] md:h-full w-full object-cover rounded-xl"
 						/>
-								<form onSubmit={handleSubmit(onSubmit)} className="absolute italic text-primaryBlack w-full left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+								<form onSubmit={handleSubmit1(onSubmit)} className="absolute italic text-primaryBlack w-full left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
 							{!anotherUserProfile && user?.profileImageSource?.includes("defaultuserprofile.png") && profileImage.length == 0 && (
 									<Controller
-										control={control}
+										control={control1}
 										name="profileImage"
 										rules={{
 											required: {
@@ -175,10 +195,10 @@ const ProfileInfo = ({
 														)}
 												</Dropzone>
 												<Error>
-												{errors.profileImage &&
-													errors.profileImage.type ===
+												{errors1.profileImage &&
+													errors1.profileImage.type ===
 														"required" &&
-													errors.profileImage.message}
+													errors1.profileImage.message}
 												</Error>
 											</div>
 										)}
@@ -294,10 +314,12 @@ const ProfileInfo = ({
 							</div>
 							{anotherUserProfile && (
 								<div className="gap-2 flex flex-col w-full sm:w-fit items-center">
-									<Button onClick={() => addChatRoom()} type="button" fullWidth onlyBorder={false} small>
-										<BiSolidChat className="text-2xl" />
-										Enviar mensagem{" "}
-									</Button>
+									<form onSubmit={handleSubmit2(onChatRoomSubmit)}>
+										<Button type="submit" fullWidth onlyBorder={false} small>
+											<BiSolidChat className="text-2xl" />
+											Enviar mensagem{" "}
+										</Button>
+									</form>
 									{user != null && !followers.includes(user.id) ? (
 										<Button
 											small

@@ -48,7 +48,8 @@ namespace MoviesApi.Application.Mappings
             CreateMap<Movie, MovieInfoDto>()
                 .ForMember(destination => destination.Genres, options => options.MapFrom(g => g.Genres.Select(g => GenreHelper.GetGenreDescription(g)).ToList()))
                 .ReverseMap();
-            CreateMap<Movie, MovieCreateDto>().ReverseMap();
+
+            //CreateMap<Movie, MovieCreateDto>().ReverseMap();
 
             CreateMap<Movie, MovieInfoByIdDto>()
                 .ForMember(destination => destination.Languages, options => options.MapFrom(g => g.Languages.Select(l => LanguageHelper.GetLanguageDescription(l)).ToList()))
@@ -56,6 +57,17 @@ namespace MoviesApi.Application.Mappings
                 .ReverseMap();
 
             CreateMap<Movie, MovieInfoToSearchBoxDto>().ReverseMap();
+
+
+            CreateMap<int, Company>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src));
+
+            CreateMap<MovieCreateDto, Movie>()
+                .ForMember(dest => dest.Companies, opt => opt.MapFrom(src => src.Companies));
+
+            CreateMap<Movie, MovieCreateDto>()
+                .ForMember(dest => dest.Companies, opt => opt.MapFrom(src => src.Companies));
+
 
             CreateMap<Chat, ChatCreateDto>().ReverseMap();
             CreateMap<Chat, ChatInfoDto>().ReverseMap();

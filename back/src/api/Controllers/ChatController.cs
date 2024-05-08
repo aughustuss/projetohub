@@ -60,6 +60,9 @@ namespace MoviesApi.Controllers
             } catch (EntityNotFoundException ex)
             {
                 return NotFound(ex.Message);
+            } catch (EntityAlreadyExistsException ex)
+            {
+                return BadRequest(ex.Message);
             } catch (Exception ex)
             {
                 return BadRequest(ex.Message);

@@ -9,6 +9,7 @@ import Input from "components/Input";
 import { createCompanyService } from "services/Services";
 import LoginContext from "contexts/LoginContext";
 import { AxiosError } from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface CompanyRegister {
 	logo: Blob | string;
@@ -18,6 +19,7 @@ interface CompanyRegister {
 
 const CompanyRegister = () => {
 	const { token } = React.useContext(LoginContext);
+	const navigate = useNavigate();
 	const [loading, setLoading] = React.useState<boolean>(false);
 	const [errorMessage, setErrorMessage] = React.useState<string>("");
 	const [logo, setLogo] = React.useState<CustomFile[]>([]);
@@ -44,8 +46,11 @@ const CompanyRegister = () => {
 
 		setLoading(true);
 		try {
-			await createCompanyService(formData, token);
-			setLoading(false);
+			const response = await createCompanyService(formData, token);
+			if(response.status === 200){
+				setLoading(false);
+				navigate("/movieRegister");
+			}
 		} catch (err) {
 			if (err instanceof AxiosError) setErrorMessage(err.response?.data);
 			setLoading(false);

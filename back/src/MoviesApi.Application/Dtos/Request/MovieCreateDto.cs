@@ -11,7 +11,9 @@ namespace MoviesApi.Application.Dtos.Request
         public int Age { get; set; }
         public List<EGenre> Genres { get; set; } = null!;
         public List<ELanguage> Languages { get; set; } = null!;
-        public List<CompanyGetDto> Companies { get; set; } = null!;
+        
+        public List<int> Companies { get; set; } = null!;
+        
         public DateTime AddedDate { get; set; }
         public double Budget { get; set; }
         public string OriginalTitle { get; set; } = string.Empty;

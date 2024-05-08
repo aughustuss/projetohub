@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MoviesApi.Application.Dtos.Request;
 using MoviesApi.Application.Interfaces.Services;
+using MoviesApi.Domain.Entities;
 using MoviesApi.Domain.Enums;
 using MoviesApi.Domain.Exceptions;
 using System.Security.Claims;
@@ -154,6 +155,13 @@ namespace MoviesApi.Controllers
                         response.Comments.ForEach(comment =>
                         {
                             comment.Author.ProfileImageSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, comment.Author.ProfileImagePath);
+                        });
+                    }
+                    if(response.Companies != null)
+                    {
+                        response.Companies.ForEach(company =>
+                        {
+                            company.ImageSource = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, company.LogoPath);
                         });
                     }
                 }
