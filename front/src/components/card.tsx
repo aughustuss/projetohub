@@ -3,7 +3,7 @@ import { FaUserCircle } from "react-icons/fa";
 const Card = () => {
   return (
     <>
-      <div className="w-full h-[70px] border-b border-primaryBgBorder flex flex-row items-center hover:bg-primaryBgBorder transition duration-300 cursor-pointer  justify-between text-sm gap-x-2 px-4 py-2 text-bodyColor group">
+      <div className="w-full h-[70px] border-b border-border flex flex-row items-center hover:bg-border transition duration-300 cursor-pointer  justify-between text-sm gap-x-2 px-4 py-2 text-bodyColor group">
         <div className="rounded-full">
             <FaUserCircle className="text-5xl"/>
         </div>

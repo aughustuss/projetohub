@@ -1,11 +1,14 @@
 import MovieInfo from "components/MovieInfo";
 import { useParams } from "react-router-dom";
 
+
 const Movie = () => {
   const { movieId } = useParams();
   return (
     <>
-      <MovieInfo movieId={movieId} />
+      <main className="flex flex-col gap-y-6 min-h-screen">
+        <MovieInfo movieId={movieId} />
+      </main>
     </>
   )
     

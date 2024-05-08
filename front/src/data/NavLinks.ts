@@ -1,31 +1,73 @@
-
 import { NavbarLink } from 'models/entities/NavLink';
-import {BiSolidHeart, BiSolidChat} from 'react-icons/bi'
-export const NavLinks: Array<NavbarLink> = [
+import { BiSolidHeart, BiSolidChat } from 'react-icons/bi';
+
+interface NavLinkProps {
+  isAboveLg: boolean;
+  isAdmin: boolean;
+  isLoggedIn: boolean;
+  logout: () => void;
+}
+
+const useNavLinks = ({isAboveLg, isAdmin, isLoggedIn, logout}: NavLinkProps) => {
+
+  
+  const navLinks: Array<NavbarLink> = [
     {
-        linkText: "Início",
-        linkTo: "/",   
+      linkText: 'Início',
+      linkTo: '/',
+      show: true,
     },
     {
-        linkText: "Perfil",
-        linkTo: "#",
+      linkText: 'Cadastros',
+      linkTo: "#",
+      show: isAdmin && isLoggedIn
     },
     {
-        linkText: "Filmes",
-        linkTo: "#",
+      linkText: 'Cadastro',
+      linkTo: '/register',
+      show: !isLoggedIn
     },
     {
-        linkText: "Cinéfilos",
-        linkTo: "#",
+      linkText: 'Filmes',
+      linkTo: '#',
+      show: true,
     },
     {
-        linkTo: "#",
-        linkText: "Favoritos",
-        linkIcon: BiSolidHeart,
+      linkText: 'Cinéfilos',
+      linkTo: '/cinephiles',
+      show: isLoggedIn,
     },
     {
-        linkTo: "/chat",
-        linkText: "Conversas",
-        linkIcon: BiSolidChat,
-    }
-];
+      linkText: 'Perfil',
+      linkTo: '/account',
+      show: isLoggedIn,
+    },
+    {
+      linkText: 'Logout',
+      linkTo: '/login',
+      show: isLoggedIn,
+      action: () => logout(),
+    },
+    {
+      linkText: 'Login',
+      linkTo: '/login',
+      show: !isLoggedIn,
+    },
+    {
+      linkTo: '/account',
+      linkText: 'Favoritos',
+      linkIcon: isAboveLg ? BiSolidHeart : undefined,
+      show: isLoggedIn,
+    },
+    {
+      linkTo: '/chat',
+      linkText: 'Conversas',
+      linkIcon: isAboveLg ? BiSolidChat : undefined,
+      show: isLoggedIn,
+    },
+  ];
+
+  return navLinks;
+};
+
+export default useNavLinks;

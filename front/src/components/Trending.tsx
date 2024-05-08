@@ -1,57 +1,47 @@
 import { MovieModel } from "models/entities/Movie";
 import Title from "./Title";
 import React, { useEffect } from "react";
-import { getTrendingMovies } from "services/GetMoviesService";
+import { getPopularMoviesService } from "services/Services";
 import Loading from "views/Loading";
-import Slide from "shared/Slide";
-import { SwiperSlide } from "swiper/react";
-import Movie from "shared/Movie";
-import { Navigation, Pagination, Scrollbar } from "swiper/modules";
+import MoviesList from "./MoviesList";
 
 const Trending = () => {
   const [trendingMovies, setTrendingMovies] = React.useState<MovieModel[]>([]);
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [selectedMovie, setSelectedMovie] = React.useState<number | null>(null);
+  const [isLoading, setLoading] = React.useState<boolean>(false);
   useEffect(() => {
     Promise.resolve(
-      getTrendingMovies()
+      getPopularMoviesService()
         .then((res) => {
-          setTrendingMovies(res.data.results);
-          setIsLoading(false);
+          setTrendingMovies(res.data);
+          setLoading(false);
         })
         .catch((err) => {
           console.log(err);
-          setIsLoading(false);
+          setLoading(false);
         })
     );
   }, []);
-  const openMovieInfo = (movieId: number) => {
-    setSelectedMovie(movieId);
-  }
-
-  const closeMovieInfo = () => {
-    setSelectedMovie(null);
-  }
   return (
     <>
       <main>
         <Title
           bold
           center={false}
-          green={false}
-          message="Filmes que estão populares no momento"
+          black
+          message="Os mais populares no momento"
         />
         {!isLoading && trendingMovies ? (
-        <>
-        <Slide scrollBar movies modules={[Pagination, Navigation, Scrollbar]}>
-          {trendingMovies.map((movie: MovieModel) => (
-            <SwiperSlide className="py-10" key={movie.id} >
-              <Movie selectedMovieId={selectedMovie} openMovieInfo={() => openMovieInfo(movie.id)} closeMovieInfo={closeMovieInfo} movie={movie} />
-            </SwiperSlide>
-            ))}
-            </Slide>
-        </>
-        ) : <Loading big={false} />}
+          <>
+            <MoviesList
+              hasMovies
+              grid={false}
+              extraItems={false}
+              movies={trendingMovies}
+            />
+          </>
+        ) : (
+          <Loading big={false} />
+        )}
       </main>
     </>
   );

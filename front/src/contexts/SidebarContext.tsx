@@ -1,6 +1,11 @@
 import { ChildrenPropsModel } from 'models/contexts/ContextModels';
-import { SideBarContextModel } from 'models/contexts/ContextModels';
 import React, { createContext } from 'react'
+
+interface SideBarContextModel {
+    isToggled: boolean;
+    setIsToggled: (val: boolean) => void;
+    handleToggle: () => void
+}
 
 export const SideBarContext = createContext<SideBarContextModel>({
     isToggled: false,
